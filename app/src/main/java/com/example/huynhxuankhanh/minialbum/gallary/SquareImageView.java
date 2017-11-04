@@ -8,15 +8,14 @@ import android.util.AttributeSet;
  */
 
 
-import android.content.Context;
 import android.support.annotation.Nullable;
-import android.util.AttributeSet;
-import android.widget.ImageView;
+
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
-// default design for image view: square style.
+// default design for image view: square style
+// design pattern support for ViewHolder
 public class SquareImageView extends android.support.v7.widget.AppCompatImageView {
 
     public SquareImageView(Context context) {

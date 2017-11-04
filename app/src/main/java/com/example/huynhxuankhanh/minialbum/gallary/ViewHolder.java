@@ -11,7 +11,12 @@ import com.example.huynhxuankhanh.minialbum.R;
  */
 // design pattern: VIEW HOLDER
 public class ViewHolder {
-    public static ImageView image;
-
+    private static ImageView image;
+    public ImageView getImageView(){
+        return image;
+    }
+    public void setImageView(ImageView image){
+        this.image = image;
+    }
 
 }

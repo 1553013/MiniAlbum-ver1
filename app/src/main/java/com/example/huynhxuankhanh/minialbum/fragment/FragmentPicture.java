@@ -37,9 +37,7 @@ public class FragmentPicture extends Fragment{
     private static final int  MY_REQUEST_ACCESS_EXTERNAL_STORAGE = 100;
     private LoadGallary loadGallary;
     private Intent fragPictureIntent;
-    FragmentActivity activity;
-    // caching technique
-    private static LruCache<String,Bitmap> memCache;
+    private FragmentActivity activity;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -47,16 +45,7 @@ public class FragmentPicture extends Fragment{
         gridView = (GridView) view.findViewById(R.id.grd_Image);
 
         fragPictureIntent = new Intent(getActivity(), Main2Activity.class);
-        final  int maxMemorySize = (int)Runtime.getRuntime().maxMemory() / 1024;
-        final int cacheSize = maxMemorySize / 10;
 
-        // cache size represents for number of bitmap
-        memCache = new LruCache<String,Bitmap>(cacheSize){
-            @Override
-            protected int sizeOf(String key, Bitmap value) {
-                return value.getByteCount()/1024;
-            }
-        };
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -75,6 +64,9 @@ public class FragmentPicture extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
+
+
+
         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
 
 
@@ -98,18 +90,4 @@ public class FragmentPicture extends Fragment{
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
-
-
-
-    // return bitmap we need from mem with key
-    public static Bitmap getBitmapFromMemCache(String key){
-        return memCache.get(key);
-    }
-    public static void setBitmapToMemCache(String key,Bitmap bm){
-        // check key is alreay in cache ?
-        if(getBitmapFromMemCache(key)!=null){
-            memCache.put(key,bm);
-        }
-    }
 }
