@@ -23,7 +23,10 @@ import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.activity.Main2Activity;
 import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
+import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
 import com.example.huynhxuankhanh.minialbum.gallary.LoadGallary;
+
+import java.util.ArrayList;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
@@ -35,27 +38,36 @@ public class FragmentPicture extends Fragment{
     private AdapterImageGridView myArrayAdapterGridView;
     private GridView gridView;
     private static final int  MY_REQUEST_ACCESS_EXTERNAL_STORAGE = 100;
-    private LoadGallary loadGallary;
+    public LoadGallary loadGallary;
     private Intent fragPictureIntent;
     private FragmentActivity activity;
+    private MainActivity mainActivity;
+    private MyAdapter adapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_picture,container,false);
         gridView = (GridView) view.findViewById(R.id.grd_Image);
 
+
         fragPictureIntent = new Intent(getActivity(), Main2Activity.class);
+
 
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // send data to activity2: view image full screen
                 Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT).show();
                 fragPictureIntent.putExtra("image-view",loadGallary.getLink(position));
                 // check putExtra is it ok or position is ok ?
                 startActivity(fragPictureIntent);
             }
         });
+
+
+
+
 
         return view;
     }
@@ -71,6 +83,8 @@ public class FragmentPicture extends Fragment{
 
 
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -89,5 +103,15 @@ public class FragmentPicture extends Fragment{
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+
+    public static FragmentPicture newInstance(String StrArg){
+        FragmentPicture fragment = new FragmentPicture();
+        Bundle args = new Bundle();
+        args.putString("strArg1",StrArg);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
 }

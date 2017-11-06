@@ -38,7 +38,7 @@ public class LoadGallary {
         cursor = contentResolver.query(url,null,null,null,null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
-            String pathFile = cursor.getString(cursor.getColumnIndex( MediaStore.Images.Thumbnails.DATA));
+            String pathFile = cursor.getString(cursor.getColumnIndex( MediaStore.Images.Media.DATA));
             //set item for list
             listPathImage.add(pathFile);
             cursor.moveToNext();

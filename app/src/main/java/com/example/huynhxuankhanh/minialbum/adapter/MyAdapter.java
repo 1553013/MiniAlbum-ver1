@@ -4,16 +4,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
+
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentFolder;
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentPicture;
+import com.example.huynhxuankhanh.minialbum.gallary.LoadGallary;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 public class MyAdapter extends FragmentPagerAdapter {
     private String[] listTab = {"PICTURES","FOLDER"};
-
+    private FragmentPicture fragmentPicture;
+    private  FragmentFolder fragmentFolder;
     public MyAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -22,11 +24,11 @@ public class MyAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:{
-                FragmentPicture fragmentPicture = new FragmentPicture();
+                fragmentPicture = new FragmentPicture().newInstance(listTab[0]);
                 return fragmentPicture;
             }
             case 1:{
-                FragmentFolder fragmentFolder = new FragmentFolder();
+                fragmentFolder = new FragmentFolder().newInstance(listTab[1]);
                 return fragmentFolder;
             }
         }
@@ -48,4 +50,8 @@ public class MyAdapter extends FragmentPagerAdapter {
         }
         return null;
     }
+    public FragmentFolder getFragmentFolder(){
+        return fragmentFolder;
+    }
+
 }

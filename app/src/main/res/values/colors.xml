@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#0D47A1</color>
     <color name="colorAccent">#ffffff</color>
     <color name="colorBackGroundPager">#305580</color>
+    <color name="colorBackGroundText">#70080808</color>
 </resources>
