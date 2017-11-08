@@ -58,7 +58,7 @@ public class FragmentPicture extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // send data to activity2: view image full screen
-                Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT).show();
                 fragPictureIntent.putExtra("image-view",loadGallary.getLink(position));
                 // check putExtra is it ok or position is ok ?
                 startActivity(fragPictureIntent);
