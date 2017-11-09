@@ -53,7 +53,6 @@ public class AdapterImageGridView extends ArrayAdapter<String>{
         String item = listPathImage.get(position);
 
         Glide.with(viewHolder.getImageView().getContext()).load(item).into(viewHolder.getImageView());
-
         return convertView;
     }
 }

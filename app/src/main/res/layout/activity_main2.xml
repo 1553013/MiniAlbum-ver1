@@ -8,20 +8,11 @@
     android:background="@color/colorBackGroundPager"
     >
 
-
-    <com.jsibbold.zoomage.ZoomageView
+    <uk.co.senab.photoview.PhotoView
         android:id="@+id/img_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:zoomage_restrictBounds="false"
-        app:zoomage_animateOnReset="true"
-        app:zoomage_autoResetMode="UNDER"
-        app:zoomage_autoCenter="true"
-        app:zoomage_zoomable="true"
-        app:zoomage_translatable="true"
-        app:zoomage_minScale="0.6"
-        app:zoomage_maxScale="8"
-        />
+        android:layout_height="match_parent" />
+
 
 
     <RelativeLayout
@@ -30,7 +21,7 @@
         android:background="@color/colorBackGroundText"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        >
+        android:id="@+id/relativeLayout">
 
         <Button
             android:id="@+id/btn_back"
@@ -38,7 +29,6 @@
             android:layout_height="wrap_content"
             android:background="@mipmap/icon_back"
             android:layout_marginLeft="10dp"
-            android:onClick="onClick"
             />
         <TextView
             android:id="@+id/text_view_name"
@@ -59,7 +49,8 @@
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:onClick="onClick"/>
+            />
+
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -67,7 +58,7 @@
         android:background="@color/colorBackGroundText"
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
-        >
+        android:id="@+id/relativeLayout2">
 
         <Button
             android:id="@+id/btn_setscreen"
@@ -75,7 +66,7 @@
             android:layout_height="30dp"
             android:background="@mipmap/icon_setscreen"
             android:layout_centerHorizontal="true"
-            android:onClick="onClick"
+
             />
         <Button
             android:id="@+id/btn_favor"
@@ -84,7 +75,7 @@
             android:background="@mipmap/icon_favor"
             android:layout_toLeftOf="@+id/btn_setscreen"
             android:layout_marginRight="30dp"
-            android:onClick="onClick"
+
             />
         <Button
             android:id="@+id/btn_share"
@@ -93,7 +84,7 @@
             android:background="@mipmap/icon_share"
             android:layout_marginRight="30dp"
             android:layout_toLeftOf="@+id/btn_favor"
-            android:onClick="onClick"
+
             />
         <Button
             android:id="@+id/btn_edit"
@@ -102,7 +93,7 @@
             android:background="@mipmap/icon_edit"
             android:layout_toRightOf="@+id/btn_setscreen"
             android:layout_marginLeft="30dp"
-            android:onClick="onClick"
+
             />
         <Button
             android:id="@+id/btn_delete"
@@ -111,8 +102,10 @@
             android:background="@mipmap/icon_trashcan"
             android:layout_toRightOf="@+id/btn_edit"
             android:layout_marginLeft="30dp"
-            android:onClick="onClick"
+
             />
     </RelativeLayout>
+
+
 
 </RelativeLayout>
