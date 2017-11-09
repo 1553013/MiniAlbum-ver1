@@ -1,5 +1,6 @@
 package com.example.huynhxuankhanh.minialbum.activity;
 
+import android.app.WallpaperManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -12,15 +13,13 @@ import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 
 public class Main2Activity extends AppCompatActivity {
 
     private ImageView imageView ;
     private Button btnShare,btnFav,btnSetWall,btnEdit,btnRemove,btnBack,btnDetail;
-    private TextView textViewTop,textViewBot,textViewName;
+    private TextView textViewName;
     private String recieve;
     private Bitmap bm;
     @Override
@@ -47,7 +46,7 @@ public class Main2Activity extends AppCompatActivity {
                         finish();
                     }
                 });
-                // view detail of iamge, will get from intent.
+                // view detail of image, will get from intent.
                 btnDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -61,13 +60,15 @@ public class Main2Activity extends AppCompatActivity {
 
                     }
                 });
-                // call setwallpaper to set bitmap to wallpaper.
+                // call set wallpaper to set bitmap to wallpaper.
                 btnSetWall.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {
+                        WallpaperManager myWallpaperManager
+                                = WallpaperManager.getInstance(getApplicationContext());
                         try {
-                            setWallpaper(bm);
+                            myWallpaperManager.setBitmap(bm);
                             Toast.makeText(Main2Activity.this, "Wallpaper is set", Toast.LENGTH_SHORT).show();
                         } catch (IOException e) {
                             e.printStackTrace();
