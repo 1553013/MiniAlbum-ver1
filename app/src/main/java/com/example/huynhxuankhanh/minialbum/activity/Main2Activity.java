@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +25,9 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.database.Database;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -111,22 +116,43 @@ public class Main2Activity extends AppCompatActivity {
                                 "Path VARCHAR)");
                         // check current path is alreay in database ?
                         // no exist
-                        Cursor cursor = database.getData("SELECT * FROM Favorite");
-                       if(!checkImageAlreadyInDatabase(cursor,recieve,1)){
-                           //database.QuerySQL("INSERT INTO Favorite VALUES(null,"+recieve+")");
-                           Toast.makeText(Main2Activity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();
-                       }
-                       else{
-                           Toast.makeText(Main2Activity.this, "This image is already in your Favorite album !!", Toast.LENGTH_SHORT).show();
-                       }
-
+                        Cursor cursor = database.getData("SELECT Path FROM Favorite");
+                        if(cursor!=null) {
+                            if (checkImageAlreadyInDatabase(cursor, recieve, 0) == false) {
+                                String sql = "INSERT INTO Favorite VALUES(null,'" + recieve + "')";
+                                database.QuerySQL(sql);
+                                Toast.makeText(Main2Activity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Main2Activity.this, "This image is already in your Favorite album !!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
                 });
                 // call api facebook to share image(bitmap)
                 btnShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        // to do this: do many steps:
+                        /*
+                        * Step 1: Include facebook sdk by gradle
+                        * Step 2: Request the app's ID for MiniAlbum in facebook developer.
+                        * Step 3: Supply provider for facebook in Manifest.
+                        * Step 4: check Connection internet
+                        * Step 5: Share image by function below
+                        *
+                        * */
+                        if(isOnline()) {
+                            SharePhoto photo = new SharePhoto.Builder()
+                                    .setBitmap(bm)
+                                    .build();
+                            SharePhotoContent content = new SharePhotoContent.Builder()
+                                    .addPhoto(photo)
+                                    .build();
+                            ShareDialog.show(Main2Activity.this, content);
+                        }
+                        else{
+                            Toast.makeText(Main2Activity.this, "Please access the Internet", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
                 // call activity edit image
@@ -160,11 +186,15 @@ public class Main2Activity extends AppCompatActivity {
     }
     public boolean checkImageAlreadyInDatabase(Cursor cursor,String path,int column){
         while(cursor.moveToNext()){
-            Toast.makeText(this, cursor.getString(column), Toast.LENGTH_SHORT).show();
-            String temp = new String(cursor.getString(column));
-            if(temp.equals(path))
+            if(cursor.getString(column).equals(path))
                 return true;
         }
         return false;
+    }
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Main2Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

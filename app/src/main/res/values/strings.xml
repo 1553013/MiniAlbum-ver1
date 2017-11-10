@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Mini Album</string>
     <string name="action_settings">Settings</string>
+    <string name="Facebook_App_Id">375050342919491</string>
 </resources>
