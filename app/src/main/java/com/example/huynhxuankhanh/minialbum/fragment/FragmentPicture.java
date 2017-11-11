@@ -41,8 +41,7 @@ public class FragmentPicture extends Fragment{
     public LoadGallary loadGallary;
     private Intent fragPictureIntent;
     private FragmentActivity activity;
-    private MainActivity mainActivity;
-    private MyAdapter adapter;
+    private int currentPos =0;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class FragmentPicture extends Fragment{
         gridView = (GridView) view.findViewById(R.id.grd_Image);
 
 
-        fragPictureIntent = new Intent(getActivity(), Main2Activity.class);
+
 
 
 
@@ -58,10 +57,12 @@ public class FragmentPicture extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // send data to activity2: view image full screen
-                //Toast.makeText(getActivity(), position + "", Toast.LENGTH_SHORT).show();
                 fragPictureIntent.putExtra("image-view",loadGallary.getLink(position));
                 // check putExtra is it ok or position is ok ?
+                currentPos = gridView.getFirstVisiblePosition();
                 startActivity(fragPictureIntent);
+
+
             }
         });
 
@@ -76,15 +77,23 @@ public class FragmentPicture extends Fragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = getActivity();
-
-
-
+        fragPictureIntent = new Intent(getActivity(), Main2Activity.class);
         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
 
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        // reload data
+        loadGallary = new LoadGallary();
+        loadGallary.setContentResolver(activity.getContentResolver());
+        loadGallary.query_PathImage(Image_URI_EXTERNAL);
+        myArrayAdapterGridView = new AdapterImageGridView(getActivity(),R.layout.imageview_layout,loadGallary.getListImage());
+        gridView.setAdapter(myArrayAdapterGridView);
+        gridView.setSelection(currentPos);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

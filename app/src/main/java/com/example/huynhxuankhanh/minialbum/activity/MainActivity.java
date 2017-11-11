@@ -10,7 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
 
 
 import com.example.huynhxuankhanh.minialbum.R;
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

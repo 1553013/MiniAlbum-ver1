@@ -30,16 +30,17 @@
             android:background="@mipmap/icon_back"
             android:layout_marginLeft="10dp"
             />
+
         <TextView
             android:id="@+id/text_view_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/btn_back"
-            android:layout_marginLeft="30dp"
-            android:textColor="@color/colorAccent"
-            android:text="Name image here"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="90dp"
             android:gravity="center_vertical"
-            />
+            android:text="Name image here"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/btn_detail"
