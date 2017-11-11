@@ -1,8 +1,12 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    maven { url "https://s3.amazonaws.com/repo.commonsware.com" }
+}
+
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.huynhxuankhanh.minialbum"
         minSdkVersion 21
@@ -31,4 +35,5 @@ dependencies {
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
     compile 'com.facebook.android:facebook-share:[4,5)'
     testCompile 'junit:junit:4.12'
+    compile 'com.commonsware.cwac:provider:0.4.3'
 }

@@ -3,8 +3,11 @@ package com.example.huynhxuankhanh.minialbum.activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.WallpaperManager;
+<<<<<<< HEAD
 import android.content.ContentResolver;
 import android.content.DialogInterface;
+=======
+>>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,7 +17,11 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+<<<<<<< HEAD
 import android.provider.MediaStore;
+=======
+import android.provider.ContactsContract;
+>>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -66,6 +73,10 @@ public class Main2Activity extends AppCompatActivity {
             bm = BitmapFactory.decodeFile(receive,options);
 
             if (bm != null) {
+<<<<<<< HEAD
+=======
+                //gán tên file lên textview
+>>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
                 textViewName.setText(receive);
                 imageView.setImageBitmap(bm);
                 //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
@@ -120,6 +131,7 @@ public class Main2Activity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View view) {
+<<<<<<< HEAD
 /*
                         final WallpaperManager myWallpaperManager
                                 = WallpaperManager.getInstance(getApplicationContext());
@@ -132,13 +144,18 @@ public class Main2Activity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         */
+=======
+>>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
                         Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
                         intent.addCategory(Intent.CATEGORY_DEFAULT);
                         //lấy đường dẫn file ảnh gắn vào Uri
                         intent.setDataAndType(Uri.fromFile(new File(receive)), "image/*");
                         intent.putExtra("mimeType", "image/*");
                         startActivity(Intent.createChooser(intent, "Set as:"));
+<<<<<<< HEAD
 
+=======
+>>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
                     }
                 });
                 // add 1 column to the original database to show that it is my favorite image.
@@ -149,7 +166,7 @@ public class Main2Activity extends AppCompatActivity {
                         // create table if table is not exist
                         database.QuerySQL("CREATE TABLE IF NOT EXISTS Favorite(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
                                 "Path VARCHAR)");
-                        // check current path is alreay in database ?
+                        // check current path is already in database ?
                         // no exist
                         Cursor cursor = database.getData("SELECT Path FROM Favorite");
                         if(cursor!=null) {
