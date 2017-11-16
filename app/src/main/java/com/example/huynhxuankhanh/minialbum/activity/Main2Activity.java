@@ -1,62 +1,41 @@
 package com.example.huynhxuankhanh.minialbum.activity;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.app.WallpaperManager;
-<<<<<<< HEAD
 import android.content.ContentResolver;
 import android.content.DialogInterface;
-=======
->>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-<<<<<<< HEAD
-import android.provider.MediaStore;
-=======
-import android.provider.ContactsContract;
->>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.database.Database;
-import com.example.huynhxuankhanh.minialbum.fragment.FragmentPicture;
+import com.example.huynhxuankhanh.minialbum.gallary.InfoImage;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import uk.co.senab.photoview.PhotoView;
-
+import android.support.v7.app.AppCompatActivity;
 public class Main2Activity extends AppCompatActivity {
 
    // private ImageView imageView ;
     private PhotoView imageView;
     private Button btnShare,btnFav,btnSetWall,btnEdit,btnRemove,btnBack,btnDetail;
     private TextView textViewName;
-    private String receive;
+    private InfoImage receive;
     private Bitmap bm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +44,18 @@ public class Main2Activity extends AppCompatActivity {
 
         doLoadInterface();
 
-        receive = getIntent().getStringExtra("image-view");
+        receive = getIntent().getParcelableExtra("image-info");
         if(receive!=null) {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             options.inSampleSize=2;
-            bm = BitmapFactory.decodeFile(receive,options);
+            bm = BitmapFactory.decodeFile(receive.getPathFile(),options);
 
             if (bm != null) {
-<<<<<<< HEAD
-=======
+
                 //gán tên file lên textview
->>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
-                textViewName.setText(receive);
+
+                textViewName.setText(receive.getNameFile());
                 imageView.setImageBitmap(bm);
                 //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
                 // set top text view name
@@ -117,7 +95,7 @@ public class Main2Activity extends AppCompatActivity {
                                         //if user click ok => delete image
                                         ContentResolver contentResolver = getContentResolver();
                                         contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                                MediaStore.Images.ImageColumns.DATA + "=?" , new String[]{ receive });
+                                                MediaStore.Images.ImageColumns.DATA + "=?" , new String[]{ receive.getPathFile() });
                                         finish();
                                     }
                                 });
@@ -131,31 +109,14 @@ public class Main2Activity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View view) {
-<<<<<<< HEAD
-/*
-                        final WallpaperManager myWallpaperManager
-                                = WallpaperManager.getInstance(getApplicationContext());
 
-                        try {
-                            myWallpaperManager.setBitmap(bm);
-
-                            Toast.makeText(Main2Activity.this, "Wallpaper is set", Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        */
-=======
->>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
                         Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
                         intent.addCategory(Intent.CATEGORY_DEFAULT);
                         //lấy đường dẫn file ảnh gắn vào Uri
-                        intent.setDataAndType(Uri.fromFile(new File(receive)), "image/*");
+                        intent.setDataAndType(Uri.fromFile(new File(receive.getPathFile())), "image/*");
                         intent.putExtra("mimeType", "image/*");
                         startActivity(Intent.createChooser(intent, "Set as:"));
-<<<<<<< HEAD
 
-=======
->>>>>>> f6be0d57b8eef7ec2df1ae6e5adc973065884bd0
                     }
                 });
                 // add 1 column to the original database to show that it is my favorite image.
@@ -170,7 +131,7 @@ public class Main2Activity extends AppCompatActivity {
                         // no exist
                         Cursor cursor = database.getData("SELECT Path FROM Favorite");
                         if(cursor!=null) {
-                            if (checkImageAlreadyInDatabase(cursor, receive, 0) == false) {
+                            if (checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 0) == false) {
                                 String sql = "INSERT INTO Favorite VALUES(null,'" + receive + "')";
                                 database.QuerySQL(sql);
                                 Toast.makeText(Main2Activity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();

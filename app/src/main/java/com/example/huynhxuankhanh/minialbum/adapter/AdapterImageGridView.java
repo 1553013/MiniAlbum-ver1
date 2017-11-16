@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.huynhxuankhanh.minialbum.R;
+import com.example.huynhxuankhanh.minialbum.gallary.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallary.ViewHolder;
 
 import java.util.ArrayList;
@@ -20,21 +21,21 @@ import java.util.List;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class AdapterImageGridView extends ArrayAdapter<String>{
+public class AdapterImageGridView extends ArrayAdapter<InfoImage>{
    // declare some variable tool for create adapter pathImage
     private Context context; // context from fragment picture
     private int resource;     // main resource from fragment picture
     private View view;       // return view for grid view
-    private List<String> listPathImage; // store list path of image
+    private List<InfoImage> listImage; // store list path of image
     private ViewHolder viewHolder;
 
     // main constructor for adapter grid view
-    public AdapterImageGridView(@NonNull Context context, @LayoutRes int resource, @NonNull List<String> objects) {
+    public AdapterImageGridView(@NonNull Context context, @LayoutRes int resource, @NonNull List<InfoImage> objects) {
         super(context, resource, objects);
 
         this.context = context;
         this.resource = resource;
-        this.listPathImage = new ArrayList<String>( objects);
+        this.listImage = new ArrayList<InfoImage>( objects);
         viewHolder = new ViewHolder();
     }
     // return a view of grid | push data to grid view
@@ -50,7 +51,7 @@ public class AdapterImageGridView extends ArrayAdapter<String>{
             viewHolder = (ViewHolder)convertView.getTag();
         }
         viewHolder.setImageView((ImageView)convertView.findViewById(R.id.view_img));
-        String item = listPathImage.get(position);
+        String item = listImage.get(position).getPathFile();
 
         Glide.with(viewHolder.getImageView().getContext()).load(item).into(viewHolder.getImageView());
         return convertView;

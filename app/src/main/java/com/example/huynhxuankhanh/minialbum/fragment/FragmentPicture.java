@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -57,7 +58,8 @@ public class FragmentPicture extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // send data to activity2: view image full screen
-                fragPictureIntent.putExtra("image-view",loadGallary.getLink(position));
+                //fragPictureIntent.putExtra("image-info",loadGallary.getInfoImage(position));
+                fragPictureIntent.putExtra("image-info", (Parcelable) loadGallary.getInfoImage(position));
                 // check putExtra is it ok or position is ok ?
                 currentPos = gridView.getFirstVisiblePosition();
                 startActivity(fragPictureIntent);
@@ -93,6 +95,8 @@ public class FragmentPicture extends Fragment{
         myArrayAdapterGridView = new AdapterImageGridView(getActivity(),R.layout.imageview_layout,loadGallary.getListImage());
         gridView.setAdapter(myArrayAdapterGridView);
         gridView.setSelection(currentPos);
+
+        //Toast.makeText(activity, "on Fragment Picture", Toast.LENGTH_SHORT).show();
     }
 
     @Override

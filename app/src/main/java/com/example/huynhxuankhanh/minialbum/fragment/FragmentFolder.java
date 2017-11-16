@@ -31,6 +31,12 @@ public class FragmentFolder extends Fragment  {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+       // Toast.makeText(getActivity(), "on Fragment Folder", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);

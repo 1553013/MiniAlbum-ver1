@@ -49,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture);
         tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder);
 
+        /*
         for(int i=0; i < tabLayout.getTabCount(); i++) {
             View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(i);
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
             p.setMargins(0, 0, 50, 0);
             tab.requestLayout();
         }
+        */
     }
 
     @Override
