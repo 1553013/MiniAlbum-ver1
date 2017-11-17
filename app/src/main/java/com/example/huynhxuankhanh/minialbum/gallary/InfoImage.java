@@ -13,10 +13,9 @@ import java.util.Date;
 public class InfoImage implements Parcelable {
     private int iD;
     private long Size;
-    private String pathFile,nameFile,nameBucket;
-    private Calendar dateTaken;
+    private String pathFile,nameFile,nameBucket,dateTaken;
 
-    public InfoImage(int iD, long size, String pathFile, String nameFile, String nameBucket, Calendar dateTaken) {
+    public InfoImage(int iD, long size, String pathFile, String nameFile, String nameBucket, String dateTaken) {
         this.iD = iD;
         Size = size;
         this.pathFile = pathFile;
@@ -31,6 +30,7 @@ public class InfoImage implements Parcelable {
         pathFile = in.readString();
         nameFile = in.readString();
         nameBucket = in.readString();
+        dateTaken = in.readString();
     }
 
     public static final Creator<InfoImage> CREATOR = new Creator<InfoImage>() {
@@ -53,7 +53,7 @@ public class InfoImage implements Parcelable {
         this.iD = iD;
     }
 
-    public double getSize() {
+    public long getSize() {
         return Size;
     }
 
@@ -85,11 +85,11 @@ public class InfoImage implements Parcelable {
         this.nameBucket = nameBucket;
     }
 
-    public Calendar getDateTaken() {
+    public String getDateTaken() {
         return dateTaken;
     }
 
-    public void setDateTaken(Calendar dateTaken) {
+    public void setDateTaken(String dateTaken) {
         this.dateTaken = dateTaken;
     }
 
@@ -105,5 +105,6 @@ public class InfoImage implements Parcelable {
         parcel.writeString(pathFile);
         parcel.writeString(nameFile);
         parcel.writeString(nameBucket);
+        parcel.writeString(dateTaken);
     }
 }

@@ -7,6 +7,7 @@ import android.icu.text.IDNA;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,11 +55,17 @@ public class LoadGallary {
                 String nameFile = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
                 String nameBucket = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                 long sizeFile = Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE)));
-                Integer date = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(date);
+                Long date = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
+                //Calendar cal = Calendar.getInstance();
+
+               // cal.setTimeInMillis(date);
+               // SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+                //Date DATE = cal.getTime();
+                Date tempdate = new Date ();
+                tempdate.setTime(date);
+               // dateFormat.format(cal.getTime());
                 //set item for list
-                InfoImage infoImage = new InfoImage(iD,sizeFile, pathFile, nameFile, nameBucket, cal);
+                InfoImage infoImage = new InfoImage(iD,sizeFile, pathFile, nameFile, nameBucket, tempdate.toString());
                 if (infoImage != null)
                     listImage.add(infoImage);
                 cursor.moveToNext();

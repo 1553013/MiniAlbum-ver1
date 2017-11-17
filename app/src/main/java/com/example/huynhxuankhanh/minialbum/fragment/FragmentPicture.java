@@ -25,6 +25,7 @@ import com.example.huynhxuankhanh.minialbum.activity.Main2Activity;
 import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
 import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
+import com.example.huynhxuankhanh.minialbum.gallary.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallary.LoadGallary;
 
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class FragmentPicture extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // send data to activity2: view image full screen
                 //fragPictureIntent.putExtra("image-info",loadGallary.getInfoImage(position));
+                InfoImage temp = loadGallary.getInfoImage(position);
                 fragPictureIntent.putExtra("image-info", (Parcelable) loadGallary.getInfoImage(position));
                 // check putExtra is it ok or position is ok ?
                 currentPos = gridView.getFirstVisiblePosition();

@@ -26,6 +26,7 @@ import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 
 import uk.co.senab.photoview.PhotoView;
 import android.support.v7.app.AppCompatActivity;
@@ -72,7 +73,22 @@ public class Main2Activity extends AppCompatActivity {
                 btnDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Main2Activity.this);
 
+                        String details = String.format("Title: %s \n\nTime: %s \n\nSize: %.2f MB \n\nWidth: %d \n\nHeight: %d\n\nPath: %s",
+                                receive.getNameFile(),receive.getDateTaken(),(float)receive.getSize()/1048576,
+                                bm.getWidth(),bm.getHeight(),receive.getPathFile());
+                        builder.setTitle("Details")
+                                .setMessage(details)
+                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // it user click Close
+                                // do nothing, just back the main screen
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     }
                 });
                 // show a alert dialog to request user delete or not
