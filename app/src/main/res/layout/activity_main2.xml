@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.huynhxuankhanh.minialbum.activity.Main2Activity"
-    android:background="@color/colorBackGroundPager"
+    android:background="#ffffff"
     >
 
     <uk.co.senab.photoview.PhotoView
@@ -24,11 +24,12 @@
 
         <Button
             android:id="@+id/btn_back"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/icon_back"
-            android:layout_marginLeft="10dp"
-            />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:background="@mipmap/icon_back" />
 
         <TextView
             android:id="@+id/text_view_name"

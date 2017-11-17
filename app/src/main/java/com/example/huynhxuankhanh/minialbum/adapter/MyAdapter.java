@@ -4,11 +4,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+<<<<<<< HEAD
 
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentFavor;
+=======
+>>>>>>> 533f5dc85ae4150ee1a2635ad5c26a38a2bb3145
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentFolder;
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentPicture;
-import com.example.huynhxuankhanh.minialbum.gallary.LoadGallary;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
@@ -58,5 +60,8 @@ public class MyAdapter extends FragmentPagerAdapter {
         }
         return null;
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 533f5dc85ae4150ee1a2635ad5c26a38a2bb3145
 }

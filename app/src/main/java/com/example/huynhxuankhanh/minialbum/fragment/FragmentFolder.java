@@ -2,14 +2,19 @@ package com.example.huynhxuankhanh.minialbum.fragment;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+<<<<<<< HEAD
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+=======
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+>>>>>>> 533f5dc85ae4150ee1a2635ad5c26a38a2bb3145
 
 import com.example.huynhxuankhanh.minialbum.R;
-
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
@@ -21,7 +26,6 @@ public class FragmentFolder extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_folder, container, false);
-
         return view;
     }
 
@@ -40,7 +44,6 @@ public class FragmentFolder extends Fragment  {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     public static FragmentFolder newInstance(String StrArg) {
@@ -50,5 +53,4 @@ public class FragmentFolder extends Fragment  {
         fragment.setArguments(args);
         return fragment;
     }
-
 }

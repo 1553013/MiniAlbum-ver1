@@ -3,9 +3,6 @@ package com.example.huynhxuankhanh.minialbum.gallary;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Calendar;
-import java.util.Date;
-
 /**
  * Created by HUYNHXUANKHANH on 11/17/2017.
  */
@@ -45,52 +42,20 @@ public class InfoImage implements Parcelable {
         }
     };
 
-    public int getiD() {
-        return iD;
-    }
-
-    public void setiD(int iD) {
-        this.iD = iD;
-    }
-
     public long getSize() {
         return Size;
-    }
-
-    public void setSize(long size) {
-        Size = size;
     }
 
     public String getPathFile() {
         return pathFile;
     }
 
-    public void setPathFile(String pathFile) {
-        this.pathFile = pathFile;
-    }
-
     public String getNameFile() {
         return nameFile;
     }
 
-    public void setNameFile(String nameFile) {
-        this.nameFile = nameFile;
-    }
-
-    public String getNameBucket() {
-        return nameBucket;
-    }
-
-    public void setNameBucket(String nameBucket) {
-        this.nameBucket = nameBucket;
-    }
-
     public String getDateTaken() {
         return dateTaken;
-    }
-
-    public void setDateTaken(String dateTaken) {
-        this.dateTaken = dateTaken;
     }
 
     @Override
