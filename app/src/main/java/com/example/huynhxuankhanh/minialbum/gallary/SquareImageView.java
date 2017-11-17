@@ -1,8 +1,8 @@
 package com.example.huynhxuankhanh.minialbum.gallary;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.support.annotation.Nullable;
+import android.util.AttributeSet;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.

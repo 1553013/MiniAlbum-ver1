@@ -9,20 +9,20 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by HUYNHXUANKHANH on 11/9/2017.
  */
 
-public class Database extends SQLiteOpenHelper{
+public class Database extends SQLiteOpenHelper {
 
     public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
-    public void QuerySQL(String sql){
+    public void QuerySQL(String sql) {
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL(sql);
     }
 
-    public Cursor getData(String sql){
+    public Cursor getData(String sql) {
         SQLiteDatabase database = getReadableDatabase();
-        return database.rawQuery(sql,null);
+        return database.rawQuery(sql, null);
     }
 
     @Override
