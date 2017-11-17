@@ -2,14 +2,7 @@ package com.example.huynhxuankhanh.minialbum.gallary;
 
 import android.content.Context;
 import android.util.AttributeSet;
-
-/**
- * Created by HUYNHXUANKHANH on 11/3/2017.
- */
-
-
 import android.support.annotation.Nullable;
-
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.

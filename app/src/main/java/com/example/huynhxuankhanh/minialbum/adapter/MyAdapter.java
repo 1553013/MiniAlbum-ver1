@@ -4,10 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentFolder;
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentPicture;
-import com.example.huynhxuankhanh.minialbum.gallary.LoadGallary;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
@@ -50,8 +48,4 @@ public class MyAdapter extends FragmentPagerAdapter {
         }
         return null;
     }
-    public FragmentFolder getFragmentFolder(){
-        return fragmentFolder;
-    }
-
 }

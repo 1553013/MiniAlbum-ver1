@@ -2,7 +2,6 @@ package com.example.huynhxuankhanh.minialbum.fragment;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -11,24 +10,17 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.activity.Main2Activity;
-import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
-import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
 import com.example.huynhxuankhanh.minialbum.gallary.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallary.LoadGallary;
-
-import java.util.ArrayList;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
@@ -50,11 +42,6 @@ public class FragmentPicture extends Fragment{
         view = inflater.inflate(R.layout.fragment_picture,container,false);
         gridView = (GridView) view.findViewById(R.id.grd_Image);
 
-
-
-
-
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -65,15 +52,8 @@ public class FragmentPicture extends Fragment{
                 // check putExtra is it ok or position is ok ?
                 currentPos = gridView.getFirstVisiblePosition();
                 startActivity(fragPictureIntent);
-
-
             }
         });
-
-
-
-
-
         return view;
     }
 
@@ -83,8 +63,6 @@ public class FragmentPicture extends Fragment{
         activity = getActivity();
         fragPictureIntent = new Intent(getActivity(), Main2Activity.class);
         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
-
-
     }
 
     @Override
@@ -97,7 +75,6 @@ public class FragmentPicture extends Fragment{
         myArrayAdapterGridView = new AdapterImageGridView(getActivity(),R.layout.imageview_layout,loadGallary.getListImage());
         gridView.setAdapter(myArrayAdapterGridView);
         gridView.setSelection(currentPos);
-
         //Toast.makeText(activity, "on Fragment Picture", Toast.LENGTH_SHORT).show();
     }
 
@@ -112,13 +89,11 @@ public class FragmentPicture extends Fragment{
                 loadGallary.query_PathImage(Image_URI_EXTERNAL);
                 myArrayAdapterGridView = new AdapterImageGridView(getActivity(),R.layout.imageview_layout,loadGallary.getListImage());
                 gridView.setAdapter(myArrayAdapterGridView);
-
                 break;
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
 
     public static FragmentPicture newInstance(String StrArg){
         FragmentPicture fragment = new FragmentPicture();
@@ -127,6 +102,4 @@ public class FragmentPicture extends Fragment{
         fragment.setArguments(args);
         return fragment;
     }
-
-
 }

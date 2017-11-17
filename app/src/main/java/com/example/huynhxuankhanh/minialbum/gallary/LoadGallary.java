@@ -1,17 +1,11 @@
 package com.example.huynhxuankhanh.minialbum.gallary;
 
 import android.content.ContentResolver;
-import android.database.CharArrayBuffer;
 import android.database.Cursor;
-import android.icu.text.IDNA;
 import android.net.Uri;
 import android.provider.MediaStore;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.

@@ -26,10 +26,8 @@ import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-
 import uk.co.senab.photoview.PhotoView;
-import android.support.v7.app.AppCompatActivity;
+
 public class Main2Activity extends AppCompatActivity {
 
    // private ImageView imageView ;
