@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 
+import com.example.huynhxuankhanh.minialbum.fragment.FragmentFavor;
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentFolder;
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentPicture;
 import com.example.huynhxuankhanh.minialbum.gallary.LoadGallary;
@@ -13,9 +14,10 @@ import com.example.huynhxuankhanh.minialbum.gallary.LoadGallary;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 public class MyAdapter extends FragmentPagerAdapter {
-    private String[] listTab = {"PICTURES","FOLDER"};
+    private final String[] listTab = {"PICTURES","FOLDER","FAVORITE"};
     private FragmentPicture fragmentPicture;
-    private  FragmentFolder fragmentFolder;
+    private FragmentFolder fragmentFolder;
+    private FragmentFavor fragmentFavor;
     public MyAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -30,6 +32,10 @@ public class MyAdapter extends FragmentPagerAdapter {
             case 1:{
                 fragmentFolder = new FragmentFolder().newInstance(listTab[1]);
                 return fragmentFolder;
+            }
+            case 2:{
+                fragmentFavor = new FragmentFavor().newInstance(listTab[2]);
+                return fragmentFavor;
             }
         }
         return null;
@@ -47,11 +53,10 @@ public class MyAdapter extends FragmentPagerAdapter {
                 return listTab[0];
             case 1:
                 return listTab[1];
+            case 2:
+                return listTab[2];
         }
         return null;
-    }
-    public FragmentFolder getFragmentFolder(){
-        return fragmentFolder;
     }
 
 }

@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
+        mViewPager.setOffscreenPageLimit(3);
         // push each fragment to tab.
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         // make interface better after loading image
         tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture);
         tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder);
+        tabLayout.getTabAt(2).setIcon(R.mipmap.icon_favorite);
 
         /*
         for(int i=0; i < tabLayout.getTabCount(); i++) {
