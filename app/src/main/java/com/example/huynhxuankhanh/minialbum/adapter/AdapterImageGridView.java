@@ -21,8 +21,8 @@ import java.util.List;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class AdapterImageGridView extends ArrayAdapter<InfoImage> {
-    // declare some variable tool for create adapter pathImage
+public class AdapterImageGridView extends ArrayAdapter<InfoImage>{
+   // declare some variable tool for create adapter pathImage
     private Context context; // context from fragment picture
     private int resource;     // main resource from fragment picture
     private View view;       // return view for grid view
@@ -35,23 +35,22 @@ public class AdapterImageGridView extends ArrayAdapter<InfoImage> {
 
         this.context = context;
         this.resource = resource;
-        this.listImage = new ArrayList<InfoImage>(objects);
+        this.listImage = new ArrayList<InfoImage>( objects);
         viewHolder = new ViewHolder();
     }
-
     // return a view of grid | push data to grid view
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        if (convertView == null) {
-            convertView = view.inflate(context, R.layout.imageview_layout, null);
+        if(convertView==null){
+            convertView = view.inflate(context,R.layout.imageview_layout,null);
             convertView.setTag(viewHolder);
 
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+        }else{
+            viewHolder = (ViewHolder)convertView.getTag();
         }
-        viewHolder.setImageView((ImageView) convertView.findViewById(R.id.view_img));
+        viewHolder.setImageView((ImageView)convertView.findViewById(R.id.view_img));
         String item = listImage.get(position).getPathFile();
 
         Glide.with(viewHolder.getImageView().getContext()).load(item).into(viewHolder.getImageView());

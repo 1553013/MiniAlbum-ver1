@@ -11,22 +11,21 @@ import com.example.huynhxuankhanh.minialbum.fragment.FragmentPicture;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 public class MyAdapter extends FragmentPagerAdapter {
-    private String[] listTab = {"PICTURES", "FOLDER"};
+    private String[] listTab = {"PICTURES","FOLDER"};
     private FragmentPicture fragmentPicture;
-    private FragmentFolder fragmentFolder;
-
+    private  FragmentFolder fragmentFolder;
     public MyAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0: {
+        switch (position){
+            case 0:{
                 fragmentPicture = new FragmentPicture().newInstance(listTab[0]);
                 return fragmentPicture;
             }
-            case 1: {
+            case 1:{
                 fragmentFolder = new FragmentFolder().newInstance(listTab[1]);
                 return fragmentFolder;
             }

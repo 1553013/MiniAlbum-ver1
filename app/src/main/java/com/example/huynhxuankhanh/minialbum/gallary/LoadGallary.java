@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,8 +11,13 @@ import java.util.Date;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class LoadGallery {
+public class LoadGallary {
 
+    // declare some tool variable for querying database.
+    private ContentResolver contentResolver;
+    private Cursor cursor;
+  //  private List<String> listPathImage;
+    private ArrayList<InfoImage> listImage;
     private final String[] projection = new String[]{
             MediaStore.Images.ImageColumns._ID,
             MediaStore.Images.ImageColumns.DATA, // path file
@@ -22,18 +26,11 @@ public class LoadGallery {
             MediaStore.Images.ImageColumns.SIZE,
             MediaStore.Images.ImageColumns.DATE_TAKEN, // date taken
     };
-    // declare some tool variable for querying database.
-    private ContentResolver contentResolver;
-    private Cursor cursor;
-    //  private List<String> listPathImage;
-    private ArrayList<InfoImage> listImage;
-
-    public LoadGallery() {
+    public LoadGallary(){
         contentResolver = null;
         cursor = null;
         listImage = new ArrayList<InfoImage>();
     }
-
     public ArrayList<InfoImage> getListImage() {
         return listImage;
     }
@@ -41,10 +38,9 @@ public class LoadGallery {
     public void setContentResolver(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
     }
-
-    public void query_PathImage(Uri url) {
-        cursor = contentResolver.query(url, projection, null, null, null);
-        if (cursor != null) {
+    public void query_PathImage(Uri url){
+        cursor = contentResolver.query(url,projection,null,null,null);
+        if(cursor!=null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 // load data to temp.
@@ -56,22 +52,21 @@ public class LoadGallery {
                 Long date = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
                 //Calendar cal = Calendar.getInstance();
 
-                // cal.setTimeInMillis(date);
-                // SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+               // cal.setTimeInMillis(date);
+               // SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
                 //Date DATE = cal.getTime();
-                Date tempdate = new Date();
+                Date tempdate = new Date ();
                 tempdate.setTime(date);
-                // dateFormat.format(cal.getTime());
+               // dateFormat.format(cal.getTime());
                 //set item for list
-                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString());
+                InfoImage infoImage = new InfoImage(iD,sizeFile, pathFile, nameFile, nameBucket, tempdate.toString());
                 if (infoImage != null)
                     listImage.add(infoImage);
                 cursor.moveToNext();
             }
         }
     }
-
-    public InfoImage getInfoImage(int position) {
+    public InfoImage getInfoImage(int position){
         return listImage.get(position);
     }
 }

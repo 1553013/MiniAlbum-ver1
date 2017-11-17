@@ -8,20 +8,9 @@ import android.os.Parcelable;
  */
 
 public class InfoImage implements Parcelable {
-    public static final Creator<InfoImage> CREATOR = new Creator<InfoImage>() {
-        @Override
-        public InfoImage createFromParcel(Parcel in) {
-            return new InfoImage(in);
-        }
-
-        @Override
-        public InfoImage[] newArray(int size) {
-            return new InfoImage[size];
-        }
-    };
     private int iD;
     private long Size;
-    private String pathFile, nameFile, nameBucket, dateTaken;
+    private String pathFile,nameFile,nameBucket,dateTaken;
 
     public InfoImage(int iD, long size, String pathFile, String nameFile, String nameBucket, String dateTaken) {
         this.iD = iD;
@@ -40,6 +29,18 @@ public class InfoImage implements Parcelable {
         nameBucket = in.readString();
         dateTaken = in.readString();
     }
+
+    public static final Creator<InfoImage> CREATOR = new Creator<InfoImage>() {
+        @Override
+        public InfoImage createFromParcel(Parcel in) {
+            return new InfoImage(in);
+        }
+
+        @Override
+        public InfoImage[] newArray(int size) {
+            return new InfoImage[size];
+        }
+    };
 
     public long getSize() {
         return Size;
