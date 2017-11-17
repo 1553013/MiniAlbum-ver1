@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         // create tool bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new MyAdapter(getSupportFragmentManager());
@@ -41,26 +44,40 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-
-
-
-
         // make interface better after loading image
         tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture);
         tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder);
-
-        /*
-        for(int i=0; i < tabLayout.getTabCount(); i++) {
-            View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(i);
-            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
-            p.setMargins(0, 0, 50, 0);
-            tab.requestLayout();
-        }
-        */
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        return(super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Toast.makeText(MainActivity.this, R.string.action_settings, Toast.LENGTH_LONG).show();
+                //startActivity(new Intent(MainActivity.this, ContentActivity.class));
+                return(true);
+
+            case R.id.action_help:
+                Toast.makeText(MainActivity.this, R.string.action_help, Toast.LENGTH_LONG).show();
+                return(true);
+
+            case R.id.action_about:
+                Toast.makeText(MainActivity.this, R.string.action_about, Toast.LENGTH_LONG).show();
+
+                return(true);
+        }
+        return(super.onOptionsItemSelected(item));
     }
 }

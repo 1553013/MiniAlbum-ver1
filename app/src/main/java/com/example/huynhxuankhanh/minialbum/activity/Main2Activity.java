@@ -55,7 +55,6 @@ public class Main2Activity extends AppCompatActivity {
             if (bm != null) {
 
                 //gán tên file lên textview
-
                 textViewName.setText(receive.getNameFile());
                 imageView.setImageBitmap(bm);
                 //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
