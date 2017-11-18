@@ -10,7 +10,7 @@ import android.os.Parcelable;
 public class InfoImage implements Parcelable {
     private int iD;
     private long Size;
-    private String pathFile,nameFile,nameBucket,dateTaken;
+    private String pathFile, nameFile, nameBucket, dateTaken;
 
     public InfoImage(int iD, long size, String pathFile, String nameFile, String nameBucket, String dateTaken) {
         this.iD = iD;
@@ -56,6 +56,10 @@ public class InfoImage implements Parcelable {
 
     public String getDateTaken() {
         return dateTaken;
+    }
+
+    public String getNameBucket() {
+        return nameBucket;
     }
 
     @Override

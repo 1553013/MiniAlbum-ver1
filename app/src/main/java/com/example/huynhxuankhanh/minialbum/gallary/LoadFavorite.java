@@ -50,27 +50,29 @@ public class LoadFavorite {
     public void setDatabase(Database database) {
         this.database = database;
     }
+
     // query data from sql string
     // Favorite(Id INTEGER PRIMARY KEY AUTOINCREMENT,Path VARCHAR,Title VARCHAR,Bucket VARCHAR,Size LONG,Time VARCHAR)");
-    public boolean loadDataFromDB(String sql){
+    public boolean loadDataFromDB(String sql) {
         cursor = database.getData(sql);
-        if(cursor!=null){
-            while(cursor.moveToNext()){
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
                 int iD = cursor.getInt(0);
                 String path = cursor.getString(1);
                 String title = cursor.getString(2);
                 String bucket = cursor.getString(3);
                 Long size = cursor.getLong(4);
                 String date = cursor.getString(5);
-                InfoImage infoImage = new  InfoImage(iD,size, path, title, bucket, date);
-                if(infoImage!=null)
+                InfoImage infoImage = new InfoImage(iD, size, path, title, bucket, date);
+                if (infoImage != null)
                     listImage.add(infoImage);
             }
             return true;
         }
         return false;
     }
-    public InfoImage getInfoImage(int position){
+
+    public InfoImage getInfoImage(int position) {
         return listImage.get(position);
     }
 }

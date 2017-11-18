@@ -9,10 +9,12 @@ import android.widget.ImageView;
 // design pattern: VIEW HOLDER
 public class ViewHolder {
     private ImageView image;
-    public ImageView getImageView(){
+
+    public ImageView getImageView() {
         return image;
     }
-    public void setImageView(ImageView image){
+
+    public void setImageView(ImageView image) {
         this.image = image;
     }
 

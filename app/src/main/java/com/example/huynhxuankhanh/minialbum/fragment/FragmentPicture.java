@@ -3,12 +3,12 @@ package com.example.huynhxuankhanh.minialbum.fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,27 +26,23 @@ import com.example.huynhxuankhanh.minialbum.gallary.LoadGallary;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class FragmentPicture extends Fragment{
+public class FragmentPicture extends Fragment {
     private final Uri Image_URI_EXTERNAL = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     private View view;
     private AdapterImageGridView myArrayAdapterGridView;
     private GridView gridView;
-    private static final int  MY_REQUEST_ACCESS_EXTERNAL_STORAGE = 100;
+    private static final int MY_REQUEST_ACCESS_EXTERNAL_STORAGE = 100;
     public LoadGallary loadGallary;
     private Intent fragPictureIntent;
     private FragmentActivity activity;
-    private int currentPos =0;
+    private int currentPos = 0;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_picture,container,false);
+        view = inflater.inflate(R.layout.fragment_picture, container, false);
         gridView = (GridView) view.findViewById(R.id.grd_Image);
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 533f5dc85ae4150ee1a2635ad5c26a38a2bb3145
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -67,7 +63,7 @@ public class FragmentPicture extends Fragment{
         super.onCreate(savedInstanceState);
         activity = getActivity();
         fragPictureIntent = new Intent(getActivity(), Main2Activity.class);
-        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
+        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
     }
 
     @Override
@@ -77,7 +73,7 @@ public class FragmentPicture extends Fragment{
         loadGallary = new LoadGallary();
         loadGallary.setContentResolver(activity.getContentResolver());
         loadGallary.query_PathImage(Image_URI_EXTERNAL);
-        myArrayAdapterGridView = new AdapterImageGridView(getActivity(),R.layout.imageview_layout,loadGallary.getListImage());
+        myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, loadGallary.getListImage());
         gridView.setAdapter(myArrayAdapterGridView);
         gridView.setSelection(currentPos);
         //Toast.makeText(activity, "on Fragment Picture", Toast.LENGTH_SHORT).show();
@@ -86,13 +82,13 @@ public class FragmentPicture extends Fragment{
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        switch (requestCode){
-            case MY_REQUEST_ACCESS_EXTERNAL_STORAGE:{
+        switch (requestCode) {
+            case MY_REQUEST_ACCESS_EXTERNAL_STORAGE: {
 
                 loadGallary = new LoadGallary();
                 loadGallary.setContentResolver(activity.getContentResolver());
                 loadGallary.query_PathImage(Image_URI_EXTERNAL);
-                myArrayAdapterGridView = new AdapterImageGridView(getActivity(),R.layout.imageview_layout,loadGallary.getListImage());
+                myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, loadGallary.getListImage());
                 gridView.setAdapter(myArrayAdapterGridView);
                 break;
             }
@@ -100,10 +96,10 @@ public class FragmentPicture extends Fragment{
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    public static FragmentPicture newInstance(String StrArg){
+    public static FragmentPicture newInstance(String StrArg) {
         FragmentPicture fragment = new FragmentPicture();
         Bundle args = new Bundle();
-        args.putString("strArg1",StrArg);
+        args.putString("strArg1", StrArg);
         fragment.setArguments(args);
         return fragment;
     }

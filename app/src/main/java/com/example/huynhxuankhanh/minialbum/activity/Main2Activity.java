@@ -1,7 +1,5 @@
 package com.example.huynhxuankhanh.minialbum.activity;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -14,12 +12,8 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,11 +37,8 @@ public class Main2Activity extends AppCompatActivity {
     private TextView textViewName;
     private InfoImage receive;
     private Bitmap bm;
-<<<<<<< HEAD
     private boolean isFav = false;
-=======
-    private boolean fullScreenMode = true;
->>>>>>> 533f5dc85ae4150ee1a2635ad5c26a38a2bb3145
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +47,11 @@ public class Main2Activity extends AppCompatActivity {
         initInterface();
 
         receive = getIntent().getParcelableExtra("image-info");
-<<<<<<< HEAD
-        if(receive==null) {
+        if (receive == null) {
             receive = getIntent().getParcelableExtra("image-info-fav");
             isFav = true;
         }
-        if(receive!=null) {
-=======
         if (receive != null) {
->>>>>>> 533f5dc85ae4150ee1a2635ad5c26a38a2bb3145
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             options.inSampleSize = 2;
@@ -123,27 +110,23 @@ public class Main2Activity extends AppCompatActivity {
                                 })
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-<<<<<<< HEAD
-                                        if(isFav==false) {
+                                        if (isFav == false) {
                                             //if user click ok => delete image
                                             ContentResolver contentResolver = getContentResolver();
                                             contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                                                     MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
                                             finish();
-                                        }
-                                        else{ // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
-                                            Database database = new Database(Main2Activity.this,"Favorite.sqlite",null,1);
-                                            String sql = "DELETE FROM Favorite" + " WHERE Path = '"+receive.getPathFile()+"'";
+                                        } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
+                                            Database database = new Database(Main2Activity.this, "Favorite.sqlite", null, 1);
+                                            String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
                                             database.QuerySQL(sql);
                                             finish();
                                         }
-=======
-                                        //if user click ok => delete image
+                                        /*//if user click ok => delete image
                                         ContentResolver contentResolver = getContentResolver();
                                         contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                                                 MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
-                                        finish();
->>>>>>> 533f5dc85ae4150ee1a2635ad5c26a38a2bb3145
+                                        finish();*/
                                     }
                                 });
 
@@ -177,22 +160,15 @@ public class Main2Activity extends AppCompatActivity {
                                 "Path VARCHAR,Title VARCHAR,Bucket VARCHAR,Size LONG,Time VARCHAR)");
                         // check current path is already in database ?
                         // no exist
-<<<<<<< HEAD
                         Cursor cursor = database.getData("SELECT * FROM Favorite");
-                        if(cursor!=null) {
+                        if (cursor != null) {
                             if (checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 1) == false) {
                                 String sql = "INSERT INTO Favorite VALUES(null" +
                                         ",'" + receive.getPathFile() + "'" +
-                                        ",'"+receive.getNameFile()+"'" +
-                                        ",'"+receive.getNameBucket()+"'" +
-                                        ","+receive.getSize() +
-                                        ",'"+receive.getDateTaken()+"')";
-=======
-                        Cursor cursor = database.getData("SELECT Path FROM Favorite");
-                        if (cursor != null) {
-                            if (checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 0) == false) {
-                                String sql = "INSERT INTO Favorite VALUES(null,'" + receive + "')";
->>>>>>> 533f5dc85ae4150ee1a2635ad5c26a38a2bb3145
+                                        ",'" + receive.getNameFile() + "'" +
+                                        ",'" + receive.getNameBucket() + "'" +
+                                        "," + receive.getSize() +
+                                        ",'" + receive.getDateTaken() + "')";
                                 database.QuerySQL(sql);
                                 Toast.makeText(Main2Activity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();
                             } else {
@@ -232,7 +208,8 @@ public class Main2Activity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         // call another activity Edit
-
+//                        Database database = new Database(Main2Activity.this,"Favorite.sqlite",null,1);
+//                        database.QuerySQL("DROP TABLE Favourite");
                     }
                 });
             } else {
