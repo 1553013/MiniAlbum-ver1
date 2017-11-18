@@ -44,8 +44,6 @@ public class FragmentFavor extends Fragment {
                 // check putExtra is it ok or position is ok ?
                 currentPos = gridView.getFirstVisiblePosition();
                 startActivity(fragFavorIntent);
-
-
             }
         });
 
@@ -57,7 +55,7 @@ public class FragmentFavor extends Fragment {
         super.onResume();
         loadFavorite = new LoadFavorite();
         loadFavorite.setDatabase(new Database(getActivity(), "Favorite.sqlite", null, 1));
-        if(loadFavorite.getDatabase()!=null) {
+        if (loadFavorite.getDatabase() != null) {
             loadFavorite.loadDataFromDB("SELECT * FROM Favorite");
 
             myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, loadFavorite.getListImage());
@@ -73,67 +71,6 @@ public class FragmentFavor extends Fragment {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +79,7 @@ public class FragmentFavor extends Fragment {
         loadFavorite.setDatabase(new Database(getActivity(), "Favorite.sqlite", null, 1));
         loadFavorite.getDatabase().QuerySQL("CREATE TABLE IF NOT EXISTS Favorite(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Path VARCHAR,Title VARCHAR,Bucket VARCHAR,Size LONG,Time VARCHAR)");
-        if(loadFavorite.getDatabase()!=null)
+        if (loadFavorite.getDatabase() != null)
             loadFavorite.loadDataFromDB("SELECT * FROM Favorite");
 
         myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, loadFavorite.getListImage());

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.example.huynhxuankhanh.minialbum.activity.MainActivity"
-
     >
 
     <android.support.design.widget.AppBarLayout
@@ -20,12 +19,11 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            android:titleTextColor="@color/colorAccent"
-            app:titleTextColor="@color/colorAccent"
+            app:titleTextColor="#000000"
             >
 
         </android.support.v7.widget.Toolbar>
