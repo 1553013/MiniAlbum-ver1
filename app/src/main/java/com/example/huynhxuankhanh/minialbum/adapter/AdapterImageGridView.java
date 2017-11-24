@@ -11,8 +11,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.example.huynhxuankhanh.minialbum.R;
-import com.example.huynhxuankhanh.minialbum.gallary.InfoImage;
-import com.example.huynhxuankhanh.minialbum.gallary.ViewHolder;
+import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
+import com.example.huynhxuankhanh.minialbum.gallery.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

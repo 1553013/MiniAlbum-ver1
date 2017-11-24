@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <PreferenceCategory
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="@string/general">
+
+        <EditTextPreference
+            android:dialogLayout="@layout/pref_edittext_dialog"
+            android:dialogMessage="@string/prefs_et_message"
+            android:key="@string/pref_password"
+            android:summary="@string/pref_set_password_sum"
+            android:title="@string/pref_security" />
+
+        <!--<SwitchPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="@string/pref_switch"-->
+            <!--android:summary="@string/preferences_switch_summ"-->
+            <!--android:title="@string/preferences_switch_title" />-->
+
+        <!--<CheckBoxPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="@string/pref_check"-->
+            <!--android:summary="@string/preferences_checkbox_summ"-->
+            <!--android:title="@string/preferences_checkbox_title" />-->
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/others">
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

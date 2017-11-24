@@ -16,6 +16,14 @@ import com.example.huynhxuankhanh.minialbum.R;
 public class FragmentFolder extends Fragment {
     private View view;
 
+    public static FragmentFolder newInstance(String StrArg) {
+        FragmentFolder fragment = new FragmentFolder();
+        Bundle args = new Bundle();
+        args.putString("strArg1", StrArg);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -38,13 +46,5 @@ public class FragmentFolder extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    public static FragmentFolder newInstance(String StrArg) {
-        FragmentFolder fragment = new FragmentFolder();
-        Bundle args = new Bundle();
-        args.putString("strArg1", StrArg);
-        fragment.setArguments(args);
-        return fragment;
     }
 }

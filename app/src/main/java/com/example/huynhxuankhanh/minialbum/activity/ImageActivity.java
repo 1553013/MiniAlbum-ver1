@@ -19,8 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
+import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.database.Database;
-import com.example.huynhxuankhanh.minialbum.gallary.InfoImage;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
@@ -29,7 +29,7 @@ import java.io.File;
 
 import uk.co.senab.photoview.PhotoView;
 
-public class Main2Activity extends AppCompatActivity {
+public class ImageActivity extends AppCompatActivity {
 
     // private ImageView imageView ;
     private PhotoView imageView;
@@ -42,7 +42,7 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_image);
 
         initInterface();
 
@@ -75,7 +75,7 @@ public class Main2Activity extends AppCompatActivity {
                 btnDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Main2Activity.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ImageActivity.this);
 
                         String details = String.format("Title: %s \n\nTime: %s \n\nSize: %.2f MB \n\nWidth: %d \n\nHeight: %d\n\nPath: %s",
                                 receive.getNameFile(), receive.getDateTaken(), (float) receive.getSize() / 1048576,
@@ -98,7 +98,7 @@ public class Main2Activity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         // create a alert dialog
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Main2Activity.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ImageActivity.this);
                         // set information for dialog
                         builder.setMessage("Are you sure to delete this image ?")
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -117,7 +117,7 @@ public class Main2Activity extends AppCompatActivity {
                                                     MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
                                             finish();
                                         } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
-                                            Database database = new Database(Main2Activity.this, "Favorite.sqlite", null, 1);
+                                            Database database = new Database(ImageActivity.this, "Favorite.sqlite", null, 1);
                                             String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
                                             database.QuerySQL(sql);
                                             finish();
@@ -151,13 +151,10 @@ public class Main2Activity extends AppCompatActivity {
                 });
                 // add 1 column to the original database to show that it is my favorite image.
                 btnFav.setOnClickListener(new View.OnClickListener() {
-                    Database database = new Database(Main2Activity.this, "Favorite.sqlite", null, 1);
+                    Database database = new Database(ImageActivity.this, "Favorite.sqlite", null, 1);
 
                     @Override
                     public void onClick(View view) {
-                        // create table if table is not exist
-                        database.QuerySQL("CREATE TABLE IF NOT EXISTS Favorite(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                                "Path VARCHAR,Title VARCHAR,Bucket VARCHAR,Size LONG,Time VARCHAR)");
                         // check current path is already in database ?
                         // no exist
                         Cursor cursor = database.getData("SELECT * FROM Favorite");
@@ -170,9 +167,9 @@ public class Main2Activity extends AppCompatActivity {
                                         "," + receive.getSize() +
                                         ",'" + receive.getDateTaken() + "')";
                                 database.QuerySQL(sql);
-                                Toast.makeText(Main2Activity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ImageActivity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(Main2Activity.this, "This image is already in your Favorite album !!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ImageActivity.this, "This image is already in your Favorite album !!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -197,9 +194,9 @@ public class Main2Activity extends AppCompatActivity {
                             SharePhotoContent content = new SharePhotoContent.Builder()
                                     .addPhoto(photo)
                                     .build();
-                            ShareDialog.show(Main2Activity.this, content);
+                            ShareDialog.show(ImageActivity.this, content);
                         } else {
-                            Toast.makeText(Main2Activity.this, "Please access the Internet", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ImageActivity.this, "Please access the Internet", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -245,7 +242,7 @@ public class Main2Activity extends AppCompatActivity {
 
     public boolean isOnline() {
         ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Main2Activity.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getSystemService(ImageActivity.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }

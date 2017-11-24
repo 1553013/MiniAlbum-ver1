@@ -1,4 +1,4 @@
-package com.example.huynhxuankhanh.minialbum.gallary;
+package com.example.huynhxuankhanh.minialbum.gallery;
 
 import android.database.Cursor;
 

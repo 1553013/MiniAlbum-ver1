@@ -1,4 +1,4 @@
-package com.example.huynhxuankhanh.minialbum.gallary;
+package com.example.huynhxuankhanh.minialbum.gallery;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

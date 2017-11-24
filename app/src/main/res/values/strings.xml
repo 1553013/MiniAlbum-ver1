@@ -4,4 +4,23 @@
     <string name="action_help">Help</string>
     <string name="action_about">About</string>
     <string name="Facebook_App_Id">375050342919491</string>
+
+    <string name="general">General</string>
+    <string name="others">Others</string>
+
+    <string name="pref_security">Security</string>
+    <string name="pref_set_password_sum">Set up a password to protect your gallery</string>
+    <string name="prefs_et_message">Insert password</string>
+    <string name="hint_pass">Password</string>
+    <string name="hint_confirm_pass">Confirm password</string>
+
+    <string name="preferences_switch_title">Switch Preference</string>
+    <string name="preferences_switch_summ">Switch Summary</string>
+
+    <string name="preferences_checkbox_title">CheckBox Preference</string>
+    <string name="preferences_checkbox_summ">CheckBox Summary</string>
+
+    <string name="pref_password" translatable="false">pref_password</string>
+    <string name="pref_switch" translatable="false">pref_switch</string>
+    <string name="pref_check" translatable="false">pref_check</string>
 </resources>

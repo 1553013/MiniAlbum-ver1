@@ -12,10 +12,10 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.example.huynhxuankhanh.minialbum.R;
-import com.example.huynhxuankhanh.minialbum.activity.Main2Activity;
+import com.example.huynhxuankhanh.minialbum.activity.ImageActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
+import com.example.huynhxuankhanh.minialbum.gallery.LoadFavorite;
 import com.example.huynhxuankhanh.minialbum.database.Database;
-import com.example.huynhxuankhanh.minialbum.gallary.LoadFavorite;
 
 /**
  * Created by HUYNHXUANKHANH on 11/17/2017.
@@ -28,6 +28,14 @@ public class FragmentFavor extends Fragment {
     private Intent fragFavorIntent;
     private AdapterImageGridView myArrayAdapterGridView;
     private int currentPos = 0;
+
+    public static FragmentFavor newInstance(String StrArg) {
+        FragmentFavor fragment = new FragmentFavor();
+        Bundle args = new Bundle();
+        args.putString("strArg1", StrArg);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -70,11 +78,10 @@ public class FragmentFavor extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragFavorIntent = new Intent(getActivity(), Main2Activity.class);
+        fragFavorIntent = new Intent(getActivity(), ImageActivity.class);
         loadFavorite = new LoadFavorite();
         loadFavorite.setDatabase(new Database(getActivity(), "Favorite.sqlite", null, 1));
         loadFavorite.getDatabase().QuerySQL("CREATE TABLE IF NOT EXISTS Favorite(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -83,16 +90,6 @@ public class FragmentFavor extends Fragment {
             loadFavorite.loadDataFromDB("SELECT * FROM Favorite");
 
         myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, loadFavorite.getListImage());
-        //  gridView.setAdapter(myArrayAdapterGridView);
-        //  gridView.setSelection(currentPos);
-    }
-
-    public static FragmentFavor newInstance(String StrArg) {
-        FragmentFavor fragment = new FragmentFavor();
-        Bundle args = new Bundle();
-        args.putString("strArg1", StrArg);
-        fragment.setArguments(args);
-        return fragment;
     }
 
 }

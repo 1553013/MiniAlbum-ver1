@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.huynhxuankhanh.minialbum.activity.Main2Activity"
     android:background="@color/colorBackGroundPager"
-    >
+    tools:context="com.example.huynhxuankhanh.minialbum.activity.ImageActivity">
 
     <uk.co.senab.photoview.PhotoView
         android:id="@+id/img_view"
@@ -15,20 +13,19 @@
 
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorBackGroundText"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:id="@+id/relativeLayout">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_back"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:background="@mipmap/icon_back"
             android:layout_marginLeft="10dp"
-            />
+            android:background="@mipmap/icon_back" />
 
         <TextView
             android:id="@+id/text_view_name"
@@ -39,76 +36,76 @@
             android:layout_marginStart="90dp"
             android:gravity="center_vertical"
             android:text="Name image here"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/textColor" />
 
         <Button
             android:id="@+id/btn_detail"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@mipmap/icon_detail"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
-            />
+            android:background="@mipmap/icon_detail" />
     </RelativeLayout>
 
 
-
-
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/colorBackGroundText"
         android:layout_alignParentBottom="true"
-        android:gravity="center_vertical"
-        android:id="@+id/relativeLayout2">
+        android:background="@color/colorBackGroundText"
+        android:gravity="center_vertical">
 
         <Button
             android:id="@+id/btn_setscreen"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@mipmap/icon_setscreen"
             android:layout_centerHorizontal="true"
+            android:background="@mipmap/icon_setscreen"
 
             />
+
         <Button
             android:id="@+id/btn_favor"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@mipmap/icon_favor"
-            android:layout_toLeftOf="@+id/btn_setscreen"
             android:layout_marginRight="30dp"
+            android:layout_toLeftOf="@+id/btn_setscreen"
+            android:background="@mipmap/icon_favor"
 
             />
+
         <Button
             android:id="@+id/btn_share"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@mipmap/icon_share"
             android:layout_marginRight="30dp"
             android:layout_toLeftOf="@+id/btn_favor"
+            android:background="@mipmap/icon_share"
 
             />
+
         <Button
             android:id="@+id/btn_edit"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@mipmap/icon_edit"
-            android:layout_toRightOf="@+id/btn_setscreen"
             android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/btn_setscreen"
+            android:background="@mipmap/icon_edit"
 
             />
+
         <Button
             android:id="@+id/btn_delete"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@mipmap/icon_trashcan"
-            android:layout_toRightOf="@+id/btn_edit"
             android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/btn_edit"
+            android:background="@mipmap/icon_trashcan"
 
             />
     </RelativeLayout>
-
 
 
 </RelativeLayout>

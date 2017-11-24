@@ -6,36 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.huynhxuankhanh.minialbum.activity.MainActivity"
-    >
+    tools:context="com.example.huynhxuankhanh.minialbum.activity.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
-        android:background="@drawable/toolbar_background"
-        >
+        android:background="@drawable/new_toolbar_background">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextColor="#000000"
-            >
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
-            app:tabSelectedTextColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            app:tabIndicatorColor="@color/colorAccent"
-            />
+            app:tabIndicatorColor="@color/textColor"
+            app:tabSelectedTextColor="@color/textColor" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -43,8 +38,8 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_below="@+id/appbar"
-        android:background="@color/colorBackGroundPager"/>
+        android:background="@color/colorBackGroundPager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </RelativeLayout>

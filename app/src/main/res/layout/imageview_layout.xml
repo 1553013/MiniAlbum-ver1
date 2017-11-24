@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.huynhxuankhanh.minialbum.gallary.SquareImageView
+    <com.example.huynhxuankhanh.minialbum.gallery.SquareImageView
         android:id="@+id/view_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
