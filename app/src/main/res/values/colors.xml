@@ -6,4 +6,5 @@
     <color name="colorBackGroundPager">#000000</color>
     <color name="colorBackGroundText">#212121</color>
     <color name="textColor">#FAFAFA</color>
+    <color name="textColorBlack">#212121</color>
 </resources>
