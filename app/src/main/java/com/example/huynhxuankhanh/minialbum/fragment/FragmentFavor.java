@@ -62,7 +62,7 @@ public class FragmentFavor extends Fragment {
     public void onResume() {
         super.onResume();
         loadFavorite = new LoadFavorite();
-        loadFavorite.setDatabase(new Database(getActivity(), "Favorite.sqlite", null, 1));
+        loadFavorite.setDatabase(new Database(getActivity()));
         if (loadFavorite.getDatabase() != null) {
             loadFavorite.loadDataFromDB("SELECT * FROM Favorite");
 
@@ -83,7 +83,7 @@ public class FragmentFavor extends Fragment {
         super.onCreate(savedInstanceState);
         fragFavorIntent = new Intent(getActivity(), ImageActivity.class);
         loadFavorite = new LoadFavorite();
-        loadFavorite.setDatabase(new Database(getActivity(), "Favorite.sqlite", null, 1));
+        loadFavorite.setDatabase(new Database(getActivity()));
         loadFavorite.getDatabase().QuerySQL("CREATE TABLE IF NOT EXISTS Favorite(Id INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT,Path VARCHAR,Title VARCHAR,Bucket VARCHAR,Size LONG," +
                 "Time VARCHAR)");
