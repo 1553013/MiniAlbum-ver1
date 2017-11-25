@@ -57,4 +57,10 @@ public class MyAdapter extends FragmentPagerAdapter {
         }
         return null;
     }
+
+
+    public FragmentFolder getFragmentFolder(){
+        return fragmentFolder;
+    }
+
 }

@@ -18,8 +18,11 @@ import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
+import com.example.huynhxuankhanh.minialbum.fragment.FragmentFolder;
+import com.example.huynhxuankhanh.minialbum.fragment.MainCallBacks;
+import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainCallBacks {
     private static final int MY_REQUEST_ACCESS_EXTERNAL_STORAGE = 100;
     // adapter for each fragment/pager
     private MyAdapter mSectionsPagerAdapter;
@@ -44,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
+        // mSectionsPagerAdapter-> quan ly fragment
+
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
@@ -59,16 +65,15 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_REQUEST_ACCESS_EXTERNAL_STORAGE: {
-                if (ContextCompat.checkSelfPermission(this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                        PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     tabLayout = (TabLayout) findViewById(R.id.tabs);
                     tabLayout.setupWithViewPager(mViewPager);
                     // make interface better after loading image
-                    tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture_white);
-                    tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder_white);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.icon_favorite_white);
-                } else
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.icon_favorite);
+                }else
                     finish();
                 break;
             }
@@ -82,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return (super.onCreateOptionsMenu(menu));
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
@@ -97,5 +101,40 @@ public class MainActivity extends AppCompatActivity {
             Log.e("<<foregroundTask>>", e.getMessage());
         }
         return (super.onOptionsItemSelected(item));
+    }
+
+
+    @Override
+    public void onMsgFromFragToMain(final String sender, LoadGallary loadGallary) {
+        if(sender.equals("frag-picture")){
+            if(loadGallary!=null){
+                Toast.makeText(this, "Main recieves package from fragment pictures", Toast.LENGTH_SHORT).show();
+                mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragment(loadGallary);
+            }
+        }
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

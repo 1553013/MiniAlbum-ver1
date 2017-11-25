@@ -16,6 +16,7 @@ import android.widget.GridView;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.activity.ImageActivity;
+import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
@@ -24,7 +25,7 @@ import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class FragmentPicture extends Fragment {
+public class FragmentPicture extends Fragment{
     private final Uri Image_URI_EXTERNAL = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     public LoadGallary loadGallary;
     private View view;
@@ -37,7 +38,7 @@ public class FragmentPicture extends Fragment {
     public static FragmentPicture newInstance(String StrArg) {
         FragmentPicture fragment = new FragmentPicture();
         Bundle args = new Bundle();
-        args.putString("strArg1", StrArg);
+        args.putString("image-bundle", StrArg);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,6 +81,21 @@ public class FragmentPicture extends Fragment {
         myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, loadGallary.getListImage());
         gridView.setAdapter(myArrayAdapterGridView);
         gridView.setSelection(currentPos);
+
+        ((MainActivity)getActivity()).onMsgFromFragToMain("frag-picture",loadGallary);
+
         //Toast.makeText(activity, "on Fragment Picture", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+/*
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("image-bundle",loadGallary);
+        FragmentFolder fragmentFolder = new FragmentFolder();
+        fragmentFolder.setArguments(bundle);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_folder,fragmentFolder);
+   */
     }
 }

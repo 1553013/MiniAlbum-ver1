@@ -3,6 +3,8 @@ package com.example.huynhxuankhanh.minialbum.gallery;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 
 import java.util.ArrayList;
@@ -74,4 +76,6 @@ public class LoadGallary {
     public InfoImage getInfoImage(int position) {
         return listImage.get(position);
     }
+
+
 }
