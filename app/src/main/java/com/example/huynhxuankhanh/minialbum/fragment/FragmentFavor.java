@@ -14,8 +14,8 @@ import android.widget.GridView;
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.activity.ImageActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
-import com.example.huynhxuankhanh.minialbum.gallery.LoadFavorite;
 import com.example.huynhxuankhanh.minialbum.database.Database;
+import com.example.huynhxuankhanh.minialbum.gallery.LoadFavorite;
 
 /**
  * Created by HUYNHXUANKHANH on 11/17/2017.
@@ -84,8 +84,9 @@ public class FragmentFavor extends Fragment {
         fragFavorIntent = new Intent(getActivity(), ImageActivity.class);
         loadFavorite = new LoadFavorite();
         loadFavorite.setDatabase(new Database(getActivity(), "Favorite.sqlite", null, 1));
-        loadFavorite.getDatabase().QuerySQL("CREATE TABLE IF NOT EXISTS Favorite(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "Path VARCHAR,Title VARCHAR,Bucket VARCHAR,Size LONG,Time VARCHAR)");
+        loadFavorite.getDatabase().QuerySQL("CREATE TABLE IF NOT EXISTS Favorite(Id INTEGER " +
+                "PRIMARY KEY AUTOINCREMENT,Path VARCHAR,Title VARCHAR,Bucket VARCHAR,Size LONG," +
+                "Time VARCHAR)");
         if (loadFavorite.getDatabase() != null)
             loadFavorite.loadDataFromDB("SELECT * FROM Favorite");
 

@@ -3,17 +3,19 @@ package com.example.huynhxuankhanh.minialbum.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
@@ -21,6 +23,7 @@ import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentFolder;
 import com.example.huynhxuankhanh.minialbum.fragment.MainCallBacks;
 import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
+
 
 public class MainActivity extends AppCompatActivity implements MainCallBacks {
     private static final int MY_REQUEST_ACCESS_EXTERNAL_STORAGE = 100;
@@ -51,9 +54,8 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
 
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
-        }
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
     }
 
     @Override
@@ -65,8 +67,10 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_REQUEST_ACCESS_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 1
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
                     tabLayout = (TabLayout) findViewById(R.id.tabs);
                     tabLayout.setupWithViewPager(mViewPager);
                     // make interface better after loading image
@@ -92,13 +96,12 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
         try {
             switch (item.getItemId()) {
                 case R.id.action_settings:
-                    Toast.makeText(MainActivity.this, R.string.action_settings, Toast.LENGTH_LONG).show();
                     Intent i = new Intent(this, SettingsActivity.class);
                     startActivity(i);
                     return (true);
             }
         } catch (Exception e) {
-            Log.e("<<foregroundTask>>", e.getMessage());
+            Log.e("<<Bug>>", e.getMessage());
         }
         return (super.onOptionsItemSelected(item));
     }

@@ -9,18 +9,18 @@
     <string name="others">Others</string>
 
     <string name="pref_security">Security</string>
-    <string name="pref_set_password_sum">Set up a password to protect your gallery</string>
-    <string name="prefs_et_message">Insert password</string>
-    <string name="hint_pass">Password</string>
-    <string name="hint_confirm_pass">Confirm password</string>
+    <string name="pref_set_password">Set up a password to protect your gallery</string>
+    <string name="pref_reset_password">Reset password</string>
+    <string name="type_password">Insert password</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="apply">APPLY</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="enter_password">Enter password to continue</string>
+    <string name="cancel">CANCEL</string>
 
-    <string name="preferences_switch_title">Switch Preference</string>
-    <string name="preferences_switch_summ">Switch Summary</string>
+    <string name="security_delete">Secure delete option</string>
+    <string name="security_open">Secure open application</string>
 
-    <string name="preferences_checkbox_title">CheckBox Preference</string>
-    <string name="preferences_checkbox_summ">CheckBox Summary</string>
-
-    <string name="pref_password" translatable="false">pref_password</string>
-    <string name="pref_switch" translatable="false">pref_switch</string>
-    <string name="pref_check" translatable="false">pref_check</string>
+    <string name="pref_others">Others</string>
 </resources>

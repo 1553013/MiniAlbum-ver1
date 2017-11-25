@@ -1,36 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <android.support.v7.preference.PreferenceCategory
+        android:key="pref_general_settings"
         android:title="@string/general">
 
-        <EditTextPreference
-            android:dialogLayout="@layout/pref_edittext_dialog"
-            android:dialogMessage="@string/prefs_et_message"
-            android:key="@string/pref_password"
-            android:summary="@string/pref_set_password_sum"
+        <android.support.v7.preference.Preference
+            android:key="pref_security"
+            android:summary="@string/pref_set_password"
             android:title="@string/pref_security" />
 
-        <!--<SwitchPreference-->
-            <!--android:defaultValue="false"-->
-            <!--android:key="@string/pref_switch"-->
-            <!--android:summary="@string/preferences_switch_summ"-->
-            <!--android:title="@string/preferences_switch_title" />-->
+    </android.support.v7.preference.PreferenceCategory>
 
-        <!--<CheckBoxPreference-->
-            <!--android:defaultValue="false"-->
-            <!--android:key="@string/pref_check"-->
-            <!--android:summary="@string/preferences_checkbox_summ"-->
-            <!--android:title="@string/preferences_checkbox_title" />-->
+    <android.support.v7.preference.PreferenceCategory
+        android:key="pref_others_settings"
+        android:title="@string/others">
 
-    </PreferenceCategory>
+        <android.support.v7.preference.Preference
+            android:key="pref_others"
+            android:summary="@string/others"
+            android:title="@string/others" />
 
-    <PreferenceCategory android:title="@string/others">
+    </android.support.v7.preference.PreferenceCategory>
 
-    </PreferenceCategory>
-
-</PreferenceScreen>
+</android.support.v7.preference.PreferenceScreen>
