@@ -62,5 +62,8 @@ public class MyAdapter extends FragmentPagerAdapter {
     public FragmentFolder getFragmentFolder(){
         return fragmentFolder;
     }
+    public FragmentPicture getFragmentPicture(){
+        return fragmentPicture;
+    }
 
 }

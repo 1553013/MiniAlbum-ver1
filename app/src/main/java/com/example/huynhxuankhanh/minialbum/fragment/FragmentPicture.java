@@ -18,23 +18,29 @@ import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.activity.ImageActivity;
 import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
+import com.example.huynhxuankhanh.minialbum.gallery.InfoFolder;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
+
+import java.util.List;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class FragmentPicture extends Fragment{
-    private final Uri Image_URI_EXTERNAL = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-    public LoadGallary loadGallary;
+public class FragmentPicture extends Fragment implements FragmentCallBacks{
     private View view;
     private AdapterImageGridView myArrayAdapterGridView;
     private GridView gridView;
     private Intent fragPictureIntent;
     private FragmentActivity activity;
+    private List<InfoImage> listImage;
     private int currentPos = 0;
 
+
+    public void setListImage(List<InfoImage> listImage){
+        this.listImage = listImage;
+    }
     public static FragmentPicture newInstance(String StrArg) {
         FragmentPicture fragment = new FragmentPicture();
         Bundle args = new Bundle();
@@ -53,9 +59,8 @@ public class FragmentPicture extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // send data to activity2: view image full screen
-                //fragPictureIntent.putExtra("image-info",loadGallary.getInfoImage(position));
-                InfoImage temp = loadGallary.getInfoImage(position);
-                fragPictureIntent.putExtra("image-info", (Parcelable) loadGallary.getInfoImage(position));
+                InfoImage temp = listImage.get(position);
+                fragPictureIntent.putExtra("image-info", (Parcelable) temp);
                 // check putExtra is it ok or position is ok ?
                 currentPos = gridView.getFirstVisiblePosition();
                 startActivity(fragPictureIntent);
@@ -75,27 +80,27 @@ public class FragmentPicture extends Fragment{
     public void onResume() {
         super.onResume();
         // reload data
-        loadGallary = new LoadGallary();
-        loadGallary.setContentResolver(activity.getContentResolver());
-        loadGallary.query_PathImage(Image_URI_EXTERNAL);
-        myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, loadGallary.getListImage());
+        if(listImage==null)
+            ((MainActivity)getActivity()).onMsgFromFragToMain("load-images");
+        myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
         gridView.setAdapter(myArrayAdapterGridView);
         gridView.setSelection(currentPos);
 
-        ((MainActivity)getActivity()).onMsgFromFragToMain("frag-picture",loadGallary);
-
-        //Toast.makeText(activity, "on Fragment Picture", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-/*
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("image-bundle",loadGallary);
-        FragmentFolder fragmentFolder = new FragmentFolder();
-        fragmentFolder.setArguments(bundle);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frag_folder,fragmentFolder);
-   */
+    }
+
+    @Override
+    public void onMsgFromMainToFragmentImage(List<InfoImage> listImage) {
+        if(listImage!=null){
+            this.listImage = listImage;
+        }
+    }
+
+    @Override
+    public void onMsgFromMainToFragmentFolder(List<InfoFolder> listFolder) {
     }
 }
