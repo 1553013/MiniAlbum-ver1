@@ -131,7 +131,7 @@ public class ImageActivity extends AppCompatActivity {
                                                         MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
                                                 finish();
                                             } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
-                                                Database database = new Database(ImageActivity.this, "Favorite.sqlite", null, 1);
+                                                Database database = new Database(ImageActivity.this);
                                                 String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
                                                 database.QuerySQL(sql);
                                                 finish();
@@ -190,7 +190,7 @@ public class ImageActivity extends AppCompatActivity {
                                                                                     MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
                                                                             finish();
                                                                         } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
-                                                                            Database database = new Database(ImageActivity.this, "Favorite.sqlite", null, 1);
+                                                                            Database database = new Database(ImageActivity.this);
                                                                             String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
                                                                             database.QuerySQL(sql);
                                                                             finish();
@@ -233,7 +233,7 @@ public class ImageActivity extends AppCompatActivity {
                 });
                 // add 1 column to the original database to show that it is my favorite image.
                 btnFav.setOnClickListener(new View.OnClickListener() {
-                    Database database = new Database(ImageActivity.this, "Favorite.sqlite", null, 1);
+                    Database database = new Database(ImageActivity.this);
 
                     @Override
                     public void onClick(View view) {

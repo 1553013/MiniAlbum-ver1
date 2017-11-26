@@ -3,26 +3,25 @@ package com.example.huynhxuankhanh.minialbum.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+<<<<<<< HEAD
 import android.net.Uri;
+=======
+import android.os.Build;
+>>>>>>> 1263d1ee4c633b4ced92c442480e27cf2e6e25b6
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
-import com.example.huynhxuankhanh.minialbum.fragment.FragmentFolder;
 import com.example.huynhxuankhanh.minialbum.fragment.MainCallBacks;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
@@ -59,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
         mViewPager.setOffscreenPageLimit(2);
         // mSectionsPagerAdapter-> quan ly fragment
 
-
-
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
+        }
     }
 
     @Override
@@ -84,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
                     tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.icon_favorite);
+<<<<<<< HEAD
 
                     // after recieving the accepting permission from phone, load data
                     loadGallary = new LoadGallary();
@@ -91,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
                     loadGallary.query_PathImage(Image_URI_EXTERNAL);
 
                 }else
+=======
+                } else
+>>>>>>> 1263d1ee4c633b4ced92c442480e27cf2e6e25b6
                     finish();
                 break;
             }
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return (super.onCreateOptionsMenu(menu));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
@@ -121,10 +125,19 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
 
 
     @Override
+<<<<<<< HEAD
     public void onBackPressed() {
         super.onBackPressed();
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStack();
+=======
+    public void onMsgFromFragToMain(final String sender, LoadGallary loadGallary) {
+        if (sender.equals("frag-picture")) {
+            if (loadGallary != null) {
+                Toast.makeText(this, "Main recieves package from fragment pictures", Toast.LENGTH_SHORT).show();
+                mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragment(loadGallary);
+            }
+>>>>>>> 1263d1ee4c633b4ced92c442480e27cf2e6e25b6
         }
     }
 
@@ -142,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         break;
                     case 1:
