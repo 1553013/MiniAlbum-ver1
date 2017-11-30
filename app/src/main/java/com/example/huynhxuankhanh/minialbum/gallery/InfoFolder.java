@@ -10,6 +10,10 @@ public class InfoFolder {
     private String nameBucket;
     private ArrayList<InfoImage> listImage;
 
+    public InfoFolder(){
+        this.nameBucket = "";
+        this.listImage = null;
+    }
 
     public String getNameBucket() {
         return nameBucket;

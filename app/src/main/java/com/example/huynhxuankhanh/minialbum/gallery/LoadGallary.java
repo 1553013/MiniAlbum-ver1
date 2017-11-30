@@ -77,5 +77,52 @@ public class LoadGallary {
         return listImage.get(position);
     }
 
+    public ArrayList<InfoFolder> getListBucketName(){
+        ArrayList<String> tempNameFolder = new ArrayList<>();
+        ArrayList<InfoImage> tempListImage = new ArrayList<>();
+        ArrayList<InfoFolder> listFolder = new ArrayList<>();
+        InfoFolder infoFolder=null;
+        for(int i=0;i<listImage.size();++i){
+            if(!tempNameFolder.contains(listImage.get(i).getNameBucket())){
+                tempNameFolder.add(listImage.get(i).getNameBucket());
 
+                if(infoFolder!=null) {
+                    infoFolder.setListImage(tempListImage);
+                    listFolder.add(infoFolder);
+
+                    infoFolder = null;
+                    tempListImage = new ArrayList<>();
+
+                    infoFolder = new InfoFolder();
+                    infoFolder.setNameBucket(listImage.get(i).getNameBucket());
+                    tempListImage.add(listImage.get(i));
+                }
+                else {
+                    infoFolder = new InfoFolder();
+                    infoFolder.setNameBucket(listImage.get(i).getNameBucket());
+                    tempListImage.add(listImage.get(i));
+                }
+            }
+            else{
+                tempListImage.add(listImage.get(i));
+            }
+        }
+        return listFolder;
+    }
+/*
+    public ArrayList<InfoFolder> filtImageToFolder(){
+        int index = 0;
+
+        ArrayList<String> nameBucket = getListBucketName();
+        for(int i=0;i<nameBucket.size();++i){
+            InfoFolder infoFolder = new InfoFolder();
+            infoFolder.setNameBucket(nameBucket.get(i));
+            listFolder.add(infoFolder);
+        }
+        for (int i=0;i<listImage.size();++i){
+
+        }
+        return listFolder;
+    }
+    */
 }

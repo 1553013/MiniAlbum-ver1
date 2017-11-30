@@ -3,8 +3,13 @@ package com.example.huynhxuankhanh.minialbum.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+<<<<<<< HEAD
+import android.net.Uri;
+=======
 import android.os.Build;
+>>>>>>> 1263d1ee4c633b4ced92c442480e27cf2e6e25b6
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -18,16 +23,21 @@ import android.widget.Toast;
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
 import com.example.huynhxuankhanh.minialbum.fragment.MainCallBacks;
+import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements MainCallBacks {
+    private final Uri Image_URI_EXTERNAL = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
     private static final int MY_REQUEST_ACCESS_EXTERNAL_STORAGE = 100;
     // adapter for each fragment/pager
     private MyAdapter mSectionsPagerAdapter;
     // Viewpager tool
     private ViewPager mViewPager;
     private TabLayout tabLayout;
+    private LoadGallary loadGallary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(2);
         // mSectionsPagerAdapter-> quan ly fragment
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -73,7 +83,17 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
                     tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.icon_favorite);
+<<<<<<< HEAD
+
+                    // after recieving the accepting permission from phone, load data
+                    loadGallary = new LoadGallary();
+                    loadGallary.setContentResolver(this.getContentResolver());
+                    loadGallary.query_PathImage(Image_URI_EXTERNAL);
+
+                }else
+=======
                 } else
+>>>>>>> 1263d1ee4c633b4ced92c442480e27cf2e6e25b6
                     finish();
                 break;
             }
@@ -105,14 +125,28 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
 
 
     @Override
+<<<<<<< HEAD
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStack();
+=======
     public void onMsgFromFragToMain(final String sender, LoadGallary loadGallary) {
         if (sender.equals("frag-picture")) {
             if (loadGallary != null) {
                 Toast.makeText(this, "Main recieves package from fragment pictures", Toast.LENGTH_SHORT).show();
                 mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragment(loadGallary);
             }
+>>>>>>> 1263d1ee4c633b4ced92c442480e27cf2e6e25b6
         }
+    }
 
+    @Override
+    public void onMsgFromFragToMain(String message) {
+        if(message.equals("load-images"))
+            mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallary.getListImage());
+        else if(message.equals("load-folders"))
+            mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallary.getListBucketName());
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
