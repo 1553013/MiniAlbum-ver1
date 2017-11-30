@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
                     tabLayout = (TabLayout) findViewById(R.id.tabs);
                     tabLayout.setupWithViewPager(mViewPager);
                     // make interface better after loading image
-                    tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture);
-                    tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.icon_favorite);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture_white);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder_white);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.icon_favorite_white);
 
                     // after recieving the accepting permission from phone, load data
                     loadGallary = new LoadGallary();

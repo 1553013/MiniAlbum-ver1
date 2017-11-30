@@ -291,7 +291,6 @@ public class ImageActivity extends AppCompatActivity {
         btnSetWall = (Button) findViewById(R.id.btn_setscreen);
         btnEdit = (Button) findViewById(R.id.btn_edit);
         btnRemove = (Button) findViewById(R.id.btn_delete);
-
     }
 
 
