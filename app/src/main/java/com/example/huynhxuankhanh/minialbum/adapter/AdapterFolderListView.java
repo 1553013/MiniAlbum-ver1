@@ -1,19 +1,15 @@
 package com.example.huynhxuankhanh.minialbum.adapter;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoFolder;
-import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallery.ViewHolder;
 
 import java.util.ArrayList;
@@ -53,12 +49,12 @@ public class AdapterFolderListView extends ArrayAdapter<InfoFolder> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.setText1((TextView)convertView.findViewById(R.id.text_nameFolder));
-        viewHolder.setText2((TextView)convertView.findViewById(R.id.text_numImageInFolder));
+        viewHolder.setText1((TextView) convertView.findViewById(R.id.text_nameFolder));
+        viewHolder.setText2((TextView) convertView.findViewById(R.id.text_numImageInFolder));
 
 //        Glide.with(viewHolder.getImageView().getContext()).load(item).into(viewHolder.getImageView());
         viewHolder.getText1().setText(listFolder.get(position).getNameBucket());
-        viewHolder.getText2().setText(String.format("%d images",listFolder.get(position).getListImage().size()));
+        viewHolder.getText2().setText(String.format("%d images", listFolder.get(position).getListImage().size()));
         return convertView;
     }
 }

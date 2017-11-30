@@ -15,12 +15,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
@@ -40,8 +42,7 @@ public class ImageActivity extends AppCompatActivity {
     // private ImageView imageView ;
     private Context context;
     private PhotoView imageView;
-    private Button btnShare, btnFav, btnSetWall, btnEdit, btnRemove, btnBack, btnDetail;
-    private TextView textViewName;
+    private Button btnShare, btnFav, btnSetWall, btnEdit, btnRemove, btnDetail;
     private InfoImage receive;
     private Bitmap bm;
     private boolean isFav = false;
@@ -53,53 +54,35 @@ public class ImageActivity extends AppCompatActivity {
         context = this;
         initInterface();
 
+        // create tool bar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_image);
+        setSupportActionBar(toolbar);
+        //create back button on top-left of toolbar
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+
         receive = getIntent().getParcelableExtra("image-info");
         if (receive == null) {
             receive = getIntent().getParcelableExtra("image-info-fav");
             isFav = true;
         }
         if (receive != null) {
+            getSupportActionBar().setTitle(receive.getNameFile());
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             options.inSampleSize = 2;
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
 
             if (bm != null) {
-
-                //gán tên file lên textview
-                textViewName.setText(receive.getNameFile());
                 imageView.setImageBitmap(bm);
                 //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
 
-                // when user press back Button - on the top left
-                btnBack.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        finish();
-                    }
-                });
-                // view detail of image, will get from intent.
-                btnDetail.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ImageActivity.this);
-
-                        String details = String.format("Title: %s \n\nTime: %s \n\nSize: %.2f MB \n\nWidth: %d \n\nHeight: %d\n\nPath: %s",
-                                receive.getNameFile(), receive.getDateTaken(), (float) receive.getSize() / 1048576,
-                                bm.getWidth(), bm.getHeight(), receive.getPathFile());
-                        builder.setTitle("Details")
-                                .setMessage(details)
-                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        // it user click Close
-                                        // do nothing, just back the main screen
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                    }
-                });
                 // show a alert dialog to request user delete or not
                 btnRemove.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -302,16 +285,47 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     public void initInterface() {
-        textViewName = (TextView) findViewById(R.id.text_view_name);
         imageView = (PhotoView) findViewById(R.id.img_view);
         btnShare = (Button) findViewById(R.id.btn_share);
-        btnBack = (Button) findViewById(R.id.btn_back);
         btnFav = (Button) findViewById(R.id.btn_favor);
         btnSetWall = (Button) findViewById(R.id.btn_setscreen);
         btnEdit = (Button) findViewById(R.id.btn_edit);
         btnRemove = (Button) findViewById(R.id.btn_delete);
-        btnDetail = (Button) findViewById(R.id.btn_detail);
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_image, menu);
+
+        return (super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btn_detail:
+                AlertDialog.Builder builder = new AlertDialog.Builder(ImageActivity.this);
+
+                String details = String.format("Title: %s \n\nTime: %s \n\nSize: %.2f MB \n\nWidth: %d \n\nHeight: %d\n\nPath: %s",
+                        receive.getNameFile(), receive.getDateTaken(), (float) receive.getSize() / 1048576,
+                        bm.getWidth(), bm.getHeight(), receive.getPathFile());
+                builder.setTitle("Details")
+                        .setMessage(details)
+                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // it user click Close
+                                // do nothing, just back the main screen
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                return (true);
+        }
+
+        return (super.onOptionsItemSelected(item));
     }
 
     public boolean checkImageAlreadyInDatabase(Cursor cursor, String path, int column) {

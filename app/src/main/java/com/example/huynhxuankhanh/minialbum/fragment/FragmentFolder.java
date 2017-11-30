@@ -10,28 +10,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterFolderListView;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoFolder;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
-import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class FragmentFolder extends Fragment implements FragmentCallBacks{
+public class FragmentFolder extends Fragment implements FragmentCallBacks {
     private View view;
     private List<InfoFolder> listInfoFolder;
     private ListView listView;
     private FragmentActivity activity;
     private AdapterFolderListView myArrayAdapterGridView;
+
     public static FragmentFolder newInstance(String StrArg) {
         FragmentFolder fragment = new FragmentFolder();
         Bundle args = new Bundle();
@@ -45,14 +43,14 @@ public class FragmentFolder extends Fragment implements FragmentCallBacks{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_folder, container, false);
 
-        listView = (ListView)view.findViewById(R.id.lst_folder);
+        listView = (ListView) view.findViewById(R.id.lst_folder);
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // value i stands for position of each item.
-                FragmentPicture f= new FragmentPicture();
+                FragmentPicture f = new FragmentPicture();
                 f.setListImage(listInfoFolder.get(i).getListImage());
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.frag_folder, f);
@@ -71,9 +69,9 @@ public class FragmentFolder extends Fragment implements FragmentCallBacks{
     @Override
     public void onResume() {
         super.onResume();
-        ((MainActivity)getActivity()).onMsgFromFragToMain("load-folders");
+        ((MainActivity) getActivity()).onMsgFromFragToMain("load-folders");
 
-        if(listInfoFolder!=null) {
+        if (listInfoFolder != null) {
             myArrayAdapterGridView = new AdapterFolderListView(getActivity(), R.layout.folderview_layout, listInfoFolder);
             listView.setAdapter(myArrayAdapterGridView);
 

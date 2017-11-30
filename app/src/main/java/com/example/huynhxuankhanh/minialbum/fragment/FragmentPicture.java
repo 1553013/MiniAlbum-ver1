@@ -1,10 +1,8 @@
 package com.example.huynhxuankhanh.minialbum.fragment;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,7 +18,6 @@ import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoFolder;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
-import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
 
 import java.util.List;
 
@@ -28,7 +25,7 @@ import java.util.List;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class FragmentPicture extends Fragment implements FragmentCallBacks{
+public class FragmentPicture extends Fragment implements FragmentCallBacks {
     private View view;
     private AdapterImageGridView myArrayAdapterGridView;
     private GridView gridView;
@@ -37,16 +34,16 @@ public class FragmentPicture extends Fragment implements FragmentCallBacks{
     private List<InfoImage> listImage;
     private int currentPos = 0;
 
-
-    public void setListImage(List<InfoImage> listImage){
-        this.listImage = listImage;
-    }
     public static FragmentPicture newInstance(String StrArg) {
         FragmentPicture fragment = new FragmentPicture();
         Bundle args = new Bundle();
         args.putString("image-bundle", StrArg);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setListImage(List<InfoImage> listImage) {
+        this.listImage = listImage;
     }
 
     @Nullable
@@ -80,8 +77,8 @@ public class FragmentPicture extends Fragment implements FragmentCallBacks{
     public void onResume() {
         super.onResume();
         // reload data
-        if(listImage==null)
-            ((MainActivity)getActivity()).onMsgFromFragToMain("load-images");
+        if (listImage == null)
+            ((MainActivity) getActivity()).onMsgFromFragToMain("load-images");
         myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
         gridView.setAdapter(myArrayAdapterGridView);
         gridView.setSelection(currentPos);
@@ -95,7 +92,7 @@ public class FragmentPicture extends Fragment implements FragmentCallBacks{
 
     @Override
     public void onMsgFromMainToFragmentImage(List<InfoImage> listImage) {
-        if(listImage!=null){
+        if (listImage != null) {
             this.listImage = listImage;
         }
     }

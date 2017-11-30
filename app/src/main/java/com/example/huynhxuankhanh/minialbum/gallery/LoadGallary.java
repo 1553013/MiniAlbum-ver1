@@ -3,8 +3,6 @@ package com.example.huynhxuankhanh.minialbum.gallery;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 
 import java.util.ArrayList;
@@ -16,11 +14,6 @@ import java.util.Date;
 
 public class LoadGallary {
 
-    // declare some tool variable for querying database.
-    private ContentResolver contentResolver;
-    private Cursor cursor;
-    //  private List<String> listPathImage;
-    private ArrayList<InfoImage> listImage;
     private final String[] projection = new String[]{
             MediaStore.Images.ImageColumns._ID,
             MediaStore.Images.ImageColumns.DATA, // path file
@@ -29,6 +22,11 @@ public class LoadGallary {
             MediaStore.Images.ImageColumns.SIZE,
             MediaStore.Images.ImageColumns.DATE_TAKEN, // date taken
     };
+    // declare some tool variable for querying database.
+    private ContentResolver contentResolver;
+    private Cursor cursor;
+    //  private List<String> listPathImage;
+    private ArrayList<InfoImage> listImage;
 
     public LoadGallary() {
         contentResolver = null;
@@ -77,16 +75,16 @@ public class LoadGallary {
         return listImage.get(position);
     }
 
-    public ArrayList<InfoFolder> getListBucketName(){
+    public ArrayList<InfoFolder> getListBucketName() {
         ArrayList<String> tempNameFolder = new ArrayList<>();
         ArrayList<InfoImage> tempListImage = new ArrayList<>();
         ArrayList<InfoFolder> listFolder = new ArrayList<>();
-        InfoFolder infoFolder=null;
-        for(int i=0;i<listImage.size();++i){
-            if(!tempNameFolder.contains(listImage.get(i).getNameBucket())){
+        InfoFolder infoFolder = null;
+        for (int i = 0; i < listImage.size(); ++i) {
+            if (!tempNameFolder.contains(listImage.get(i).getNameBucket())) {
                 tempNameFolder.add(listImage.get(i).getNameBucket());
 
-                if(infoFolder!=null) {
+                if (infoFolder != null) {
                     infoFolder.setListImage(tempListImage);
                     listFolder.add(infoFolder);
 
@@ -96,14 +94,12 @@ public class LoadGallary {
                     infoFolder = new InfoFolder();
                     infoFolder.setNameBucket(listImage.get(i).getNameBucket());
                     tempListImage.add(listImage.get(i));
-                }
-                else {
+                } else {
                     infoFolder = new InfoFolder();
                     infoFolder.setNameBucket(listImage.get(i).getNameBucket());
                     tempListImage.add(listImage.get(i));
                 }
-            }
-            else{
+            } else {
                 tempListImage.add(listImage.get(i));
             }
         }

@@ -10,9 +10,15 @@ public class InfoFolder {
     private String nameBucket;
     private ArrayList<InfoImage> listImage;
 
-    public InfoFolder(){
+    public InfoFolder() {
         this.nameBucket = "";
         this.listImage = null;
+    }
+
+    public InfoFolder(String nameBucket, ArrayList<InfoImage> listImage) {
+
+        this.nameBucket = nameBucket;
+        this.listImage = listImage;
     }
 
     public String getNameBucket() {
@@ -28,12 +34,6 @@ public class InfoFolder {
     }
 
     public void setListImage(ArrayList<InfoImage> listImage) {
-        this.listImage = listImage;
-    }
-
-    public InfoFolder(String nameBucket, ArrayList<InfoImage> listImage) {
-
-        this.nameBucket = nameBucket;
         this.listImage = listImage;
     }
 }
