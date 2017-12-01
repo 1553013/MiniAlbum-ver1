@@ -290,7 +290,6 @@ public class ImageActivity extends AppCompatActivity {
                             ShareContent content = new ShareMediaContent.Builder()
                                     .addMedium(photo)
                                     .setShareHashtag(new ShareHashtag.Builder()
-                                            .setHashtag("#DUNARCTIC")
                                             .build())
                                     .build();
                             ShareDialog.show(ImageActivity.this, content);
