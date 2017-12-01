@@ -21,24 +21,27 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+        <TextView
+            android:id="@+id/toolbar_image_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp" />
     </android.support.v7.widget.Toolbar>
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
         android:layout_alignParentBottom="true"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp">
 
         <Button
             android:id="@+id/btn_setscreen"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
-            android:background="@mipmap/icon_setscreen"
-
-            />
+            android:background="@mipmap/icon_setscreen" />
 
         <Button
             android:id="@+id/btn_favor"
@@ -46,9 +49,7 @@
             android:layout_height="30dp"
             android:layout_marginRight="30dp"
             android:layout_toLeftOf="@+id/btn_setscreen"
-            android:background="@mipmap/icon_favor"
-
-            />
+            android:background="@mipmap/icon_favor" />
 
         <Button
             android:id="@+id/btn_share"
@@ -56,9 +57,7 @@
             android:layout_height="30dp"
             android:layout_marginRight="30dp"
             android:layout_toLeftOf="@+id/btn_favor"
-            android:background="@mipmap/icon_share"
-
-            />
+            android:background="@mipmap/icon_share" />
 
         <Button
             android:id="@+id/btn_edit"
@@ -66,9 +65,7 @@
             android:layout_height="30dp"
             android:layout_marginLeft="30dp"
             android:layout_toRightOf="@+id/btn_setscreen"
-            android:background="@mipmap/icon_edit"
-
-            />
+            android:background="@mipmap/icon_edit" />
 
         <Button
             android:id="@+id/btn_delete"
@@ -76,9 +73,7 @@
             android:layout_height="30dp"
             android:layout_marginLeft="30dp"
             android:layout_toRightOf="@+id/btn_edit"
-            android:background="@mipmap/icon_trashcan"
-
-            />
+            android:background="@mipmap/icon_trashcan" />
     </RelativeLayout>
 
 

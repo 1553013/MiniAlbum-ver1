@@ -105,20 +105,4 @@ public class LoadGallary {
         }
         return listFolder;
     }
-/*
-    public ArrayList<InfoFolder> filtImageToFolder(){
-        int index = 0;
-
-        ArrayList<String> nameBucket = getListBucketName();
-        for(int i=0;i<nameBucket.size();++i){
-            InfoFolder infoFolder = new InfoFolder();
-            infoFolder.setNameBucket(nameBucket.get(i));
-            listFolder.add(infoFolder);
-        }
-        for (int i=0;i<listImage.size();++i){
-
-        }
-        return listFolder;
-    }
-    */
 }

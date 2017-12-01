@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -23,14 +24,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.Utility;
 import com.example.huynhxuankhanh.minialbum.database.Database;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
+import com.facebook.CallbackManager;
+import com.facebook.share.model.ShareContent;
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareMediaContent;
 import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
@@ -42,21 +47,27 @@ public class ImageActivity extends AppCompatActivity {
     // private ImageView imageView ;
     private Context context;
     private PhotoView imageView;
+    private TextView toolbar_title;
     private Button btnShare, btnFav, btnSetWall, btnEdit, btnRemove, btnDetail;
     private InfoImage receive;
     private Bitmap bm;
     private boolean isFav = false;
+    private CallbackManager callbackManager;
+    private ShareDialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         context = this;
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
         initInterface();
 
         // create tool bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_image);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         //create back button on top-left of toolbar
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -65,7 +76,56 @@ public class ImageActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+        toolbar_title = (TextView) findViewById(R.id.toolbar_image_title);
+//        toolbar_title.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LayoutInflater li = LayoutInflater.from(context);
+//                final View promptsView = li.inflate(R.layout.dialog_change_name, null);
+//                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+//                // set prompts.xml to alertdialog builder
+//                alertDialogBuilder.setView(promptsView);
+//
+//                final EditText userInput = (EditText) promptsView
+//                        .findViewById(R.id.filename_et);
+//                final String oldName = receive.getNameFile();
+//                final int idStartExtension = oldName.lastIndexOf(".");
+//                userInput.setText(oldName.substring(0, idStartExtension));
+//                // set dialog message
+//                alertDialogBuilder.setCancelable(false).setPositiveButton("Rename", new
+//                        DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        String fullPathName = receive.getPathFile();
+//                        String pathName = fullPathName.substring(0, fullPathName.length() -
+//                                oldName.length());
+//                        String extensionFilename = oldName.substring(idStartExtension, oldName.length());
+//                        EditText userInput = (EditText) promptsView.findViewById(R.id.filename_et);
+//                        String newFileName = userInput.getText().toString() + extensionFilename;
+//                        String newFullPathName = pathName + newFileName;
+//                        File from = new File(fullPathName);
+//                        if(from.renameTo(new File(newFullPathName))) {
+//                            toolbar_title.setText(newFileName);
+//                            Toast.makeText(ImageActivity.this, "Changed filename " +
+//                                    "successfully", Toast
+//                                    .LENGTH_LONG)
+//                                    .show();
+//                        }
+//                        else {
+//                            Toast.makeText(ImageActivity.this, "Cannot change filename", Toast
+//                                    .LENGTH_LONG)
+//                                    .show();
+//                        }
+//                    }
+//                })
+//                        .setNegativeButton("Cancel",
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        dialog.cancel();
+//                                    }
+//                                });
+//                alertDialogBuilder.show();
+//            }
+//        });
 
         receive = getIntent().getParcelableExtra("image-info");
         if (receive == null) {
@@ -73,7 +133,7 @@ public class ImageActivity extends AppCompatActivity {
             isFav = true;
         }
         if (receive != null) {
-            getSupportActionBar().setTitle(receive.getNameFile());
+            toolbar_title.setText(receive.getNameFile());
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             options.inSampleSize = 2;
@@ -87,26 +147,69 @@ public class ImageActivity extends AppCompatActivity {
                 btnRemove.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //if not apply password protection
-                        if (!PreferenceManager
-                                .getDefaultSharedPreferences
-                                        (getApplicationContext())
-                                .getBoolean("security_del", false)) {
-                            // create a alert dialog
-                            AlertDialog.Builder alertDialog_confirm = new AlertDialog.Builder
-                                    (ImageActivity
-                                            .this);
-                            // set information for dialog
-                            alertDialog_confirm.setMessage("Are you sure to delete this image ?")
-                                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            // it user click cancel
-                                            // do nothing, just back the main screen
-                                        }
-                                    })
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
+                        // create a alert dialog
+                        AlertDialog.Builder alertDialog_confirm = new AlertDialog.Builder(ImageActivity.this);
+                        // set information for dialog
+                        alertDialog_confirm.setMessage("Are you sure to delete this image?")
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        // it user click cancel
+                                        // do nothing, just back the main screen
+                                    }
+                                })
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //if apply password protection
+                                        if (PreferenceManager
+                                                .getDefaultSharedPreferences(getApplicationContext())
+                                                .getBoolean("security_del", false)) { //has password protection
+                                            LayoutInflater li = LayoutInflater.from(context);
+                                            final View promptsView = li.inflate(R.layout.dialog_input_password, null);
+                                            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                                            // set prompts.xml to alertdialog builder
+                                            alertDialogBuilder.setView(promptsView);
+
+                                            final EditText userInput = (EditText) promptsView
+                                                    .findViewById(R.id.password_et);
+
+                                            // set dialog message
+                                            alertDialogBuilder.setCancelable(false).setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // get user input and check it
+                                                    if (userInput.getText().toString().equals(PreferenceManager
+                                                            .getDefaultSharedPreferences
+                                                                    (getApplicationContext())
+                                                            .getString(Utility.PASSWORD_KEY, ""))) {
+                                                        ((ViewGroup) promptsView.getParent()).removeView(promptsView);
+                                                        Toast.makeText(ImageActivity.this, "Correct" +
+                                                                " password", Toast.LENGTH_LONG).show();
+                                                        if (!isFav) {
+                                                            //if user click ok => delete image
+                                                            ContentResolver contentResolver = getContentResolver();
+                                                            contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                                                    MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
+                                                            finish();
+                                                        } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
+                                                            Database database = new Database(ImageActivity.this);
+                                                            String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                            database.QuerySQL(sql);
+                                                            finish();
+                                                        }
+                                                    } else {
+                                                        Toast.makeText(ImageActivity.this, "Wrong " +
+                                                                "password", Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            })
+                                                    .setNegativeButton("Cancel",
+                                                            new DialogInterface.OnClickListener() {
+                                                                public void onClick(DialogInterface dialog, int id) {
+                                                                    dialog.cancel();
+                                                                }
+                                                            });
+                                            alertDialogBuilder.show();
+                                        } else {
                                             if (!isFav) {
                                                 //if user click ok => delete image
                                                 ContentResolver contentResolver = getContentResolver();
@@ -120,83 +223,11 @@ public class ImageActivity extends AppCompatActivity {
                                                 finish();
                                             }
                                         }
-                                    });
+                                    }
+                                });
 
-                            AlertDialog alert = alertDialog_confirm.create();
-                            alert.show();
-                        } else { //has password protection
-                            LayoutInflater li = LayoutInflater.from(context);
-                            final View promptsView = li.inflate(R.layout.dialog_input_password, null);
-
-                            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                                    context);
-
-                            // set prompts.xml to alertdialog builder
-                            alertDialogBuilder.setView(promptsView);
-
-                            final EditText userInput = (EditText) promptsView
-                                    .findViewById(R.id.password_et);
-
-                            // set dialog message
-                            alertDialogBuilder
-                                    .setCancelable(false)
-                                    .setPositiveButton("CONFIRM",
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    // get user input and check it
-                                                    if (userInput.getText().toString().equals(PreferenceManager
-                                                            .getDefaultSharedPreferences
-                                                                    (getApplicationContext())
-                                                            .getString(Utility.PASSWORD_KEY, ""))) {
-                                                        ((ViewGroup) promptsView.getParent()).removeView(promptsView);
-                                                        Toast.makeText(ImageActivity.this, "Correct" +
-                                                                " password", Toast.LENGTH_LONG).show();
-                                                        // create a alert dialog
-                                                        AlertDialog.Builder alertDialog_confirm = new AlertDialog.Builder
-                                                                (ImageActivity
-                                                                        .this);
-                                                        // set information for dialog
-                                                        alertDialog_confirm.setMessage("Are you sure to delete this image ?")
-                                                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                                        // it user click cancel
-                                                                        // do nothing, just back the main screen
-                                                                    }
-                                                                })
-                                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                                    public void onClick(DialogInterface dialog, int id) {
-                                                                        if (!isFav) {
-                                                                            //if user click ok => delete image
-                                                                            ContentResolver contentResolver = getContentResolver();
-                                                                            contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                                                                    MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
-                                                                            finish();
-                                                                        } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
-                                                                            Database database = new Database(ImageActivity.this);
-                                                                            String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
-                                                                            database.QuerySQL(sql);
-                                                                            finish();
-                                                                        }
-                                                                    }
-                                                                });
-
-                                                        AlertDialog alert = alertDialog_confirm.create();
-                                                        alert.show();
-                                                    } else {
-                                                        Toast.makeText(ImageActivity.this, "Wrong " +
-                                                                "password", Toast.LENGTH_LONG).show();
-                                                    }
-                                                }
-                                            })
-                                    .setNegativeButton("Cancel",
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                    dialog.cancel();
-                                                }
-                                            });
-                            alertDialogBuilder.show();
-                        }
+                        AlertDialog alert = alertDialog_confirm.create();
+                        alert.show();
                     }
                 });
                 // call set wallpaper to set bitmap to wallpaper.
@@ -256,8 +287,11 @@ public class ImageActivity extends AppCompatActivity {
                             SharePhoto photo = new SharePhoto.Builder()
                                     .setBitmap(bm)
                                     .build();
-                            SharePhotoContent content = new SharePhotoContent.Builder()
-                                    .addPhoto(photo)
+                            ShareContent content = new ShareMediaContent.Builder()
+                                    .addMedium(photo)
+                                    .setShareHashtag(new ShareHashtag.Builder()
+                                            .setHashtag("#DUNARCTIC")
+                                            .build())
                                     .build();
                             ShareDialog.show(ImageActivity.this, content);
                         } else {
@@ -297,7 +331,6 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_image, menu);
-
         return (super.onCreateOptionsMenu(menu));
     }
 
@@ -340,5 +373,11 @@ public class ImageActivity extends AppCompatActivity {
                 (ConnectivityManager) getSystemService(ImageActivity.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }
