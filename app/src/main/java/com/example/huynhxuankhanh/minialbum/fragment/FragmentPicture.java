@@ -1,5 +1,6 @@
 package com.example.huynhxuankhanh.minialbum.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.activity.ImageActivity;
@@ -19,6 +21,7 @@ import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoFolder;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +36,7 @@ public class FragmentPicture extends Fragment implements FragmentCallBacks {
     private FragmentActivity activity;
     private List<InfoImage> listImage;
     private int currentPos = 0;
+    private int lastSelected = 0;
 
     public static FragmentPicture newInstance(String StrArg) {
         FragmentPicture fragment = new FragmentPicture();
@@ -57,10 +61,11 @@ public class FragmentPicture extends Fragment implements FragmentCallBacks {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // send data to activity2: view image full screen
                 InfoImage temp = listImage.get(position);
+                lastSelected = position;
                 fragPictureIntent.putExtra("image-info", (Parcelable) temp);
                 // check putExtra is it ok or position is ok ?
                 currentPos = gridView.getFirstVisiblePosition();
-                startActivity(fragPictureIntent);
+                startActivityForResult(fragPictureIntent,0);
             }
         });
         return view;
@@ -71,6 +76,19 @@ public class FragmentPicture extends Fragment implements FragmentCallBacks {
         super.onCreate(savedInstanceState);
         activity = getActivity();
         fragPictureIntent = new Intent(getActivity(), ImageActivity.class);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) { // means reload data: An image is removed from image activity.
+           // listImage = new ArrayList<>();
+            if(resultCode == Activity.RESULT_OK){
+                Toast.makeText(activity, "Deleted...", Toast.LENGTH_SHORT).show();
+                // remove an image from list image loaded from database.
+                listImage.remove(lastSelected);
+            }
+        }
     }
 
     @Override

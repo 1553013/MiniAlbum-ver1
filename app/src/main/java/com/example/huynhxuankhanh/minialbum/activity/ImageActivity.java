@@ -1,5 +1,6 @@
 package com.example.huynhxuankhanh.minialbum.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -215,6 +216,7 @@ public class ImageActivity extends AppCompatActivity {
                                                 ContentResolver contentResolver = getContentResolver();
                                                 contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                                                         MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
+                                                setResult(Activity.RESULT_OK);
                                                 finish();
                                             } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
                                                 Database database = new Database(ImageActivity.this);
