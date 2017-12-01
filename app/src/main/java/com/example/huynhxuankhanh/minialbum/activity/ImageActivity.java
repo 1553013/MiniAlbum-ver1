@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -55,7 +56,7 @@ public class ImageActivity extends AppCompatActivity {
     private boolean isFav = false;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
-
+    private Intent intentEditActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -304,9 +305,9 @@ public class ImageActivity extends AppCompatActivity {
                 btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // call another activity Edit
-//                        Database database = new Database(Main2Activity.this,"Favorite.sqlite",null,1);
-//                        database.QuerySQL("DROP TABLE Favourite");
+                        intentEditActivity = new Intent(context,EditActivity.class);
+                        intentEditActivity.putExtra("image-info-edit",(Parcelable)receive);
+                        startActivity(intentEditActivity);
                     }
                 });
             } else {

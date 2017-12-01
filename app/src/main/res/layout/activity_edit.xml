@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackGroundPager"
+    tools:context="com.example.huynhxuankhanh.minialbum.activity.ImageActivity">
+
+    <ImageView
+        android:id="@+id/img_view_edit"
+        android:layout_below="@+id/toolbar_image"
+        android:layout_above="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#80263238"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <TextView
+            android:id="@+id/toolbar_image_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp" />
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#80263238"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <Button
+            android:id="@+id/btn_setscreen"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/icon_setscreen" />
+
+        <Button
+            android:id="@+id/btn_favor"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_toStartOf="@+id/btn_setscreen"
+            android:background="@mipmap/icon_favor" />
+
+        <Button
+            android:id="@+id/btn_crop"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_toStartOf="@+id/btn_favor"
+            android:background="@mipmap/icon_crop" />
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/btn_setscreen"
+            android:background="@mipmap/icon_edit" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/btn_edit"
+            android:background="@mipmap/icon_trashcan" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
