@@ -5,5 +5,5 @@ package com.example.huynhxuankhanh.minialbum;
  */
 
 public class Utility {
-    public static final String PASSWORD_KEY = "dunarctic";
+    public static final String PASSWORD_KEY = "dunarctic-khanhhuynh";
 }

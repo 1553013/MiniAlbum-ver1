@@ -42,6 +42,13 @@ import com.facebook.share.model.ShareMediaContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.widget.ShareDialog;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -60,29 +67,61 @@ public class ImageActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
     private Intent intentEditActivity;
+    Mat source, dest;
+
+    private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS: {
+                    source = new Mat();
+                    dest = new Mat();
+                }
+                break;
+                default: {
+                    super.onManagerConnected(status);
+                }
+                break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+        if (!OpenCVLoader.initDebug()) {
+            Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mOpenCVCallBack);
+        } else {
+            Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
         context = this;
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
         initInterface();
-
         // create tool bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_image);
+
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
+
+        getSupportActionBar().
+
+                setTitle("");
         //create back button on top-left of toolbar
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
-        toolbar_title = (TextView) findViewById(R.id.toolbar_image_title);
+        toolbar_title = (TextView)
+
+                findViewById(R.id.toolbar_image_title);
 //        toolbar_title.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -133,12 +172,20 @@ public class ImageActivity extends AppCompatActivity {
 //            }
 //        });
 
-        receive = getIntent().getParcelableExtra("image-info");
-        if (receive == null) {
+        receive =
+
+                getIntent().
+
+                        getParcelableExtra("image-info");
+        if (receive == null)
+
+        {
             receive = getIntent().getParcelableExtra("image-info-fav");
             isFav = true;
         }
-        if (receive != null) {
+        if (receive != null)
+
+        {
             toolbar_title.setText(receive.getNameFile());
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -146,9 +193,17 @@ public class ImageActivity extends AppCompatActivity {
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
 
             if (bm != null) {
+                //detect image rotation
                 Matrix matrix = new Matrix();
                 matrix.postRotate(getRotationDegree(receive.getPathFile()));
                 bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+                //>>>>>TESTING OPENCV<<<<<
+                Utils.bitmapToMat(bm, source);
+                Imgproc.cvtColor(source, dest, Imgproc.COLOR_RGB2GRAY);
+                bm = Bitmap.createBitmap(dest.width(), dest.height(), Bitmap.Config
+                        .ARGB_8888);
+                Utils.matToBitmap(dest, bm);
+
                 imageView.setImageBitmap(bm);
                 //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
 
@@ -321,10 +376,24 @@ public class ImageActivity extends AppCompatActivity {
                 Toast.makeText(this, "Not enough memory to load image", Toast.LENGTH_SHORT).show();
                 finish();
             }
-        } else {
+        } else
+
+        {
             Toast.makeText(this, "Error: Wrong path of image", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!OpenCVLoader.initDebug()) {
+            Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mOpenCVCallBack);
+        } else {
+            Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
     }
 
     public void initInterface() {

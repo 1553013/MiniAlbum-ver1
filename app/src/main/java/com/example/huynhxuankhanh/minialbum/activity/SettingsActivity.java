@@ -75,14 +75,6 @@ public class SettingsActivity extends AppCompatActivity {
         public boolean onPreferenceClick(Preference preference) {
             switch (preference.getKey()) {
                 case "pref_security": {
-
-//                    if (!PreferenceManager.getDefaultSharedPreferences(getContext())
-//                            .getBoolean("security_del", false))
-//                        new SecurityConfigDialog(getContext()).show();
-//                    else {
-//                        Toast.makeText(getActivity(), "restrict settings", Toast.LENGTH_LONG)
-//                                .show();
-//                    }
                     new SecurityConfigDialog(getContext()).show();
                     break;
                 }
