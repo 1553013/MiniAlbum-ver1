@@ -9,16 +9,18 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,6 +43,7 @@ import com.facebook.share.model.SharePhoto;
 import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
+import java.io.IOException;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -57,6 +60,7 @@ public class ImageActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
     private Intent intentEditActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +146,9 @@ public class ImageActivity extends AppCompatActivity {
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
 
             if (bm != null) {
+                Matrix matrix = new Matrix();
+                matrix.postRotate(getRotationDegree(receive.getPathFile()));
+                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
                 imageView.setImageBitmap(bm);
                 //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
 
@@ -305,8 +312,8 @@ public class ImageActivity extends AppCompatActivity {
                 btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        intentEditActivity = new Intent(context,EditActivity.class);
-                        intentEditActivity.putExtra("image-info-edit",(Parcelable)receive);
+                        intentEditActivity = new Intent(context, EditActivity.class);
+                        intentEditActivity.putExtra("image-info-edit", (Parcelable) receive);
                         startActivity(intentEditActivity);
                     }
                 });
@@ -360,6 +367,24 @@ public class ImageActivity extends AppCompatActivity {
         }
 
         return (super.onOptionsItemSelected(item));
+    }
+
+    public static int getRotationDegree(String path) {
+        try {
+            ExifInterface exif = new ExifInterface(path);
+            int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            if (rotation == ExifInterface.ORIENTATION_ROTATE_90) {
+                return 90;
+            } else if (rotation == ExifInterface.ORIENTATION_ROTATE_180) {
+                return 180;
+            } else if (rotation == ExifInterface.ORIENTATION_ROTATE_270) {
+                return 270;
+            }
+            return 0;
+        } catch (IOException e) {
+            Log.e(">>>getRotation ERROR<<<", e.getMessage());
+        }
+        return 0;
     }
 
     public boolean checkImageAlreadyInDatabase(Cursor cursor, String path, int column) {

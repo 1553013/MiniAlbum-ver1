@@ -21,7 +21,6 @@ import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoFolder;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,7 +64,7 @@ public class FragmentPicture extends Fragment implements FragmentCallBacks {
                 fragPictureIntent.putExtra("image-info", (Parcelable) temp);
                 // check putExtra is it ok or position is ok ?
                 currentPos = gridView.getFirstVisiblePosition();
-                startActivityForResult(fragPictureIntent,0);
+                startActivityForResult(fragPictureIntent, 0);
             }
         });
         return view;
@@ -82,8 +81,8 @@ public class FragmentPicture extends Fragment implements FragmentCallBacks {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) { // means reload data: An image is removed from image activity.
-           // listImage = new ArrayList<>();
-            if(resultCode == Activity.RESULT_OK){
+            // listImage = new ArrayList<>();
+            if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(activity, "Deleted...", Toast.LENGTH_SHORT).show();
                 // remove an image from list image loaded from database.
                 listImage.remove(lastSelected);
