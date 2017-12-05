@@ -92,7 +92,7 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image);
         if (!OpenCVLoader.initDebug()) {
             Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mOpenCVCallBack);
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
         } else {
             Log.d("OpenCV", "OpenCV library found inside package. Using it!");
             mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
@@ -389,7 +389,7 @@ public class ImageActivity extends AppCompatActivity {
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mOpenCVCallBack);
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
         } else {
             Log.d("OpenCV", "OpenCV library found inside package. Using it!");
             mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
