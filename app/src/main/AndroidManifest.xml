@@ -31,7 +31,8 @@
         <activity android:name=".activity.ImageActivity"/>
         <activity android:name=".activity.EditActivity"/>
         <activity android:name=".activity.SettingsActivity"/>
-
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/Facebook_App_Id"

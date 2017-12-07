@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -15,11 +16,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
 import com.example.huynhxuankhanh.minialbum.fragment.MainCallBacks;
 import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
+
+import java.io.File;
 
 
 public class MainActivity extends AppCompatActivity implements MainCallBacks {
@@ -82,6 +86,16 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
                     loadGallary.setContentResolver(this.getContentResolver());
                     loadGallary.query_PathImage(Image_URI_EXTERNAL);
 
+
+                    // create an app folder
+                    final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MiniAlbum");
+/*
+                    if (!f.exists()) {
+                        Toast.makeText(this, "Folder MiniAlbum doesn't exist, creating it for the fist using...", Toast.LENGTH_SHORT).show();
+                        // kiem tra file da tao hay chua
+                        boolean rv = f.mkdir();
+                    }
+*/
                 } else
                     finish();
                 break;
@@ -125,6 +139,12 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
     public void onMsgFromFragToMain(String message) {
         if (message.equals("load-images"))
             mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallary.getListImage());
+        else if(message.length()<3 &&Integer.parseInt(message)!=0) {
+            loadGallary.updateLastItem(Image_URI_EXTERNAL, Integer.parseInt(message));
+            mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallary.getListImage());
+            mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallary.getListBucketName());
+
+        }
         else if (message.equals("load-folders"))
             mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallary.getListBucketName());
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

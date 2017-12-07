@@ -41,6 +41,30 @@ public class InfoImage implements Parcelable {
         dateTaken = in.readString();
     }
 
+    public void setiD(int iD) {
+        this.iD = iD;
+    }
+
+    public void setSize(long size) {
+        Size = size;
+    }
+
+    public void setPathFile(String pathFile) {
+        this.pathFile = pathFile;
+    }
+
+    public void setNameFile(String nameFile) {
+        this.nameFile = nameFile;
+    }
+
+    public void setNameBucket(String nameBucket) {
+        this.nameBucket = nameBucket;
+    }
+
+    public void setDateTaken(String dateTaken) {
+        this.dateTaken = dateTaken;
+    }
+
     public long getSize() {
         return Size;
     }

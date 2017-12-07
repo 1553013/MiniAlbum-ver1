@@ -12,7 +12,7 @@ public class InfoFolder {
 
     public InfoFolder() {
         this.nameBucket = "";
-        this.listImage = null;
+        this.listImage = new ArrayList<InfoImage>();
     }
 
     public InfoFolder(String nameBucket, ArrayList<InfoImage> listImage) {

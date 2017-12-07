@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,14 +46,15 @@ public class LoadGallary {
     public void query_PathImage(Uri url) {
         cursor = contentResolver.query(url, projection, null, null, null);
         if (cursor != null) {
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
+            cursor.moveToLast();
+            while (!cursor.isFirst()) {
                 // load data to temp.
                 int iD = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID)));
                 String pathFile = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
                 String nameFile = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
                 String nameBucket = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                 long sizeFile = Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE)));
+
                 Long date = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
                 //Calendar cal = Calendar.getInstance();
 
@@ -66,7 +68,7 @@ public class LoadGallary {
                 InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString());
                 if (infoImage != null)
                     listImage.add(infoImage);
-                cursor.moveToNext();
+                cursor.moveToPrevious();
             }
         }
     }
@@ -81,28 +83,47 @@ public class LoadGallary {
         ArrayList<InfoFolder> listFolder = new ArrayList<>();
         InfoFolder infoFolder = null;
         for (int i = 0; i < listImage.size(); ++i) {
-            if (!tempNameFolder.contains(listImage.get(i).getNameBucket())) {
+            if(tempNameFolder.contains(listImage.get(i).getNameBucket())){ // neu ma da chua
+                int pos = tempNameFolder.indexOf(listImage.get(i).getNameBucket());
+                listFolder.get(pos).getListImage().add(listImage.get(i));
+            }
+            else{ // neu chua chua
                 tempNameFolder.add(listImage.get(i).getNameBucket());
-
-                if (infoFolder != null) {
-                    infoFolder.setListImage(tempListImage);
-                    listFolder.add(infoFolder);
-
-                    infoFolder = null;
-                    tempListImage = new ArrayList<>();
-
-                    infoFolder = new InfoFolder();
-                    infoFolder.setNameBucket(listImage.get(i).getNameBucket());
-                    tempListImage.add(listImage.get(i));
-                } else {
-                    infoFolder = new InfoFolder();
-                    infoFolder.setNameBucket(listImage.get(i).getNameBucket());
-                    tempListImage.add(listImage.get(i));
-                }
-            } else {
-                tempListImage.add(listImage.get(i));
+                infoFolder = new InfoFolder();
+                infoFolder.setNameBucket(listImage.get(i).getNameBucket());
+                infoFolder.getListImage().add(listImage.get(i));
+                listFolder.add(infoFolder);
             }
         }
         return listFolder;
+    }
+    public void updateLastItem(Uri url,int numberImageUpdate){
+        cursor = contentResolver.query(url, projection, null, null, null);
+        if(cursor!=null){
+            cursor.moveToLast();
+            for(int i=0;i<numberImageUpdate;++i) {
+                int iD = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID)));
+                String pathFile = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                String nameFile = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
+                String nameBucket = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
+                long sizeFile = Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE)));
+
+                Long date = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
+                //Calendar cal = Calendar.getInstance();
+
+                // cal.setTimeInMillis(date);
+                // SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+                //Date DATE = cal.getTime();
+                Date tempdate = new Date();
+                tempdate.setTime(date);
+                // dateFormat.format(cal.getTime());
+                //set item for list
+                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString());
+                if (infoImage != null)
+                    listImage.add(0,infoImage);
+
+                cursor.moveToPrevious();
+            }
+        }
     }
 }

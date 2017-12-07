@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.Utility;
 import com.example.huynhxuankhanh.minialbum.database.Database;
+import com.example.huynhxuankhanh.minialbum.fragment.FragmentPicture;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.facebook.CallbackManager;
 import com.facebook.share.model.ShareContent;
@@ -67,6 +68,8 @@ public class ImageActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
     private Intent intentEditActivity;
+    private int numberEdit = 0;
+
     Mat source, dest;
 
     private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
@@ -122,55 +125,6 @@ public class ImageActivity extends AppCompatActivity {
         toolbar_title = (TextView)
 
                 findViewById(R.id.toolbar_image_title);
-//        toolbar_title.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LayoutInflater li = LayoutInflater.from(context);
-//                final View promptsView = li.inflate(R.layout.dialog_change_name, null);
-//                final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-//                // set prompts.xml to alertdialog builder
-//                alertDialogBuilder.setView(promptsView);
-//
-//                final EditText userInput = (EditText) promptsView
-//                        .findViewById(R.id.filename_et);
-//                final String oldName = receive.getNameFile();
-//                final int idStartExtension = oldName.lastIndexOf(".");
-//                userInput.setText(oldName.substring(0, idStartExtension));
-//                // set dialog message
-//                alertDialogBuilder.setCancelable(false).setPositiveButton("Rename", new
-//                        DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        String fullPathName = receive.getPathFile();
-//                        String pathName = fullPathName.substring(0, fullPathName.length() -
-//                                oldName.length());
-//                        String extensionFilename = oldName.substring(idStartExtension, oldName.length());
-//                        EditText userInput = (EditText) promptsView.findViewById(R.id.filename_et);
-//                        String newFileName = userInput.getText().toString() + extensionFilename;
-//                        String newFullPathName = pathName + newFileName;
-//                        File from = new File(fullPathName);
-//                        if(from.renameTo(new File(newFullPathName))) {
-//                            toolbar_title.setText(newFileName);
-//                            Toast.makeText(ImageActivity.this, "Changed filename " +
-//                                    "successfully", Toast
-//                                    .LENGTH_LONG)
-//                                    .show();
-//                        }
-//                        else {
-//                            Toast.makeText(ImageActivity.this, "Cannot change filename", Toast
-//                                    .LENGTH_LONG)
-//                                    .show();
-//                        }
-//                    }
-//                })
-//                        .setNegativeButton("Cancel",
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        dialog.cancel();
-//                                    }
-//                                });
-//                alertDialogBuilder.show();
-//            }
-//        });
 
         receive =
 
@@ -367,9 +321,9 @@ public class ImageActivity extends AppCompatActivity {
                 btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        intentEditActivity = new Intent(context, EditActivity.class);
-                        intentEditActivity.putExtra("image-info-edit", (Parcelable) receive);
-                        startActivity(intentEditActivity);
+                        intentEditActivity = new Intent(context,EditActivity.class);
+                        intentEditActivity.putExtra("image-info-edit",(Parcelable)receive);
+                        startActivityForResult(intentEditActivity,111); // 111: result code
                     }
                 });
             } else {
@@ -470,10 +424,37 @@ public class ImageActivity extends AppCompatActivity {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
-
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==111){
+            if(resultCode==222){
+                receive = (InfoImage) data.getParcelableExtra("crop-image");
+                setBackgroundInfo();
+                imageView.setImageBitmap(bm);
+                numberEdit++;
+            }
+        }
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+    public void setBackgroundInfo(){
+        toolbar_title.setText(receive.getNameFile());
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        options.inSampleSize = 2;
+        bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(numberEdit!=0) {
+            Intent resultNumCrop = new Intent(ImageActivity.this, FragmentPicture.class);
+
+            resultNumCrop.putExtra("crop-image", numberEdit);
+
+            setResult(222, resultNumCrop);
+        }
+        super.onBackPressed();
     }
 }
