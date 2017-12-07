@@ -24,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.graphics.BitmapCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Size;
 import android.view.Gravity;
@@ -54,7 +55,7 @@ import java.util.UUID;
 
 public class EditActivity extends AppCompatActivity {
     private InfoImage receive;
-    private Button btnCrop;
+    private Button btnCrop,btnEffect,btnFaceDetect,btnBright,btnContrast;
     private Boolean isFav;
     private Bitmap bm;
     private ImageView imageView;
@@ -69,6 +70,23 @@ public class EditActivity extends AppCompatActivity {
         initInterface();
 
         receive = getIntent().getParcelableExtra("image-info-edit");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_image);
+
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setTitle("");
+        //create back button on top-left of toolbar
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         if (receive == null) {
             receive = getIntent().getParcelableExtra("image-info-fav-edit");
             isFav = true;
@@ -110,6 +128,50 @@ public class EditActivity extends AppCompatActivity {
                     popupMenu.show();
                 }
             });
+            btnEffect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PopupMenu popupMenu = new PopupMenu(EditActivity.this, btnEffect);
+                    popupMenu.getMenuInflater().inflate(R.menu.menupop_effect, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.mneffect_bw:
+                                    break;
+                                case R.id.mneffect_canny:
+                                    break;
+                                case R.id.mneffect_edPre:
+                                    break;
+                                case R.id.mneffect_pencil:
+                                    break;
+                                case R.id.mneffect_stylization:
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    popupMenu.show();
+                }
+            });
+            btnFaceDetect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            btnBright.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            btnContrast.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
     }
 
@@ -117,7 +179,6 @@ public class EditActivity extends AppCompatActivity {
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            isEdit = true;
             final CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (result != null) { // tức là đã có crop ảnh mới có ảnh trả về
                 if (resultCode == RESULT_OK) {
@@ -126,6 +187,7 @@ public class EditActivity extends AppCompatActivity {
                     lastBmUri = resultUri;
                     try {
                         bm = MediaStore.Images.Media.getBitmap(EditActivity.this.getContentResolver(), resultUri);
+                        isEdit = true;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -140,6 +202,10 @@ public class EditActivity extends AppCompatActivity {
 
     public void initInterface() {
         btnCrop = (Button) findViewById(R.id.btn_crop);
+        btnEffect = (Button) findViewById(R.id.btn_effect);
+        btnFaceDetect = (Button) findViewById(R.id.btn_facedetect);
+        btnBright = (Button) findViewById(R.id.btn_bright);
+        btnContrast = (Button) findViewById(R.id.btn_contrast);
         imageView = (ImageView) findViewById(R.id.img_view_edit);
     }
 

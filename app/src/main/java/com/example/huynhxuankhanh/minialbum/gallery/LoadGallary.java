@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +20,8 @@ public class LoadGallary {
             MediaStore.Images.ImageColumns.DISPLAY_NAME,
             MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, // folder name
             MediaStore.Images.ImageColumns.SIZE,
-            MediaStore.Images.ImageColumns.DATE_TAKEN, // date taken
+            MediaStore.Images.ImageColumns.DATE_TAKEN,
+            MediaStore.Images.ImageColumns.ORIENTATION// date taken
     };
     // declare some tool variable for querying database.
     private ContentResolver contentResolver;
@@ -54,7 +54,6 @@ public class LoadGallary {
                 String nameFile = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
                 String nameBucket = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                 long sizeFile = Long.parseLong(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.SIZE)));
-
                 Long date = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN));
                 //Calendar cal = Calendar.getInstance();
 
@@ -65,7 +64,9 @@ public class LoadGallary {
                 tempdate.setTime(date);
                 // dateFormat.format(cal.getTime());
                 //set item for list
-                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString());
+
+                String orientation = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.ORIENTATION));
+                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString(),orientation);
                 if (infoImage != null)
                     listImage.add(infoImage);
                 cursor.moveToPrevious();
@@ -83,16 +84,26 @@ public class LoadGallary {
         ArrayList<InfoFolder> listFolder = new ArrayList<>();
         InfoFolder infoFolder = null;
         for (int i = 0; i < listImage.size(); ++i) {
-            if(tempNameFolder.contains(listImage.get(i).getNameBucket())){ // neu ma da chua
-                int pos = tempNameFolder.indexOf(listImage.get(i).getNameBucket());
-                listFolder.get(pos).getListImage().add(listImage.get(i));
-            }
-            else{ // neu chua chua
+            if (!tempNameFolder.contains(listImage.get(i).getNameBucket())) {
                 tempNameFolder.add(listImage.get(i).getNameBucket());
-                infoFolder = new InfoFolder();
-                infoFolder.setNameBucket(listImage.get(i).getNameBucket());
-                infoFolder.getListImage().add(listImage.get(i));
-                listFolder.add(infoFolder);
+
+                if (infoFolder != null) {
+                    infoFolder.setListImage(tempListImage);
+                    listFolder.add(infoFolder);
+
+                    infoFolder = null;
+                    tempListImage = new ArrayList<>();
+
+                    infoFolder = new InfoFolder();
+                    infoFolder.setNameBucket(listImage.get(i).getNameBucket());
+                    tempListImage.add(listImage.get(i));
+                } else {
+                    infoFolder = new InfoFolder();
+                    infoFolder.setNameBucket(listImage.get(i).getNameBucket());
+                    tempListImage.add(listImage.get(i));
+                }
+            } else {
+                tempListImage.add(listImage.get(i));
             }
         }
         return listFolder;
@@ -118,7 +129,8 @@ public class LoadGallary {
                 tempdate.setTime(date);
                 // dateFormat.format(cal.getTime());
                 //set item for list
-                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString());
+                String orientation = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.ORIENTATION));
+                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString(),orientation);
                 if (infoImage != null)
                     listImage.add(0,infoImage);
 
@@ -126,4 +138,5 @@ public class LoadGallary {
             }
         }
     }
+
 }

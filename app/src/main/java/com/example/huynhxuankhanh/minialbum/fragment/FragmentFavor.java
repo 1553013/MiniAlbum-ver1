@@ -86,7 +86,7 @@ public class FragmentFavor extends Fragment {
         loadFavorite.setDatabase(new Database(getActivity()));
         loadFavorite.getDatabase().QuerySQL("CREATE TABLE IF NOT EXISTS Favorite(Id INTEGER " +
                 "PRIMARY KEY AUTOINCREMENT,Path VARCHAR,Title VARCHAR,Bucket VARCHAR,Size LONG," +
-                "Time VARCHAR)");
+                "Time VARCHAR,Orientation VARCHAR)");
         if (loadFavorite.getDatabase() != null)
             loadFavorite.loadDataFromDB("SELECT * FROM Favorite");
 

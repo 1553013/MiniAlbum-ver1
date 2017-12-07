@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mneffect_bw"
+        android:title="B &amp; W"
+        />
+    <item
+        android:id="@+id/mneffect_edPre"
+        android:title="Edge Preserving"
+        />
+    <item
+        android:id="@+id/mneffect_canny"
+        android:title="Canny"
+        />
+    <item
+        android:id="@+id/mneffect_stylization"
+        android:title="Stylization"
+        />
+    <item
+        android:id="@+id/mneffect_pencil"
+        android:title="Pencil Sketch"
+        />
+
+</menu>

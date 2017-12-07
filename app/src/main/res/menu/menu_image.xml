@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/btn_rotate"
+        android:icon="@mipmap/icon_rotate"
+        app:showAsAction="always"
+        android:title="Rotate"
+        />
+    <item
         android:id="@+id/btn_detail"
         android:icon="@mipmap/ic_info"
         app:showAsAction="always"
         android:title="@string/action_info" />
+
 
 </menu>

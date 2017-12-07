@@ -22,14 +22,16 @@ public class InfoImage implements Parcelable {
     private int iD;
     private long Size;
     private String pathFile, nameFile, nameBucket, dateTaken;
+    private String orientaion;
 
-    public InfoImage(int iD, long size, String pathFile, String nameFile, String nameBucket, String dateTaken) {
+    public InfoImage(int iD, long size, String pathFile, String nameFile, String nameBucket, String dateTaken,String orientaion) {
         this.iD = iD;
         Size = size;
         this.pathFile = pathFile;
         this.nameFile = nameFile;
         this.nameBucket = nameBucket;
         this.dateTaken = dateTaken;
+        this.orientaion = orientaion;
     }
 
     protected InfoImage(Parcel in) {
@@ -39,6 +41,7 @@ public class InfoImage implements Parcelable {
         nameFile = in.readString();
         nameBucket = in.readString();
         dateTaken = in.readString();
+        orientaion = in.readString();
     }
 
     public void setiD(int iD) {
@@ -85,7 +88,20 @@ public class InfoImage implements Parcelable {
         return nameBucket;
     }
 
+    public int getiD() {
+        return iD;
+    }
+
+    public String getOrientaion() {
+        return orientaion;
+    }
+
+    public void setOrientaion(String orientaion) {
+        this.orientaion = orientaion;
+    }
+
     @Override
+
     public int describeContents() {
         return 0;
     }
@@ -98,5 +114,6 @@ public class InfoImage implements Parcelable {
         parcel.writeString(nameFile);
         parcel.writeString(nameBucket);
         parcel.writeString(dateTaken);
+        parcel.writeString(orientaion);
     }
 }

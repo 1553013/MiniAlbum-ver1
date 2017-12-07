@@ -63,9 +63,12 @@ public class LoadFavorite {
                 String bucket = cursor.getString(3);
                 Long size = cursor.getLong(4);
                 String date = cursor.getString(5);
-                InfoImage infoImage = new InfoImage(iD, size, path, title, bucket, date);
+                String orientation = cursor.getString(6);
+
+                InfoImage infoImage = new InfoImage(iD, size, path, title, bucket, date,orientation);
                 if (infoImage != null)
                     listImage.add(infoImage);
+
             }
             return true;
         }

@@ -3,6 +3,7 @@ package com.example.huynhxuankhanh.minialbum.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,7 +62,7 @@ public class ImageActivity extends AppCompatActivity {
     private Context context;
     private PhotoView imageView;
     private TextView toolbar_title;
-    private Button btnShare, btnFav, btnSetWall, btnEdit, btnRemove, btnDetail;
+    private Button btnShare, btnFav, btnSetWall, btnEdit, btnRemove;
     private InfoImage receive;
     private Bitmap bm;
     private boolean isFav = false;
@@ -69,7 +70,7 @@ public class ImageActivity extends AppCompatActivity {
     private ShareDialog shareDialog;
     private Intent intentEditActivity;
     private int numberEdit = 0;
-
+    private int currentOrientation=0;
     Mat source, dest;
 
     private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
@@ -126,11 +127,9 @@ public class ImageActivity extends AppCompatActivity {
 
                 findViewById(R.id.toolbar_image_title);
 
-        receive =
+        receive = getIntent().
 
-                getIntent().
-
-                        getParcelableExtra("image-info");
+                getParcelableExtra("image-info");
         if (receive == null)
 
         {
@@ -149,15 +148,19 @@ public class ImageActivity extends AppCompatActivity {
             if (bm != null) {
                 //detect image rotation
                 Matrix matrix = new Matrix();
-                matrix.postRotate(getRotationDegree(receive.getPathFile()));
+                currentOrientation = Integer.parseInt(receive.getOrientaion());
+                matrix.postRotate(currentOrientation);
                 bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+                imageView.setImageBitmap(bm);
+
                 //>>>>>TESTING OPENCV<<<<<
+               /*
                 Utils.bitmapToMat(bm, source);
                 Imgproc.cvtColor(source, dest, Imgproc.COLOR_RGB2GRAY);
                 bm = Bitmap.createBitmap(dest.width(), dest.height(), Bitmap.Config
                         .ARGB_8888);
                 Utils.matToBitmap(dest, bm);
-
+*/
                 imageView.setImageBitmap(bm);
                 //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
 
@@ -267,7 +270,6 @@ public class ImageActivity extends AppCompatActivity {
                 // add 1 column to the original database to show that it is my favorite image.
                 btnFav.setOnClickListener(new View.OnClickListener() {
                     Database database = new Database(ImageActivity.this);
-
                     @Override
                     public void onClick(View view) {
                         // check current path is already in database ?
@@ -275,12 +277,13 @@ public class ImageActivity extends AppCompatActivity {
                         Cursor cursor = database.getData("SELECT * FROM Favorite");
                         if (cursor != null) {
                             if (checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 1) == false) {
-                                String sql = "INSERT INTO Favorite VALUES(null" +
+                                String sql = "INSERT INTO Favorite VALUES("+ receive.getiD() +
                                         ",'" + receive.getPathFile() + "'" +
                                         ",'" + receive.getNameFile() + "'" +
                                         ",'" + receive.getNameBucket() + "'" +
                                         "," + receive.getSize() +
-                                        ",'" + receive.getDateTaken() + "')";
+                                        ",'" + receive.getDateTaken() + "'" +
+                                        ",'"+ receive.getOrientaion()+"')";
                                 database.QuerySQL(sql);
                                 Toast.makeText(ImageActivity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();
                             } else {
@@ -321,9 +324,9 @@ public class ImageActivity extends AppCompatActivity {
                 btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        intentEditActivity = new Intent(context,EditActivity.class);
-                        intentEditActivity.putExtra("image-info-edit",(Parcelable)receive);
-                        startActivityForResult(intentEditActivity,111); // 111: result code
+                        intentEditActivity = new Intent(context, EditActivity.class);
+                        intentEditActivity.putExtra("image-info-edit", (Parcelable) receive);
+                        startActivityForResult(intentEditActivity, 111); // 111: result code
                     }
                 });
             } else {
@@ -387,6 +390,27 @@ public class ImageActivity extends AppCompatActivity {
                 AlertDialog alert = builder.create();
                 alert.show();
                 return (true);
+            case R.id.btn_rotate:
+                // do rotate and save here
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                currentOrientation += 90;
+                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+                imageView.setImageBitmap(bm);
+
+
+                ContentValues contentValues = new ContentValues();
+                if(currentOrientation==360)
+                    currentOrientation=0;
+                contentValues.put(MediaStore.Images.Media.ORIENTATION, currentOrientation);
+                String where =  MediaStore.Images.ImageColumns._ID +"=?";
+                String[] whereParam = {Integer.toString(receive.getiD())};
+                int rowsUpdated = context.getContentResolver().update(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        , contentValues
+                        , where
+                        , whereParam);
+                break;
+
         }
 
         return (super.onOptionsItemSelected(item));
@@ -424,11 +448,12 @@ public class ImageActivity extends AppCompatActivity {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==111){
-            if(resultCode==222){
+        if (requestCode == 111) {
+            if (resultCode == 222) {
                 receive = (InfoImage) data.getParcelableExtra("crop-image");
                 setBackgroundInfo();
                 imageView.setImageBitmap(bm);
@@ -437,7 +462,8 @@ public class ImageActivity extends AppCompatActivity {
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    public void setBackgroundInfo(){
+
+    public void setBackgroundInfo() {
         toolbar_title.setText(receive.getNameFile());
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -448,7 +474,7 @@ public class ImageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(numberEdit!=0) {
+        if (numberEdit != 0) {
             Intent resultNumCrop = new Intent(ImageActivity.this, FragmentPicture.class);
 
             resultNumCrop.putExtra("crop-image", numberEdit);
