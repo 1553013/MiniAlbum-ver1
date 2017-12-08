@@ -89,13 +89,13 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
 
                     // create an app folder
                     final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MiniAlbum");
-/*
+
                     if (!f.exists()) {
                         Toast.makeText(this, "Folder MiniAlbum doesn't exist, creating it for the fist using...", Toast.LENGTH_SHORT).show();
                         // kiem tra file da tao hay chua
                         boolean rv = f.mkdir();
                     }
-*/
+
                 } else
                     finish();
                 break;

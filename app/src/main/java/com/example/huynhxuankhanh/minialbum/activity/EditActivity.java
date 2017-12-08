@@ -1,6 +1,7 @@
 package com.example.huynhxuankhanh.minialbum.activity;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -29,11 +30,16 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Size;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.util.Util;
@@ -46,11 +52,14 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
+import org.opencv.dnn.Dnn;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.ml.Ml;
 import org.opencv.photo.Photo;
 
 import java.io.ByteArrayOutputStream;
@@ -75,6 +84,8 @@ public class EditActivity extends AppCompatActivity {
     private Uri lastBmUri = null;
     private boolean isEdit = false;
     private MediaScannerConnection msConn;
+    private int current;
+    Bitmap currentBM = bm;
 
 
     Mat source, dest;
@@ -280,17 +291,19 @@ public class EditActivity extends AppCompatActivity {
             btnBright.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    
+                    doDialog(0);
                 }
             });
             btnContrast.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    doDialog(1);
                 }
             });
         }
     }
+
+
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -449,5 +462,102 @@ public class EditActivity extends AppCompatActivity {
             Log.d("OpenCV", "OpenCV library found inside package. Using it!");
             mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
+    }
+    public void doDialog(int type){
+        Dialog yourDialog = new Dialog(EditActivity.this);
+        LayoutInflater inflater = (LayoutInflater)EditActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.dialog_seek, (ViewGroup)findViewById(R.id.your_dialog_root_element));
+        yourDialog.setContentView(layout);
+        yourDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        Window window = yourDialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        yourDialog.setCancelable(false);
+
+        SeekBar seekBar = (SeekBar) layout.findViewById(R.id.dialog_seek);
+        Button button = (Button)layout.findViewById(R.id.btn_accept);
+        current = 50;
+        seekBar.setProgress(current);
+
+
+        SeekBar.OnSeekBarChangeListener yourSeekBarListener = new SeekBar.OnSeekBarChangeListener(){
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                switch (type) {
+                    case 0: {
+                        if (i < current) {
+
+                            Mat tempSrc = new Mat();
+                            tempSrc = source;
+                            Mat tempDst = new Mat();
+                            tempDst = dest;
+                            currentBM = bm;
+                            int value = Math.abs(current - i);
+                            Utils.bitmapToMat(currentBM, tempSrc);
+                            Core.subtract(tempSrc, new Scalar(value, value, value), tempDst);
+                            Utils.matToBitmap(tempDst, currentBM);
+                            current = i;
+                            imageView.setImageBitmap(currentBM);
+                        } else {
+
+                            Mat tempSrc = new Mat();
+                            tempSrc = source;
+                            Mat tempDst = new Mat();
+                            tempDst = dest;
+                            currentBM = bm;
+                            int value = Math.abs(current - i);
+                            Utils.bitmapToMat(currentBM, tempSrc);
+                            Core.add(tempSrc, new Scalar(value, value, value), tempDst);
+                            Utils.matToBitmap(tempDst, currentBM);
+                            current = i;
+                            imageView.setImageBitmap(currentBM);
+
+                        }
+                        break;
+                    }
+                    case 1:{
+                            Mat tempSrc = new Mat();
+                            tempSrc = source;
+                            Mat tempDst = new Mat();
+                            tempDst = dest;
+                            currentBM = bm;
+
+                            Utils.bitmapToMat(currentBM, tempSrc);
+                            tempSrc.convertTo(tempDst, tempSrc.type(), (double) (i*0.03));
+
+
+                            Utils.matToBitmap(tempDst, currentBM);
+                            imageView.setImageBitmap(currentBM);
+                        }
+                    break;
+                    }
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        };
+        seekBar.setOnSeekBarChangeListener(yourSeekBarListener);
+        wlp.gravity = Gravity.BOTTOM;
+        yourDialog.show();
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bm = currentBM;
+                imageView.setImageBitmap(currentBM);
+                yourDialog.cancel();
+                isEdit = true;
+            }
+        });
+
     }
 }
