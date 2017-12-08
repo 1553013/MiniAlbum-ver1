@@ -9,8 +9,8 @@
         android:title="Edge Preserving"
         />
     <item
-        android:id="@+id/mneffect_canny"
-        android:title="Canny"
+        android:id="@+id/mneffect_doc"
+        android:title="Documentary"
         />
     <item
         android:id="@+id/mneffect_stylization"

@@ -84,26 +84,16 @@ public class LoadGallary {
         ArrayList<InfoFolder> listFolder = new ArrayList<>();
         InfoFolder infoFolder = null;
         for (int i = 0; i < listImage.size(); ++i) {
-            if (!tempNameFolder.contains(listImage.get(i).getNameBucket())) {
+            if(tempNameFolder.contains(listImage.get(i).getNameBucket())){ // neu ma da chua
+                int pos = tempNameFolder.indexOf(listImage.get(i).getNameBucket());
+                listFolder.get(pos).getListImage().add(listImage.get(i));
+            }
+            else{ // neu chua chua
                 tempNameFolder.add(listImage.get(i).getNameBucket());
-
-                if (infoFolder != null) {
-                    infoFolder.setListImage(tempListImage);
-                    listFolder.add(infoFolder);
-
-                    infoFolder = null;
-                    tempListImage = new ArrayList<>();
-
-                    infoFolder = new InfoFolder();
-                    infoFolder.setNameBucket(listImage.get(i).getNameBucket());
-                    tempListImage.add(listImage.get(i));
-                } else {
-                    infoFolder = new InfoFolder();
-                    infoFolder.setNameBucket(listImage.get(i).getNameBucket());
-                    tempListImage.add(listImage.get(i));
-                }
-            } else {
-                tempListImage.add(listImage.get(i));
+                infoFolder = new InfoFolder();
+                infoFolder.setNameBucket(listImage.get(i).getNameBucket());
+                infoFolder.getListImage().add(listImage.get(i));
+                listFolder.add(infoFolder);
             }
         }
         return listFolder;

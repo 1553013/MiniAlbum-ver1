@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.Image;
@@ -35,10 +36,20 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.Util;
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -55,17 +66,46 @@ import java.util.UUID;
 
 public class EditActivity extends AppCompatActivity {
     private InfoImage receive;
-    private Button btnCrop,btnEffect,btnFaceDetect,btnBright,btnContrast;
+    private Button btnCrop, btnEffect, btnFaceDetect, btnBright, btnContrast;
     private Boolean isFav;
     private Bitmap bm;
     private ImageView imageView;
     private Uri lastBmUri = null;
     private boolean isEdit = false;
     private MediaScannerConnection msConn;
+
+
+    Mat source, dest;
+
+    private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS: {
+                    source = new Mat();
+                    dest = new Mat();
+                }
+                break;
+                default: {
+                    super.onManagerConnected(status);
+                }
+                break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+        if (!OpenCVLoader.initDebug()) {
+            Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
+        } else {
+            Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+
 
         initInterface();
 
@@ -93,7 +133,19 @@ public class EditActivity extends AppCompatActivity {
         }
         if (receive != null) {
 
-            bm = BitmapFactory.decodeFile(receive.getPathFile());
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            options.inSampleSize = 2;
+            bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
+
+            Matrix matrix = new Matrix();
+            int currentOrientation=0;
+            if(receive.getOrientaion()==null)
+                currentOrientation = 0;
+            else
+                currentOrientation = Integer.parseInt(receive.getOrientaion());
+            matrix.postRotate(currentOrientation);
+            bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
             imageView.setImageBitmap(bm);
 
 
@@ -137,9 +189,34 @@ public class EditActivity extends AppCompatActivity {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()) {
-                                case R.id.mneffect_bw:
+                                case R.id.mneffect_bw: {
+                                    //>>>>>TESTING OPENCV<<<<<
+                                    Utils.bitmapToMat(bm, source);
+                                    Imgproc.cvtColor(source, dest, Imgproc.COLOR_RGB2GRAY);
+                                    bm = Bitmap.createBitmap(dest.width(), dest.height(), Bitmap.Config
+                                            .ARGB_8888);
+                                    Utils.matToBitmap(dest, bm);
+                                    imageView.setImageBitmap(bm);
+
+                                    isEdit = true;
+                                }
                                     break;
-                                case R.id.mneffect_canny:
+                                case R.id.mneffect_doc:{
+                                    Mat detected_Edge = new Mat();
+                                    // tao mat tu bitmap
+                                    Utils.bitmapToMat(bm,source);
+
+                                    // convert to gray
+                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_RGB2GRAY);
+
+                                    Imgproc.GaussianBlur(source, detected_Edge, new org.opencv.core.Size(3, 3), 0);
+
+                                    Imgproc.adaptiveThreshold(detected_Edge, detected_Edge, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 5, 4);
+                                    Utils.matToBitmap(  detected_Edge,bm);
+                                    imageView.setImageBitmap(bm);
+
+                                    isEdit = true;
+                                }
                                     break;
                                 case R.id.mneffect_edPre:
                                     break;
@@ -308,21 +385,29 @@ public class EditActivity extends AppCompatActivity {
         startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
-    public void scanPhoto(final String imageFileName)
-    {
-        msConn = new MediaScannerConnection(EditActivity.this,new MediaScannerConnection.MediaScannerConnectionClient()
-        {
-            public void onMediaScannerConnected()
-            {
+    public void scanPhoto(final String imageFileName) {
+        msConn = new MediaScannerConnection(EditActivity.this, new MediaScannerConnection.MediaScannerConnectionClient() {
+            public void onMediaScannerConnected() {
                 msConn.scanFile(imageFileName, null);
                 Toast.makeText(EditActivity.this, "Scan completely !!!", Toast.LENGTH_SHORT).show();
             }
-            public void onScanCompleted(String path, Uri uri)
-            {
+
+            public void onScanCompleted(String path, Uri uri) {
                 msConn.disconnect();
             }
         });
         msConn.connect();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!OpenCVLoader.initDebug()) {
+            Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
+        } else {
+            Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+    }
 }

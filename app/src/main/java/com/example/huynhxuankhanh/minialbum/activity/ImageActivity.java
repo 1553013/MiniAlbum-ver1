@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -71,36 +72,16 @@ public class ImageActivity extends AppCompatActivity {
     private Intent intentEditActivity;
     private int numberEdit = 0;
     private int currentOrientation=0;
-    Mat source, dest;
+    private MediaScannerConnection msConn;
+    private boolean isRotate=false;
 
-    private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
-        @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS: {
-                    source = new Mat();
-                    dest = new Mat();
-                }
-                break;
-                default: {
-                    super.onManagerConnected(status);
-                }
-                break;
-            }
-        }
-    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-        if (!OpenCVLoader.initDebug()) {
-            Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
-        } else {
-            Log.d("OpenCV", "OpenCV library found inside package. Using it!");
-            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-        }
+
         context = this;
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
@@ -148,19 +129,16 @@ public class ImageActivity extends AppCompatActivity {
             if (bm != null) {
                 //detect image rotation
                 Matrix matrix = new Matrix();
-                currentOrientation = Integer.parseInt(receive.getOrientaion());
+                // những ảnh save từ mạng về không có orientation nên trả về null, nếu mà có đọc trúng thì set nó 0( default)
+                if(receive.getOrientaion()==null)
+                    currentOrientation = 0;
+                else
+                    currentOrientation = Integer.parseInt(receive.getOrientaion());
                 matrix.postRotate(currentOrientation);
                 bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
                 imageView.setImageBitmap(bm);
 
-                //>>>>>TESTING OPENCV<<<<<
-               /*
-                Utils.bitmapToMat(bm, source);
-                Imgproc.cvtColor(source, dest, Imgproc.COLOR_RGB2GRAY);
-                bm = Bitmap.createBitmap(dest.width(), dest.height(), Bitmap.Config
-                        .ARGB_8888);
-                Utils.matToBitmap(dest, bm);
-*/
+
                 imageView.setImageBitmap(bm);
                 //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
 
@@ -344,13 +322,7 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (!OpenCVLoader.initDebug()) {
-            Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
-        } else {
-            Log.d("OpenCV", "OpenCV library found inside package. Using it!");
-            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
-        }
+
     }
 
     public void initInterface() {
@@ -395,6 +367,7 @@ public class ImageActivity extends AppCompatActivity {
                 Matrix matrix = new Matrix();
                 matrix.postRotate(90);
                 currentOrientation += 90;
+
                 bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
                 imageView.setImageBitmap(bm);
 
@@ -405,33 +378,18 @@ public class ImageActivity extends AppCompatActivity {
                 contentValues.put(MediaStore.Images.Media.ORIENTATION, currentOrientation);
                 String where =  MediaStore.Images.ImageColumns._ID +"=?";
                 String[] whereParam = {Integer.toString(receive.getiD())};
-                int rowsUpdated = context.getContentResolver().update(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                context.getContentResolver().update(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         , contentValues
                         , where
                         , whereParam);
+                receive.setOrientaion(Integer.toString(currentOrientation));
+                isRotate = true;
+
                 break;
 
         }
 
         return (super.onOptionsItemSelected(item));
-    }
-
-    public static int getRotationDegree(String path) {
-        try {
-            ExifInterface exif = new ExifInterface(path);
-            int rotation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
-            if (rotation == ExifInterface.ORIENTATION_ROTATE_90) {
-                return 90;
-            } else if (rotation == ExifInterface.ORIENTATION_ROTATE_180) {
-                return 180;
-            } else if (rotation == ExifInterface.ORIENTATION_ROTATE_270) {
-                return 270;
-            }
-            return 0;
-        } catch (IOException e) {
-            Log.e(">>>getRotation ERROR<<<", e.getMessage());
-        }
-        return 0;
     }
 
     public boolean checkImageAlreadyInDatabase(Cursor cursor, String path, int column) {
@@ -480,7 +438,33 @@ public class ImageActivity extends AppCompatActivity {
             resultNumCrop.putExtra("crop-image", numberEdit);
 
             setResult(222, resultNumCrop);
+
+        }
+        if(isRotate){
+            Intent resultRotate = new Intent(ImageActivity.this, FragmentPicture.class);
+            String[] pack = {Integer.toString(receive.getiD()),receive.getOrientaion()};
+            resultRotate.putExtra("rotate-image",pack);
+            setResult(223,resultRotate);
         }
         super.onBackPressed();
     }
+
+
+    public void scanPhoto(final String imageFileName)
+    {
+        msConn = new MediaScannerConnection(ImageActivity.this,new MediaScannerConnection.MediaScannerConnectionClient()
+        {
+            public void onMediaScannerConnected()
+            {
+                msConn.scanFile(imageFileName, null);
+                Toast.makeText(ImageActivity.this, "Scan completely !!!", Toast.LENGTH_SHORT).show();
+            }
+            public void onScanCompleted(String path, Uri uri)
+            {
+                msConn.disconnect();
+            }
+        });
+        msConn.connect();
+    }
+
 }
