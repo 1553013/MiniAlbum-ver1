@@ -46,10 +46,12 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.photo.Photo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -218,11 +220,37 @@ public class EditActivity extends AppCompatActivity {
                                     isEdit = true;
                                 }
                                     break;
-                                case R.id.mneffect_edPre:
+                                case R.id.mneffect_edPre: {
+                                    Utils.bitmapToMat(bm, source);
+                                   // Imgproc.cvtColor(source,source, CvType.CV_8UC3);
+                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_BGRA2BGR);
+                                    Mat dst = new Mat();
+                                    dst = source.clone();
+                                    Imgproc.bilateralFilter(source, dst, 15, 80, 80);
+                                    Utils.matToBitmap(dst, bm);
+                                    imageView.setImageBitmap(bm);
+
+                                    isEdit = true;
+                                }
                                     break;
                                 case R.id.mneffect_pencil:
+                                    Utils.bitmapToMat(bm, source);
+                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_BGRA2BGR);
+                                    Photo.pencilSketch(source,source,source,10, 0.08f,0.05f);
+
+                                    Utils.matToBitmap(source, bm);
+
+                                    imageView.setImageBitmap(bm);
+                                    isEdit = true;
                                     break;
                                 case R.id.mneffect_stylization:
+                                    Utils.bitmapToMat(bm, source);
+                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_BGRA2BGR);
+                                    Photo.stylization(source,source,200,0.80f);
+                                    Utils.matToBitmap(source, bm);
+
+                                    imageView.setImageBitmap(bm);
+                                    isEdit = true;
                                     break;
                             }
                             return false;
