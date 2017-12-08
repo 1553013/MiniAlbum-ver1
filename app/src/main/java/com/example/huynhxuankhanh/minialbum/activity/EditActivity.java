@@ -221,36 +221,48 @@ public class EditActivity extends AppCompatActivity {
                                 }
                                     break;
                                 case R.id.mneffect_edPre: {
-                                    Utils.bitmapToMat(bm, source);
-                                   // Imgproc.cvtColor(source,source, CvType.CV_8UC3);
-                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_BGRA2BGR);
-                                    Mat dst = new Mat();
-                                    dst = source.clone();
-                                    Imgproc.bilateralFilter(source, dst, 15, 80, 80);
-                                    Utils.matToBitmap(dst, bm);
-                                    imageView.setImageBitmap(bm);
 
+                                    Utils.bitmapToMat(bm, source);
+                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_BGRA2BGR);
+                                    Photo.edgePreservingFilter(source,source,1 , 50,0.4f);
+
+                                    Utils.matToBitmap(source, bm);
+
+                                    imageView.setImageBitmap(bm);
+                                    isEdit = true;
                                     isEdit = true;
                                 }
                                     break;
-                                case R.id.mneffect_pencil:
+                                case R.id.mneffect_pencil: {
                                     Utils.bitmapToMat(bm, source);
-                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_BGRA2BGR);
-                                    Photo.pencilSketch(source,source,source,10, 0.08f,0.05f);
+                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
+                                    Photo.pencilSketch(source, source, source, 10, 0.08f, 0.05f);
 
                                     Utils.matToBitmap(source, bm);
 
                                     imageView.setImageBitmap(bm);
                                     isEdit = true;
+                                }
                                     break;
-                                case R.id.mneffect_stylization:
+                                case R.id.mneffect_stylization: {
                                     Utils.bitmapToMat(bm, source);
-                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_BGRA2BGR);
-                                    Photo.stylization(source,source,200,0.80f);
+                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
+                                    Photo.stylization(source, source, 200, 0.80f);
                                     Utils.matToBitmap(source, bm);
 
                                     imageView.setImageBitmap(bm);
                                     isEdit = true;
+                                }
+                                    break;
+                                case R.id.mneffect_detail: {
+                                    Utils.bitmapToMat(bm, source);
+                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
+                                    Photo.detailEnhance(source, source, 10, 0.15f);
+                                    Utils.matToBitmap(source, bm);
+
+                                    imageView.setImageBitmap(bm);
+                                    isEdit = true;
+                                }
                                     break;
                             }
                             return false;
@@ -268,7 +280,7 @@ public class EditActivity extends AppCompatActivity {
             btnBright.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    
                 }
             });
             btnContrast.setOnClickListener(new View.OnClickListener() {

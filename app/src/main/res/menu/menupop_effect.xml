@@ -20,5 +20,9 @@
         android:id="@+id/mneffect_pencil"
         android:title="Pencil Sketch"
         />
+    <item
+        android:id="@+id/mneffect_detail"
+        android:title="Detail Effect"
+        />
 
 </menu>
