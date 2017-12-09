@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
 import com.example.huynhxuankhanh.minialbum.fragment.MainCallBacks;
-import com.example.huynhxuankhanh.minialbum.gallery.LoadGallary;
+import com.example.huynhxuankhanh.minialbum.gallery.LoadGallery;
 
 import java.io.File;
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
     // Viewpager tool
     private ViewPager mViewPager;
     private TabLayout tabLayout;
-    private LoadGallary loadGallary;
+    private LoadGallery loadGallery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +82,9 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
                     tabLayout.getTabAt(2).setIcon(R.mipmap.icon_favorite_white);
 
                     // after recieving the accepting permission from phone, load data
-                    loadGallary = new LoadGallary();
-                    loadGallary.setContentResolver(this.getContentResolver());
-                    loadGallary.query_PathImage(Image_URI_EXTERNAL);
+                    loadGallery = new LoadGallery();
+                    loadGallery.setContentResolver(this.getContentResolver());
+                    loadGallery.query_PathImage(Image_URI_EXTERNAL);
 
 
                     // create an app folder
@@ -138,15 +138,15 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
     @Override
     public void onMsgFromFragToMain(String message) {
         if (message.equals("load-images"))
-            mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallary.getListImage());
+            mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallery.getListImage());
         else if(message.length()<3 &&Integer.parseInt(message)!=0) {
-            loadGallary.updateLastItem(Image_URI_EXTERNAL, Integer.parseInt(message));
-            mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallary.getListImage());
-            mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallary.getListBucketName());
+            loadGallery.updateLastItem(Image_URI_EXTERNAL, Integer.parseInt(message));
+            mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallery.getListImage());
+            mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallery.getListBucketName());
 
         }
         else if (message.equals("load-folders"))
-            mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallary.getListBucketName());
+            mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallery.getListBucketName());
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

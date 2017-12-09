@@ -1,34 +1,23 @@
 package com.example.huynhxuankhanh.minialbum.activity;
 
-import android.app.AlarmManager;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.media.Image;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.BitmapCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Size;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -40,36 +29,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.util.Util;
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
-import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
-import org.opencv.dnn.Dnn;
-import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.ml.Ml;
 import org.opencv.photo.Photo;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by HUYNHXUANKHANH on 12/1/2017.
@@ -84,28 +62,9 @@ public class EditActivity extends AppCompatActivity {
     private Uri lastBmUri = null;
     private boolean isEdit = false;
     private MediaScannerConnection msConn;
-    private int current;
+    private int middle;
     Bitmap currentBM = bm;
-
-
     Mat source, dest;
-
-    private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
-        @Override
-        public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS: {
-                    source = new Mat();
-                    dest = new Mat();
-                }
-                break;
-                default: {
-                    super.onManagerConnected(status);
-                }
-                break;
-            }
-        }
-    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,13 +72,14 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
         if (!OpenCVLoader.initDebug()) {
             Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
+            //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
         } else {
             Log.d("OpenCV", "OpenCV library found inside package. Using it!");
-            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+            //mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
 
-
+        source = new Mat();
+        dest = new Mat();
         initInterface();
 
         receive = getIntent().getParcelableExtra("image-info-edit");
@@ -131,9 +91,7 @@ public class EditActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         //create back button on top-left of toolbar
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener()
-
-        {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -152,8 +110,8 @@ public class EditActivity extends AppCompatActivity {
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
 
             Matrix matrix = new Matrix();
-            int currentOrientation=0;
-            if(receive.getOrientaion()==null)
+            int currentOrientation = 0;
+            if (receive.getOrientaion() == null)
                 currentOrientation = 0;
             else
                 currentOrientation = Integer.parseInt(receive.getOrientaion());
@@ -203,7 +161,6 @@ public class EditActivity extends AppCompatActivity {
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()) {
                                 case R.id.mneffect_bw: {
-                                    //>>>>>TESTING OPENCV<<<<<
                                     Utils.bitmapToMat(bm, source);
                                     Imgproc.cvtColor(source, dest, Imgproc.COLOR_RGB2GRAY);
                                     bm = Bitmap.createBitmap(dest.width(), dest.height(), Bitmap.Config
@@ -213,29 +170,29 @@ public class EditActivity extends AppCompatActivity {
 
                                     isEdit = true;
                                 }
-                                    break;
-                                case R.id.mneffect_doc:{
+                                break;
+                                case R.id.mneffect_doc: {
                                     Mat detected_Edge = new Mat();
                                     // tao mat tu bitmap
-                                    Utils.bitmapToMat(bm,source);
+                                    Utils.bitmapToMat(bm, source);
 
                                     // convert to gray
-                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_RGB2GRAY);
+                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_RGB2GRAY);
 
                                     Imgproc.GaussianBlur(source, detected_Edge, new org.opencv.core.Size(3, 3), 0);
 
                                     Imgproc.adaptiveThreshold(detected_Edge, detected_Edge, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 5, 4);
-                                    Utils.matToBitmap(  detected_Edge,bm);
+                                    Utils.matToBitmap(detected_Edge, bm);
                                     imageView.setImageBitmap(bm);
 
                                     isEdit = true;
                                 }
-                                    break;
+                                break;
                                 case R.id.mneffect_edPre: {
 
                                     Utils.bitmapToMat(bm, source);
-                                    Imgproc.cvtColor(source,source,Imgproc.COLOR_BGRA2BGR);
-                                    Photo.edgePreservingFilter(source,source,1 , 50,0.4f);
+                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
+                                    Photo.edgePreservingFilter(source, source, 1, 50, 0.4f);
 
                                     Utils.matToBitmap(source, bm);
 
@@ -243,7 +200,7 @@ public class EditActivity extends AppCompatActivity {
                                     isEdit = true;
                                     isEdit = true;
                                 }
-                                    break;
+                                break;
                                 case R.id.mneffect_pencil: {
                                     Utils.bitmapToMat(bm, source);
                                     Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
@@ -254,7 +211,7 @@ public class EditActivity extends AppCompatActivity {
                                     imageView.setImageBitmap(bm);
                                     isEdit = true;
                                 }
-                                    break;
+                                break;
                                 case R.id.mneffect_stylization: {
                                     Utils.bitmapToMat(bm, source);
                                     Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
@@ -264,7 +221,7 @@ public class EditActivity extends AppCompatActivity {
                                     imageView.setImageBitmap(bm);
                                     isEdit = true;
                                 }
-                                    break;
+                                break;
                                 case R.id.mneffect_detail: {
                                     Utils.bitmapToMat(bm, source);
                                     Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
@@ -274,7 +231,7 @@ public class EditActivity extends AppCompatActivity {
                                     imageView.setImageBitmap(bm);
                                     isEdit = true;
                                 }
-                                    break;
+                                break;
                             }
                             return false;
                         }
@@ -302,7 +259,6 @@ public class EditActivity extends AppCompatActivity {
             });
         }
     }
-
 
 
     @Override
@@ -438,6 +394,7 @@ public class EditActivity extends AppCompatActivity {
         startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
+    // refresh lại media
     public void scanPhoto(final String imageFileName) {
         msConn = new MediaScannerConnection(EditActivity.this, new MediaScannerConnection.MediaScannerConnectionClient() {
             public void onMediaScannerConnected() {
@@ -457,16 +414,17 @@ public class EditActivity extends AppCompatActivity {
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
-            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
+            //OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION, this, mOpenCVCallBack);
         } else {
             Log.d("OpenCV", "OpenCV library found inside package. Using it!");
-            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+            //mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
     }
-    public void doDialog(int type){
+
+    public void doDialog(int type) {
         Dialog yourDialog = new Dialog(EditActivity.this);
-        LayoutInflater inflater = (LayoutInflater)EditActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View layout = inflater.inflate(R.layout.dialog_seek, (ViewGroup)findViewById(R.id.your_dialog_root_element));
+        LayoutInflater inflater = (LayoutInflater) EditActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.dialog_seek, (ViewGroup) findViewById(R.id.your_dialog_root_element));
         yourDialog.setContentView(layout);
         yourDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         Window window = yourDialog.getWindow();
@@ -474,70 +432,50 @@ public class EditActivity extends AppCompatActivity {
         yourDialog.setCancelable(false);
 
         SeekBar seekBar = (SeekBar) layout.findViewById(R.id.dialog_seek);
-        Button button = (Button)layout.findViewById(R.id.btn_accept);
-        current = 50;
-        seekBar.setProgress(current);
-
-
-        SeekBar.OnSeekBarChangeListener yourSeekBarListener = new SeekBar.OnSeekBarChangeListener(){
-
+        Button buttonSet = (Button) layout.findViewById(R.id.btn_accept);
+        Button buttonCancel = (Button) layout.findViewById(R.id.btn_cancel);
+        TextView txt_progress = (TextView) layout.findViewById(R.id.txt_number);
+        middle = 50;
+        seekBar.setProgress(middle);
+        txt_progress.setText(Integer.toString(0));
+        currentBM = bm;
+        SeekBar.OnSeekBarChangeListener yourSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            public void onProgressChanged(SeekBar seekBar, int value, boolean b) {
+                txt_progress.setText(Integer.toString(value - middle));
+                int newValue = Math.abs(middle - value); //0-50
+                float alpha = (float) newValue / (float) 50;
+                Mat src = new Mat(bm.getHeight(), bm.getWidth(), CvType.CV_8UC1);
+                //lấy ảnh bitmap gốc gán vào Mat
+                Utils.bitmapToMat(bm, src);
                 switch (type) {
                     case 0: {
-                        if (i < current) {
-
-                            Mat tempSrc = new Mat();
-                            tempSrc = source;
-                            Mat tempDst = new Mat();
-                            tempDst = dest;
-                            currentBM = bm;
-                            int value = Math.abs(current - i);
-                            Utils.bitmapToMat(currentBM, tempSrc);
-                            Core.subtract(tempSrc, new Scalar(value, value, value), tempDst);
-                            Utils.matToBitmap(tempDst, currentBM);
-                            current = i;
-                            imageView.setImageBitmap(currentBM);
+                        if (value < middle) {
+                            //Core.subtract(src, new Scalar(newValue, newValue, newValue), src);
+                            src.convertTo(src, -1, 1, -newValue * 2);
                         } else {
-
-                            Mat tempSrc = new Mat();
-                            tempSrc = source;
-                            Mat tempDst = new Mat();
-                            tempDst = dest;
-                            currentBM = bm;
-                            int value = Math.abs(current - i);
-                            Utils.bitmapToMat(currentBM, tempSrc);
-                            Core.add(tempSrc, new Scalar(value, value, value), tempDst);
-                            Utils.matToBitmap(tempDst, currentBM);
-                            current = i;
-                            imageView.setImageBitmap(currentBM);
-
+                            //Core.add(src, new Scalar(newValue, newValue, newValue), src);
+                            src.convertTo(src, -1, 1, newValue * 2);
                         }
                         break;
                     }
-                    case 1:{
-                            Mat tempSrc = new Mat();
-                            tempSrc = source;
-                            Mat tempDst = new Mat();
-                            tempDst = dest;
-                            currentBM = bm;
-
-                            Utils.bitmapToMat(currentBM, tempSrc);
-                            tempSrc.convertTo(tempDst, tempSrc.type(), (double) (i*0.03));
-
-
-                            Utils.matToBitmap(tempDst, currentBM);
-                            imageView.setImageBitmap(currentBM);
+                    case 1: {
+                        if (value < middle) {
+                            src.convertTo(src, -1, 1 - alpha, 0);
+                        } else {
+                            src.convertTo(src, -1, 1 + alpha, 0);
                         }
-                    break;
                     }
-
-
+                    break;
+                }
+                currentBM = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config
+                        .ARGB_8888);
+                Utils.matToBitmap(src, currentBM);
+                imageView.setImageBitmap(currentBM);
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
 
             }
 
@@ -549,7 +487,7 @@ public class EditActivity extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(yourSeekBarListener);
         wlp.gravity = Gravity.BOTTOM;
         yourDialog.show();
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bm = currentBM;
@@ -558,6 +496,13 @@ public class EditActivity extends AppCompatActivity {
                 isEdit = true;
             }
         });
-
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageView.setImageBitmap(bm);
+                yourDialog.cancel();
+                isEdit = false;
+            }
+        });
     }
 }

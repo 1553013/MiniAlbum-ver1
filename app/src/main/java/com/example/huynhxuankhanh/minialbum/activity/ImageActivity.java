@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -22,7 +21,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,15 +43,7 @@ import com.facebook.share.model.ShareMediaContent;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.widget.ShareDialog;
 
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.LoaderCallbackInterface;
-import org.opencv.android.OpenCVLoader;
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
 import java.io.File;
-import java.io.IOException;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -71,10 +61,9 @@ public class ImageActivity extends AppCompatActivity {
     private ShareDialog shareDialog;
     private Intent intentEditActivity;
     private int numberEdit = 0;
-    private int currentOrientation=0;
+    private int currentOrientation = 0;
     private MediaScannerConnection msConn;
-    private boolean isRotate=false;
-
+    private boolean isRotate = false;
 
 
     @Override
@@ -96,9 +85,7 @@ public class ImageActivity extends AppCompatActivity {
                 setTitle("");
         //create back button on top-left of toolbar
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener()
-
-        {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -130,7 +117,7 @@ public class ImageActivity extends AppCompatActivity {
                 //detect image rotation
                 Matrix matrix = new Matrix();
                 // những ảnh save từ mạng về không có orientation nên trả về null, nếu mà có đọc trúng thì set nó 0( default)
-                if(receive.getOrientaion()==null)
+                if (receive.getOrientaion() == null)
                     currentOrientation = 0;
                 else
                     currentOrientation = Integer.parseInt(receive.getOrientaion());
@@ -248,6 +235,7 @@ public class ImageActivity extends AppCompatActivity {
                 // add 1 column to the original database to show that it is my favorite image.
                 btnFav.setOnClickListener(new View.OnClickListener() {
                     Database database = new Database(ImageActivity.this);
+
                     @Override
                     public void onClick(View view) {
                         // check current path is already in database ?
@@ -255,13 +243,13 @@ public class ImageActivity extends AppCompatActivity {
                         Cursor cursor = database.getData("SELECT * FROM Favorite");
                         if (cursor != null) {
                             if (checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 1) == false) {
-                                String sql = "INSERT INTO Favorite VALUES("+ receive.getiD() +
+                                String sql = "INSERT INTO Favorite VALUES(" + receive.getiD() +
                                         ",'" + receive.getPathFile() + "'" +
                                         ",'" + receive.getNameFile() + "'" +
                                         ",'" + receive.getNameBucket() + "'" +
                                         "," + receive.getSize() +
                                         ",'" + receive.getDateTaken() + "'" +
-                                        ",'"+ receive.getOrientaion()+"')";
+                                        ",'" + receive.getOrientaion() + "')";
                                 database.QuerySQL(sql);
                                 Toast.makeText(ImageActivity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();
                             } else {
@@ -373,10 +361,10 @@ public class ImageActivity extends AppCompatActivity {
 
 
                 ContentValues contentValues = new ContentValues();
-                if(currentOrientation==360)
-                    currentOrientation=0;
+                if (currentOrientation == 360)
+                    currentOrientation = 0;
                 contentValues.put(MediaStore.Images.Media.ORIENTATION, currentOrientation);
-                String where =  MediaStore.Images.ImageColumns._ID +"=?";
+                String where = MediaStore.Images.ImageColumns._ID + "=?";
                 String[] whereParam = {Integer.toString(receive.getiD())};
                 context.getContentResolver().update(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         , contentValues
@@ -440,27 +428,24 @@ public class ImageActivity extends AppCompatActivity {
             setResult(222, resultNumCrop);
 
         }
-        if(isRotate){
+        if (isRotate) {
             Intent resultRotate = new Intent(ImageActivity.this, FragmentPicture.class);
-            String[] pack = {Integer.toString(receive.getiD()),receive.getOrientaion()};
-            resultRotate.putExtra("rotate-image",pack);
-            setResult(223,resultRotate);
+            String[] pack = {Integer.toString(receive.getiD()), receive.getOrientaion()};
+            resultRotate.putExtra("rotate-image", pack);
+            setResult(223, resultRotate);
         }
         super.onBackPressed();
     }
 
 
-    public void scanPhoto(final String imageFileName)
-    {
-        msConn = new MediaScannerConnection(ImageActivity.this,new MediaScannerConnection.MediaScannerConnectionClient()
-        {
-            public void onMediaScannerConnected()
-            {
+    public void scanPhoto(final String imageFileName) {
+        msConn = new MediaScannerConnection(ImageActivity.this, new MediaScannerConnection.MediaScannerConnectionClient() {
+            public void onMediaScannerConnected() {
                 msConn.scanFile(imageFileName, null);
                 Toast.makeText(ImageActivity.this, "Scan completely !!!", Toast.LENGTH_SHORT).show();
             }
-            public void onScanCompleted(String path, Uri uri)
-            {
+
+            public void onScanCompleted(String path, Uri uri) {
                 msConn.disconnect();
             }
         });
