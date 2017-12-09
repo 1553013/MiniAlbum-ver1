@@ -29,7 +29,7 @@ import java.util.List;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class FragmentPicture extends Fragment implements FragmentCallBacks {
+public class FragmentPicture extends Fragment implements com.example.huynhxuankhanh.minialbum.fragment.FragmentCallBacks {
     private View view;
     private AdapterImageGridView myArrayAdapterGridView;
     private GridView gridView;

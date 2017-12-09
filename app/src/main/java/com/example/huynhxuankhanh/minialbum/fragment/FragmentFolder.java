@@ -23,7 +23,7 @@ import java.util.List;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class FragmentFolder extends Fragment implements FragmentCallBacks {
+public class FragmentFolder extends Fragment implements com.example.huynhxuankhanh.minialbum.fragment.FragmentCallBacks {
     private View view;
     private List<InfoFolder> listInfoFolder;
     private ListView listView;

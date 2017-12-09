@@ -34,6 +34,8 @@ import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
+import com.example.huynhxuankhanh.minialbum.process.OnTaskCompleted;
+import com.example.huynhxuankhanh.minialbum.process.ProcessImage;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.opencv.android.OpenCVLoader;
@@ -48,12 +50,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by HUYNHXUANKHANH on 12/1/2017.
  */
 
-public class EditActivity extends AppCompatActivity {
+public class EditActivity extends AppCompatActivity implements OnTaskCompleted {
     private InfoImage receive;
     private Button btnCrop, btnEffect, btnFaceDetect, btnBright, btnContrast;
     private Boolean isFav;
@@ -65,6 +68,7 @@ public class EditActivity extends AppCompatActivity {
     private int middle;
     Bitmap currentBM = bm;
     Mat source, dest;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,74 +165,78 @@ public class EditActivity extends AppCompatActivity {
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()) {
                                 case R.id.mneffect_bw: {
-                                    Utils.bitmapToMat(bm, source);
-                                    Imgproc.cvtColor(source, dest, Imgproc.COLOR_RGB2GRAY);
-                                    bm = Bitmap.createBitmap(dest.width(), dest.height(), Bitmap.Config
-                                            .ARGB_8888);
-                                    Utils.matToBitmap(dest, bm);
-                                    imageView.setImageBitmap(bm);
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ProcessImage pro = new ProcessImage(bm, EditActivity.this, 0);
+                                            pro.listener = EditActivity.this;
+                                            pro.execute();
+                                        }
+                                    });
 
                                     isEdit = true;
                                 }
                                 break;
                                 case R.id.mneffect_doc: {
-                                    Mat detected_Edge = new Mat();
-                                    // tao mat tu bitmap
-                                    Utils.bitmapToMat(bm, source);
 
-                                    // convert to gray
-                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_RGB2GRAY);
-
-                                    Imgproc.GaussianBlur(source, detected_Edge, new org.opencv.core.Size(3, 3), 0);
-
-                                    Imgproc.adaptiveThreshold(detected_Edge, detected_Edge, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 5, 4);
-                                    Utils.matToBitmap(detected_Edge, bm);
-                                    imageView.setImageBitmap(bm);
-
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ProcessImage pro = new ProcessImage(bm, EditActivity.this, 1);
+                                            pro.listener = EditActivity.this;
+                                            pro.execute();
+                                        }
+                                    });
                                     isEdit = true;
                                 }
                                 break;
                                 case R.id.mneffect_edPre: {
-
-                                    Utils.bitmapToMat(bm, source);
-                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
-                                    Photo.edgePreservingFilter(source, source, 1, 50, 0.4f);
-
-                                    Utils.matToBitmap(source, bm);
-
-                                    imageView.setImageBitmap(bm);
-                                    isEdit = true;
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ProcessImage pro = new ProcessImage(bm, EditActivity.this, 2);
+                                            pro.listener = EditActivity.this;
+                                            pro.execute();
+                                        }
+                                    });
                                     isEdit = true;
                                 }
                                 break;
                                 case R.id.mneffect_pencil: {
-                                    Utils.bitmapToMat(bm, source);
-                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
-                                    Photo.pencilSketch(source, source, source, 10, 0.08f, 0.05f);
-
-                                    Utils.matToBitmap(source, bm);
-
-                                    imageView.setImageBitmap(bm);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ProcessImage pro = new ProcessImage(bm, EditActivity.this, 3);
+                                            pro.listener = EditActivity.this;
+                                            pro.execute();
+                                        }
+                                    });
                                     isEdit = true;
                                 }
                                 break;
                                 case R.id.mneffect_stylization: {
-                                    Utils.bitmapToMat(bm, source);
-                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
-                                    Photo.stylization(source, source, 200, 0.80f);
-                                    Utils.matToBitmap(source, bm);
-
-                                    imageView.setImageBitmap(bm);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ProcessImage pro = new ProcessImage(bm, EditActivity.this, 4);
+                                            pro.listener = EditActivity.this;
+                                            pro.execute();
+                                        }
+                                    });
                                     isEdit = true;
                                 }
                                 break;
                                 case R.id.mneffect_detail: {
-                                    Utils.bitmapToMat(bm, source);
-                                    Imgproc.cvtColor(source, source, Imgproc.COLOR_BGRA2BGR);
-                                    Photo.detailEnhance(source, source, 10, 0.15f);
-                                    Utils.matToBitmap(source, bm);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ProcessImage pro = new ProcessImage(bm, EditActivity.this, 5);
+                                            pro.listener = EditActivity.this;
+                                            pro.execute();
+                                        }
+                                    });
 
-                                    imageView.setImageBitmap(bm);
                                     isEdit = true;
                                 }
                                 break;
@@ -505,4 +513,12 @@ public class EditActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onTaskCompleted(Bitmap bm) {
+        this.bm = bm;
+        imageView.setImageBitmap(bm);
+    }
+
+
 }
