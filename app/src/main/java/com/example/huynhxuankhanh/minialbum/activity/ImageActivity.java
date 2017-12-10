@@ -399,11 +399,16 @@ public class ImageActivity extends AppCompatActivity {
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 111) {
-            if (resultCode == 222) {
+            if (resultCode == 123) {
                 receive = (InfoImage) data.getParcelableExtra("crop-image");
+                int numFace =0;
+                numFace = data.getIntExtra("num-face",numFace);
                 setBackgroundInfo();
                 imageView.setImageBitmap(bm);
-                numberEdit++;
+                if(numFace!=0)
+                    numberEdit+=numFace;
+                else numberEdit++;
+
             }
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);

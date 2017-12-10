@@ -18,6 +18,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -48,7 +49,9 @@ import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.process.FaceRecognition;
 import com.example.huynhxuankhanh.minialbum.process.OnTaskArrayCompleted;
 import com.example.huynhxuankhanh.minialbum.process.OnTaskCompleted;
+import com.example.huynhxuankhanh.minialbum.process.OnTaskReceiveComplete;
 import com.example.huynhxuankhanh.minialbum.process.ProcessImage;
+import com.example.huynhxuankhanh.minialbum.process.SaveImage;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -73,7 +76,7 @@ import java.util.Date;
  * Created by HUYNHXUANKHANH on 12/1/2017.
  */
 
-public class EditActivity extends AppCompatActivity implements OnTaskCompleted,OnTaskArrayCompleted {
+public class EditActivity extends AppCompatActivity implements OnTaskCompleted, OnTaskArrayCompleted, OnTaskReceiveComplete {
     private InfoImage receive;
     private Button btnCrop, btnEffect, btnFaceDetect, btnBright, btnContrast;
     private Boolean isFav;
@@ -83,7 +86,8 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted,O
     private boolean isEdit = false;
     private MediaScannerConnection msConn;
     private int middle;
-    private   ArrayList<Bitmap> mainArrayBm;
+    private ArrayList<Bitmap> mainArrayBm;
+    private boolean isFaceDetector = false;
     Bitmap currentBM = bm;
     Mat source, dest;
 
@@ -130,6 +134,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted,O
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             options.inSampleSize = 2;
+
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
 
             Matrix matrix = new Matrix();
@@ -278,6 +283,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted,O
                         }
                     });
                     isEdit = true;
+                    isFaceDetector = true;
                 }
             });
             btnBright.setOnClickListener(new View.OnClickListener() {
@@ -338,74 +344,21 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted,O
             alertDialogConfirm.setTitle("Do you want to save before quitting?").setPositiveButton("Save and Quit", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    // xử lí lưu ảnh vào gallery store của phone
-                    String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/MiniAlbum";
-                    String fileName = "crop-" + receive.getNameFile();
-                    File file = new File(path, fileName);
-                    int distinct = 1;
-                    // kiểm tra tên trùng: nếu trùng thì đặt tên khác
-                    while (file.exists()) {
-                        fileName = "crop_" + Integer.toString(distinct) + "-" + receive.getNameFile();
-                        file = new File(path, fileName);
-                        distinct++;
-                    }
-
-                    // get current ID
-                    Cursor cursor = EditActivity.this
-                            .getContentResolver()
-                            .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                                    new String[]{MediaStore.Images.ImageColumns._ID}, null, null, null);
-                    if (cursor != null)
-                        cursor.moveToLast();
-                    int newId = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID)));
-
-                    // đây là một tuple của Gallery Database
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.Images.Media._ID, newId + 1);
-                    receive.setiD(newId + 1);
-
-                    values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
-                    Date tempdate = new Date();
-                    tempdate.setTime(System.currentTimeMillis());
-                    receive.setDateTaken(tempdate.toString());
-
-                    values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                    values.put(MediaStore.Images.Media.DATA, file.toString());
-                    receive.setPathFile(file.toString());
-
-                    values.put(MediaStore.Images.Media.BUCKET_DISPLAY_NAME, "MiniAlbum");
-                    receive.setNameBucket("MiniAlbum");
-
-                    values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
-                    receive.setNameFile(fileName);
-
-                    long sizeBm = BitmapCompat.getAllocationByteCount(bm);
-                    values.put(MediaStore.Images.Media.SIZE, sizeBm);
-                    receive.setSize(sizeBm);
-
-                    // insert 1 tuple vào bảng Gallery Image, chỉ có thông tin tuple ko có hình ảnh
-                    EditActivity.this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                    // Xuất file ảnh ra folder MiniAlbum
-                    FileOutputStream fOut = null;
-                    try {
-                        fOut = new FileOutputStream(file);
-
-                        bm.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
-                        fOut.flush(); // Not really required
-                        fOut.close(); // do not forget to close the stream
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    scanPhoto(file.toString());
-
-                    Intent resultCrop = new Intent();
-                    resultCrop.putExtra("crop-image", receive);
-
-                    setResult(222, resultCrop);
-                    EditActivity.super.onBackPressed();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                           if(isFaceDetector==false) {
+                               SaveImage pro = new SaveImage(receive, EditActivity.this, bm, null, 0);
+                               pro.listener = EditActivity.this;
+                               pro.execute();
+                           }
+                           else{
+                               SaveImage pro = new SaveImage(receive, EditActivity.this, bm, mainArrayBm, 1);
+                               pro.listener = EditActivity.this;
+                               pro.execute();
+                           }
+                        }
+                    });
 
                 }
             }).setNegativeButton("Quit", new DialogInterface.OnClickListener() {
@@ -550,9 +503,32 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted,O
 
     @Override
     public void onTaskArrayCompleted(ArrayList<Bitmap> arrayListBm) {
-        this.bm = arrayListBm.get(arrayListBm.size()-1);
+        this.bm = arrayListBm.get(arrayListBm.size() - 1);
         imageView.setImageBitmap(bm);
         mainArrayBm = arrayListBm;
         // store here
+    }
+
+    @Override
+    public void OnTaskReceiveComplete(InfoImage infoImage,ArrayList<String> PathFiles) {
+
+
+
+        Intent resultCrop = new Intent(EditActivity.this,ImageActivity.class);
+        receive = infoImage;
+        resultCrop.putExtra("crop-image", infoImage);
+        if(isFaceDetector==true)
+            resultCrop.putExtra("num-face",mainArrayBm.size()-1);
+        setResult(123, resultCrop);
+        if(PathFiles!=null) {
+            for (int i = 0; i < PathFiles.size(); ++i) {
+                //scanPhoto(PathFiles.get(i));
+                Intent intent =
+                        new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                intent.setData(Uri.parse(PathFiles.get(i)));
+                sendBroadcast(intent);
+            }
+        }
+        this.finish();
     }
 }
