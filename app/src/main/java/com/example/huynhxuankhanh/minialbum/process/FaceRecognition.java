@@ -43,6 +43,7 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
     private  FaceDetector faceDetector;
     private Frame frame;
     private SparseArray<Face> sparseArray;
+    private ArrayList<RectF> rectFS;
 
     public FaceRecognition(Bitmap mainBm, Context context) {
         this.mainBm = mainBm;
@@ -50,6 +51,7 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
         source = new Mat();
         dest = new Mat();
         retFaceBm = new ArrayList<>();
+        rectFS = new ArrayList<>();
     }
 
     @Override
@@ -105,13 +107,15 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
                 Bitmap croppedBmp = Bitmap.createBitmap(tempBm, (int) x1, (int) y1, (int) face.getWidth(), (int) face.getHeight());
                 retFaceBm.add(croppedBmp);
                 RectF rectF = new RectF(x1, y1, x2, y2);
-                canvas.drawRoundRect(rectF, 2, 2, rect);
+                rectFS.add(rectF);
             }
             catch (Exception e){
 
             }
 
         }
+        for(int i=0;i<rectFS.size();++i)
+            canvas.drawRoundRect(rectFS.get(i), 2, 2, rect);
         return null;
     }
 

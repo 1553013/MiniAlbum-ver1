@@ -10,20 +10,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76bf792b-f886-45fb-ab48-fffd6d730fb4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/OnTaskReceiveComplete.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/SaveImage.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/classAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/javaCompile.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/javaCompile/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/EditActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/EditActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/ImageActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/ImageActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_edit.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_edit.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/FaceRecognition.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/FaceRecognition.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -50,9 +47,11 @@
       <file leaf-file-name="ImageActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/ImageActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="303">
-              <caret line="409" column="21" lean-forward="false" selection-start-line="409" selection-start-column="21" selection-end-line="409" selection-end-column="21" />
-              <folding />
+            <state relative-caret-position="202">
+              <caret line="410" column="20" lean-forward="false" selection-start-line="410" selection-start-column="20" selection-end-line="410" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -60,8 +59,8 @@
       <file leaf-file-name="EditActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/EditActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="530" column="9" lean-forward="false" selection-start-line="530" selection-start-column="9" selection-end-line="530" selection-end-column="9" />
+            <state relative-caret-position="182">
+              <caret line="511" column="85" lean-forward="false" selection-start-line="511" selection-start-column="76" selection-end-line="511" selection-end-column="85" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#16842#16843#0" expanded="true" />
@@ -75,8 +74,8 @@
       <file leaf-file-name="SaveImage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/SaveImage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
-              <caret line="233" column="0" lean-forward="true" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
+            <state relative-caret-position="1190">
+              <caret line="213" column="55" lean-forward="false" selection-start-line="213" selection-start-column="47" selection-end-line="213" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -109,7 +108,7 @@
       <file leaf-file-name="ProcessImage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/ProcessImage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1078">
+            <state relative-caret-position="-22">
               <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="43" />
               <folding />
             </state>
@@ -119,8 +118,8 @@
       <file leaf-file-name="FaceRecognition.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/FaceRecognition.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="121" column="49" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+            <state relative-caret-position="160">
+              <caret line="107" column="25" lean-forward="false" selection-start-line="107" selection-start-column="16" selection-end-line="107" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -142,9 +141,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>t</find>
-      <find>toas</find>
-      <find>toast</find>
       <find>ShareDialog</find>
       <find>375050342919491</find>
       <find>Facebook_App_Id</find>
@@ -169,9 +165,12 @@
       <find>shared_prefs</find>
       <find>op</find>
       <find>onTaskArrayCompleted</find>
-      <find>listener</find>
       <find>numberEdit</find>
       <find>setResult</find>
+      <find>bm</find>
+      <find>OnTaskArrayCompleted</find>
+      <find>listener</find>
+      <find>mainArrayBmmainArrayBm</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2896,12 +2895,12 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/OnTaskCompleted.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/OnTaskArrayCompleted.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/FaceRecognition.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_edit.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/ImageActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/OnTaskReceiveComplete.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/EditActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/SaveImage.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/EditActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/FaceRecognition.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/ImageActivity.java" />
       </list>
     </option>
   </component>
@@ -3259,7 +3258,7 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512930420795" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512932905964" />
       </method>
     </configuration>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Instrumented Tests">
@@ -3306,7 +3305,7 @@
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
       </Profilers>
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512930420795" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512932905964" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -3488,7 +3487,7 @@
       <option name="DEEP_LINK" value="" />
       <option name="ACTIVITY_CLASS" value="" />
       <method>
-        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512930420796" />
+        <option name="com.android.instantApps.provision.BeforeRunTask" enabled="true" clearCache="false" clearProvisionedDevices="false" myTimestamp="1512932905964" />
       </method>
     </configuration>
     <list size="1">
@@ -3616,7 +3615,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="101" />
+      <option name="time" value="102" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -3999,37 +3998,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/ProcessImage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1078">
-          <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/FaceRecognition.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="121" column="49" lean-forward="false" selection-start-line="121" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/EditActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="530" column="9" lean-forward="false" selection-start-line="530" selection-start-column="9" selection-end-line="530" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#16842#16843#0" expanded="true" />
-            <element signature="e#16893#16894#0" expanded="true" />
-            <element signature="method#onProgressChanged#0;class#18564:20412" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/OnTaskReceiveComplete.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -4040,21 +4008,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/SaveImage.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/ProcessImage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="233" column="0" lean-forward="true" selection-start-line="233" selection-start-column="0" selection-end-line="233" selection-end-column="0" />
+        <state relative-caret-position="-22">
+          <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/FaceRecognition.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="107" column="25" lean-forward="false" selection-start-line="107" selection-start-column="16" selection-end-line="107" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/process/SaveImage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1190">
+          <caret line="213" column="55" lean-forward="false" selection-start-line="213" selection-start-column="47" selection-end-line="213" selection-end-column="55" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/EditActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="511" column="85" lean-forward="false" selection-start-line="511" selection-start-column="76" selection-end-line="511" selection-end-column="85" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#16842#16843#0" expanded="true" />
+            <element signature="e#16893#16894#0" expanded="true" />
+            <element signature="method#onProgressChanged#0;class#18564:20412" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/huynhxuankhanh/minialbum/activity/ImageActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="303">
-          <caret line="409" column="21" lean-forward="false" selection-start-line="409" selection-start-column="21" selection-end-line="409" selection-end-column="21" />
-          <folding />
+        <state relative-caret-position="202">
+          <caret line="410" column="20" lean-forward="false" selection-start-line="410" selection-start-column="20" selection-end-line="410" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

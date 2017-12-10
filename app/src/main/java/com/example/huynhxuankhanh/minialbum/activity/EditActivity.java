@@ -503,8 +503,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
 
     @Override
     public void onTaskArrayCompleted(ArrayList<Bitmap> arrayListBm) {
-        this.bm = arrayListBm.get(arrayListBm.size() - 1);
-        imageView.setImageBitmap(bm);
+        imageView.setImageBitmap(arrayListBm.get(arrayListBm.size() - 1));
         mainArrayBm = arrayListBm;
         // store here
     }

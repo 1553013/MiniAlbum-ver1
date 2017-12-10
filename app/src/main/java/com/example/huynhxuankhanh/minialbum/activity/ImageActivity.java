@@ -407,7 +407,8 @@ public class ImageActivity extends AppCompatActivity {
                 imageView.setImageBitmap(bm);
                 if(numFace!=0)
                     numberEdit+=numFace;
-                else numberEdit++;
+                else
+                    numberEdit++;
 
             }
         }
