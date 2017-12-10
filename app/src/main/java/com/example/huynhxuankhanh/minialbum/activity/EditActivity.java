@@ -1,23 +1,33 @@
 package com.example.huynhxuankhanh.minialbum.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentValues;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+
 import android.support.v4.graphics.BitmapCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,31 +42,38 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
+import com.example.huynhxuankhanh.minialbum.process.FaceRecognition;
+import com.example.huynhxuankhanh.minialbum.process.OnTaskArrayCompleted;
 import com.example.huynhxuankhanh.minialbum.process.OnTaskCompleted;
 import com.example.huynhxuankhanh.minialbum.process.ProcessImage;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.FaceDetector;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
+
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.photo.Photo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
+
 
 /**
  * Created by HUYNHXUANKHANH on 12/1/2017.
  */
 
-public class EditActivity extends AppCompatActivity implements OnTaskCompleted {
+public class EditActivity extends AppCompatActivity implements OnTaskCompleted,OnTaskArrayCompleted {
     private InfoImage receive;
     private Button btnCrop, btnEffect, btnFaceDetect, btnBright, btnContrast;
     private Boolean isFav;
@@ -66,6 +83,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted {
     private boolean isEdit = false;
     private MediaScannerConnection msConn;
     private int middle;
+    private   ArrayList<Bitmap> mainArrayBm;
     Bitmap currentBM = bm;
     Mat source, dest;
 
@@ -84,6 +102,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted {
 
         source = new Mat();
         dest = new Mat();
+        mainArrayBm = new ArrayList<>();
         initInterface();
 
         receive = getIntent().getParcelableExtra("image-info-edit");
@@ -250,7 +269,15 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted {
             btnFaceDetect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            FaceRecognition pro = new FaceRecognition(bm, EditActivity.this);
+                            pro.listener = EditActivity.this;
+                            pro.execute();
+                        }
+                    });
+                    isEdit = true;
                 }
             });
             btnBright.setOnClickListener(new View.OnClickListener() {
@@ -521,4 +548,11 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted {
     }
 
 
+    @Override
+    public void onTaskArrayCompleted(ArrayList<Bitmap> arrayListBm) {
+        this.bm = arrayListBm.get(arrayListBm.size()-1);
+        imageView.setImageBitmap(bm);
+        mainArrayBm = arrayListBm;
+        // store here
+    }
 }
