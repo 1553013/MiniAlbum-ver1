@@ -1,6 +1,7 @@
 package com.example.huynhxuankhanh.minialbum.adapter;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

@@ -4,19 +4,26 @@ android:id="@+id/frag_picture"
 android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-
-<GridView
-    android:id="@+id/grd_Image"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:verticalSpacing="0dp"
-    android:horizontalSpacing="0dp"
-    android:stretchMode="columnWidth"
-    android:numColumns="4"
-    android:fastScrollEnabled="true"
-    android:background="@color/colorBackGroundPager"
-    >
+    android:layout_height="match_parent">
+    <GridView
+        android:id="@+id/grd_Image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
+        android:stretchMode="columnWidth"
+        android:numColumns="4"
+        android:fastScrollEnabled="true"
+        android:background="@color/colorBackGroundPager"
+        >
 
-</GridView>
+    </GridView>
+
+
+</android.support.v4.widget.SwipeRefreshLayout>
+
 
 </FrameLayout>

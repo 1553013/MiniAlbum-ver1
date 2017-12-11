@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\8.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="46dfc021139f0ea41daa951c0c0d107958951c30">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\2.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="d871017b832311a9b6ea0be4ef71a2f5463cf452">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\21.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="9e375b659344294800707c6e0b1cc7be426a047b">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\21.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\16.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="71f7dcb335aed73345e627a097cc3a259a4461a5">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\16.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\5.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="4ec33f5c4570e061fe79ed20a5d5d1874c31db21">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\37.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="ce33553cd0ddbedaa1b84e6063a121347264f14f">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\37.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\25.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="934d40d8483e71f8bb12e92153fdb70acd7ec6e3">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\25.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\13.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="1e5d22492b9b2aa097f4056c2904dcacb67ab18f">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\13.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\26.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="e70bb91d0f2a6a210603265f464de009433b2818">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\26.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\18.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="df6bbb684739f15a3fb93a85dbe42f091e53f83c">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\18.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\6.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="8f0052fc5fe94ad27b6e01444bf92a27856a26b7">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\44.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="aad1abcaf53411a19b3c538656771ab3797106a1">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\44.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\3.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="2f9e97163d8df0348787b30aabefb9175182eb89">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\19.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="a921effadce74f723f22a01d93f603f70b6286f3">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\19.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\9.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="02ab3c842f30f7e0907ed422a1279d4426ec4203">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\28.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="f1eb52ab39a98c946ac6939b258f07962a4ce1b3">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\28.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\23.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="efa76d99b3458faefb0a20d18e36728786b22d48">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\23.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\42.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="2cce1edf674299569566f6961bca5352bd512ea7">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\42.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\35.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="92d788b658c80b21f1c838b1003e0af6bd70a1c1">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\35.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\31.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="8894eaf3ad90c58cc8a1b32f447656194d559453">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\31.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\43.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="445108ef35183b37885d5ca832eaff840c95d757">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\43.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\7.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="f1f499bf1c715ad60a4110b9fe2e2d810cf57e93">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\14.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="9e1a94e703149b5187cec2960b7b171d812539b4">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\14.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\34.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="581f740328e8f80438d9af31a2abee6e64437508">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\34.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\27.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="646a3ccb19c4c4a65234e723024eb156d8c95cc3">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\27.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\22.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="6105d6f862314603b20b0b87c537695a60cccd67">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\22.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\15.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="ea44176d04f9a65a7af89b1fb056fcda58b81b66">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\15.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\39.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="f20a8331c97f8ceb582cdf044fd08b748d05db1e">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\39.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\40.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="2676f470d406561206b8f4b3bdd6956916b2452a">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\40.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\24.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="9b718355ba34ff34a0fa1c29678ae780495c5587">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\24.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\4.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="269536b3b38f58aedcb7ee89143fda404072d976">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\32.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="b27a7a34791cd90b536255baf816ab3559823ba7">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\32.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\36.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="1daec1a24a913057311b77127ce1969c724767ed">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\36.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\20.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="1383b1625f3cd6edb3c6597d5d473616a17fa776">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\20.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\41.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="c82fb95ca882c79225aa9d231fc54c530b0ccc89">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\41.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\11.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="1c3d4fdd9587e79c60b31e08bd532f289e1ef22f">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\11.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\10.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="89cafc58e40b6c6bf4f30620e48a5499c30532c1">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\10.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\30.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="d1253897d3456f7fda5fe06800dd9331af8e6792">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\30.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\12.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="c186eb53f9c438fe3cd39d9c8114eb982a6a0f9c">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\12.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\29.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="4aca07c749afa56a68ccf05e83570f464bbc10b4">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\29.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\17.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="fd38dc847e02397aa274b0a3edd2dd6b32e6cfdf">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\17.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\33.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="cd1ac7bb8c5b8308671b34328fe141e7b3973d8d">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\33.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\desugar\release\0.jar"
+        jumboMode="false"
+        min-sdk-version="21"
+        optimize="true"
+        revision="26.0.3"
+        sha1="3213a4964f560af27da895ef2aed0d0cf9df83b5">
+        <dex dex="E:\Android\HelloWorld\MiniAlbum\app\build\intermediates\transforms\preDex\release\1.jar" />
+    </item>
+
+</items>
