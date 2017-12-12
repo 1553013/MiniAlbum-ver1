@@ -72,7 +72,7 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
         tempBm = mainBm.copy(Bitmap.Config.ARGB_8888, true);
 
         canvas = new Canvas(tempBm);
-
+        canvas.drawBitmap(tempBm,0,0,null);
         faceDetector = new FaceDetector.Builder(context)
                 .setTrackingEnabled(false)
                 .setLandmarkType(FaceDetector.ALL_LANDMARKS)
