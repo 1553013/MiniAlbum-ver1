@@ -52,6 +52,7 @@ import com.example.huynhxuankhanh.minialbum.process.OnTaskCompleted;
 import com.example.huynhxuankhanh.minialbum.process.OnTaskReceiveComplete;
 import com.example.huynhxuankhanh.minialbum.process.ProcessImage;
 import com.example.huynhxuankhanh.minialbum.process.SaveImage;
+import com.example.huynhxuankhanh.minialbum.process.SetView;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -76,7 +77,7 @@ import java.util.Date;
  * Created by HUYNHXUANKHANH on 12/1/2017.
  */
 
-public class EditActivity extends AppCompatActivity implements OnTaskCompleted, OnTaskArrayCompleted, OnTaskReceiveComplete {
+public class EditActivity extends AppCompatActivity implements OnTaskCompleted, OnTaskArrayCompleted, OnTaskReceiveComplete,SetView{
     private InfoImage receive;
     private Button btnCrop, btnEffect, btnFaceDetect, btnBright, btnContrast;
     private Boolean isFav;
@@ -136,7 +137,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
             options.inSampleSize = 2;
 
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
-
+/*
             Matrix matrix = new Matrix();
             int currentOrientation = 0;
             if (receive.getOrientaion() == null)
@@ -145,7 +146,9 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                 currentOrientation = Integer.parseInt(receive.getOrientaion());
             matrix.postRotate(currentOrientation);
             bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-            imageView.setImageBitmap(bm);
+*/
+
+            imageView.setImageBitmap(onSetView(bm,receive));
 
 
             btnCrop.setOnClickListener(new View.OnClickListener() {
@@ -282,8 +285,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                             pro.execute();
                         }
                     });
-                    isEdit = true;
-                    isFaceDetector = true;
+
                 }
             });
             btnBright.setOnClickListener(new View.OnClickListener() {
@@ -319,7 +321,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                         e.printStackTrace();
                     }
                     if (bm != null)
-                        imageView.setImageBitmap(bm);
+                        imageView.setImageBitmap(onSetView(bm,receive));
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                 }
@@ -497,14 +499,21 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     @Override
     public void onTaskCompleted(Bitmap bm) {
         this.bm = bm;
-        imageView.setImageBitmap(bm);
+        imageView.setImageBitmap(onSetView(bm,receive));
     }
 
 
     @Override
     public void onTaskArrayCompleted(ArrayList<Bitmap> arrayListBm) {
-        imageView.setImageBitmap(arrayListBm.get(arrayListBm.size() - 1));
-        mainArrayBm = arrayListBm;
+        if(arrayListBm.size()!=1)// khac tam anh ban dau
+        {
+            imageView.setImageBitmap(onSetView(arrayListBm.get(arrayListBm.size() - 1), receive));
+            mainArrayBm = arrayListBm;
+            isEdit = true;
+            isFaceDetector = true;
+        }
+        else
+            Toast.makeText(this, "No faces are found ...", Toast.LENGTH_SHORT).show();
         // store here
     }
 
@@ -529,5 +538,19 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
             }
         }
         this.finish();
+    }
+
+    @Override
+    public Bitmap onSetView(Bitmap bitmap,InfoImage infoImage) {
+        Matrix matrix = new Matrix();
+        int currentOrientation = 0;
+        if (infoImage.getOrientaion() == null)
+            currentOrientation = 0;
+        else
+            currentOrientation = Integer.parseInt(infoImage.getOrientaion());
+        matrix.postRotate(currentOrientation);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        return bitmap;
     }
 }

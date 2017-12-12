@@ -118,6 +118,10 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
             values.put(MediaStore.Images.Media.SIZE, sizeBm);
             receive.setSize(sizeBm);
 
+            String orientation = "0";
+            values.put(MediaStore.Images.Media.ORIENTATION,orientation);
+            receive.setOrientaion(orientation);
+
             // insert 1 tuple vào bảng Gallery Image, chỉ có thông tin tuple ko có hình ảnh
             context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             // Xuất file ảnh ra folder MiniAlbum
@@ -163,26 +167,26 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
                 // đây là một tuple của Gallery Database
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media._ID, newId + 1);
-             //  temp.setiD(newId + 1);
+
 
                 values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
                 Date tempdate = new Date();
                 tempdate.setTime(System.currentTimeMillis());
-               // temp.setDateTaken(tempdate.toString());
+
 
                 values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
                 values.put(MediaStore.Images.Media.DATA, file.toString());
-             //   temp.setPathFile(file.toString());
+
 
                 values.put(MediaStore.Images.Media.BUCKET_DISPLAY_NAME, "MiniAlbum");
-             //   temp.setNameBucket("MiniAlbum");
+
 
                 values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
-            //    temp.setNameFile(fileName);
+
 
                 long sizeBm = BitmapCompat.getAllocationByteCount(bm);
                 values.put(MediaStore.Images.Media.SIZE, sizeBm);
-               // temp.setSize(sizeBm);
+
 
                 // insert 1 tuple vào bảng Gallery Image, chỉ có thông tin tuple ko có hình ảnh
                 context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);

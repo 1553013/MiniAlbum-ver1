@@ -36,6 +36,7 @@ import com.example.huynhxuankhanh.minialbum.Utility;
 import com.example.huynhxuankhanh.minialbum.database.Database;
 import com.example.huynhxuankhanh.minialbum.fragment.FragmentPicture;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
+import com.example.huynhxuankhanh.minialbum.process.SetView;
 import com.facebook.CallbackManager;
 import com.facebook.share.model.ShareContent;
 import com.facebook.share.model.ShareHashtag;
@@ -44,10 +45,11 @@ import com.facebook.share.model.SharePhoto;
 import com.facebook.share.widget.ShareDialog;
 
 import java.io.File;
+import java.util.Locale;
 
 import uk.co.senab.photoview.PhotoView;
 
-public class ImageActivity extends AppCompatActivity {
+public class ImageActivity extends AppCompatActivity implements SetView{
 
     // private ImageView imageView ;
     private Context context;
@@ -114,19 +116,8 @@ public class ImageActivity extends AppCompatActivity {
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
 
             if (bm != null) {
-                //detect image rotation
-                Matrix matrix = new Matrix();
-                // những ảnh save từ mạng về không có orientation nên trả về null, nếu mà có đọc trúng thì set nó 0( default)
-                if (receive.getOrientaion() == null)
-                    currentOrientation = 0;
-                else
-                    currentOrientation = Integer.parseInt(receive.getOrientaion());
-                matrix.postRotate(currentOrientation);
-                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-                imageView.setImageBitmap(bm);
 
-
-                imageView.setImageBitmap(bm);
+                imageView.setImageBitmap(onSetView(bm,receive));
                 //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
 
                 // show a alert dialog to request user delete or not
@@ -175,10 +166,18 @@ public class ImageActivity extends AppCompatActivity {
                                                             ContentResolver contentResolver = getContentResolver();
                                                             contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                                                                     MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
+
+                                                            Database database = new Database(ImageActivity.this);
+                                                           // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                            String sql = String.format(Locale.ENGLISH,"DELETE FROM Favorite WHERE Path = '%s'"
+                                                                    ,receive.getPathFile());
+                                                            database.QuerySQL(sql);
+
                                                             finish();
                                                         } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
                                                             Database database = new Database(ImageActivity.this);
-                                                            String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                           // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                            String sql = String.format(Locale.ENGLISH,"DELETE FROM Favorite WHERE Path = '%s'",receive.getPathFile());
                                                             database.QuerySQL(sql);
                                                             finish();
                                                         }
@@ -202,10 +201,17 @@ public class ImageActivity extends AppCompatActivity {
                                                 contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                                                         MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
                                                 setResult(Activity.RESULT_OK);
+
+                                                Database database = new Database(ImageActivity.this);
+                                               // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                String sql = String.format(Locale.ENGLISH,"DELETE FROM Favorite WHERE Path = '%s'",receive.getPathFile());
+                                                database.QuerySQL(sql);
+
                                                 finish();
                                             } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
                                                 Database database = new Database(ImageActivity.this);
-                                                String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                //String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                String sql = String.format(Locale.ENGLISH,"DELETE FROM Favorite WHERE Path = '%s'",receive.getPathFile());
                                                 database.QuerySQL(sql);
                                                 finish();
                                             }
@@ -243,13 +249,12 @@ public class ImageActivity extends AppCompatActivity {
                         Cursor cursor = database.getData("SELECT * FROM Favorite");
                         if (cursor != null) {
                             if (checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 1) == false) {
-                                String sql = "INSERT INTO Favorite VALUES(" + receive.getiD() +
-                                        ",'" + receive.getPathFile() + "'" +
-                                        ",'" + receive.getNameFile() + "'" +
-                                        ",'" + receive.getNameBucket() + "'" +
-                                        "," + receive.getSize() +
-                                        ",'" + receive.getDateTaken() + "'" +
-                                        ",'" + receive.getOrientaion() + "')";
+                                String orientation = "0";
+                                if(receive.getOrientaion()!=null)
+                                    orientation = receive.getOrientaion();
+                                String sql = String.format(Locale.ENGLISH,"INSERT INTO Favorite VALUES(%d,'%s','%s','%s',%d,'%s','%s')"
+                                        ,receive.getiD(),receive.getPathFile(),receive.getNameFile(),receive.getNameBucket()
+                                        ,receive.getSize(),receive.getDateTaken(),orientation);
                                 database.QuerySQL(sql);
                                 Toast.makeText(ImageActivity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();
                             } else {
@@ -335,7 +340,7 @@ public class ImageActivity extends AppCompatActivity {
             case R.id.btn_detail:
                 AlertDialog.Builder builder = new AlertDialog.Builder(ImageActivity.this);
 
-                String details = String.format("Title: %s \n\nTime: %s \n\nSize: %.2f MB \n\nWidth: %d \n\nHeight: %d\n\nPath: %s",
+                String details = String.format(Locale.ENGLISH,"Title: %s \n\nTime: %s \n\nSize: %.2f MB \n\nWidth: %d \n\nHeight: %d\n\nPath: %s",
                         receive.getNameFile(), receive.getDateTaken(), (float) receive.getSize() / 1048576,
                         bm.getWidth(), bm.getHeight(), receive.getPathFile());
                 builder.setTitle("Details")
@@ -364,13 +369,22 @@ public class ImageActivity extends AppCompatActivity {
                 if (currentOrientation == 360)
                     currentOrientation = 0;
                 contentValues.put(MediaStore.Images.Media.ORIENTATION, currentOrientation);
-                String where = MediaStore.Images.ImageColumns._ID + "=?";
+                String where = String.format(Locale.ENGLISH,"%d=?",MediaStore.Images.ImageColumns._ID);
                 String[] whereParam = {Integer.toString(receive.getiD())};
                 context.getContentResolver().update(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         , contentValues
                         , where
                         , whereParam);
                 receive.setOrientaion(Integer.toString(currentOrientation));
+
+                if(isFav){ // neu dang truy cap trong fragment fav
+                    String sql =
+                            String.format(Locale.ENGLISH,"UPDATE Favorite SET Orientation = %s WHERE Id = %d"
+                                    ,Integer.toString(currentOrientation),receive.getiD());
+                    Database database = new Database(ImageActivity.this);
+                    database.QuerySQL(sql);
+                }
+
                 isRotate = true;
 
                 break;
@@ -404,7 +418,7 @@ public class ImageActivity extends AppCompatActivity {
                 int numFace =0;
                 numFace = data.getIntExtra("num-face",numFace);
                 setBackgroundInfo();
-                imageView.setImageBitmap(bm);
+                imageView.setImageBitmap(onSetView(bm,receive));
                 if(numFace!=0)
                     numberEdit+=numFace;
                 else
@@ -458,4 +472,18 @@ public class ImageActivity extends AppCompatActivity {
         msConn.connect();
     }
 
+    @Override
+    public Bitmap onSetView(Bitmap bitmap, InfoImage infoImage) {
+        Matrix matrix = new Matrix();
+        int currentOrientation = 0;
+        if (infoImage.getOrientaion() == null)
+            currentOrientation = 0;
+        else
+            currentOrientation = Integer.parseInt(infoImage.getOrientaion());
+
+        matrix.postRotate(currentOrientation);
+        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        return bitmap;
+    }
 }

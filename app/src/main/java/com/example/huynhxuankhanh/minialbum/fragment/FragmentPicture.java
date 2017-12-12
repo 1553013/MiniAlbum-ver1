@@ -82,12 +82,13 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                 (new Handler()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-
+                        currentPos = 0;
                         ((MainActivity) getActivity()).onMsgFromFragToMain("re-load-images");
                         myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
                         gridView.setAdapter(myArrayAdapterGridView);
                         gridView.setSelection(currentPos);
                         swipeRefreshLayout.setRefreshing(false);
+
                     }
                 },1000);
             }
