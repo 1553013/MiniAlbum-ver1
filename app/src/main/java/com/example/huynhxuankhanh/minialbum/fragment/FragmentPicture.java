@@ -83,7 +83,7 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                     @Override
                     public void run() {
                         currentPos = 0;
-                        ((MainActivity) getActivity()).onMsgFromFragToMain("re-load-images");
+                        ((MainActivity) getActivity()).onMsgFromFragToMain("reload-images");
                         myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
                         gridView.setAdapter(myArrayAdapterGridView);
                         gridView.setSelection(currentPos);
@@ -105,9 +105,7 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                         (gridView == null || gridView.getChildCount() == 0) ?
                                 0 : gridView.getChildAt(0).getTop();
 
-                boolean newScrollEnabled =
-                        (firstVisibleItem == 0 && topRowVerticalPosition >= 0) ?
-                                true : false;
+                boolean newScrollEnabled = firstVisibleItem == 0 && topRowVerticalPosition >= 0;
 
                 if (null != swipeRefreshLayout && scrollEnabled != newScrollEnabled) {
                     // Start refreshing....

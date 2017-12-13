@@ -103,7 +103,8 @@ public class ImageActivity extends AppCompatActivity implements SetView {
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
 
             if (bm != null) {
-                imageView.setImageBitmap(onSetView(bm, receive));
+                bm = onSetView(bm, receive);
+                imageView.setImageBitmap(bm);
                 // show a alert dialog to request user delete or not
                 btnRemove.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -345,7 +346,7 @@ public class ImageActivity extends AppCompatActivity implements SetView {
                 if (currentOrientation == 360)
                     currentOrientation = 0;
                 contentValues.put(MediaStore.Images.Media.ORIENTATION, currentOrientation);
-                String where = String.format(Locale.ENGLISH, "%d=?", MediaStore.Images.ImageColumns._ID);
+                String where = String.format(Locale.ENGLISH, "%s=?", MediaStore.Images.ImageColumns._ID);
                 String[] whereParam = {Integer.toString(receive.getiD())};
                 context.getContentResolver().update(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         , contentValues

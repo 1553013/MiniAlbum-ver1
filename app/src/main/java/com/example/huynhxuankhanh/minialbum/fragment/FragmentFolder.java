@@ -42,9 +42,7 @@ public class FragmentFolder extends Fragment implements com.example.huynhxuankha
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_folder, container, false);
-
         listView = (ListView) view.findViewById(R.id.lst_folder);
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,28 +59,22 @@ public class FragmentFolder extends Fragment implements com.example.huynhxuankha
 
             }
         });
-
         return view;
     }
-
 
     @Override
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).onMsgFromFragToMain("load-folders");
-
         if (listInfoFolder != null) {
             myArrayAdapterGridView = new AdapterFolderListView(getActivity(), R.layout.folderview_layout, listInfoFolder);
             listView.setAdapter(myArrayAdapterGridView);
-
         }
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override

@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
         // create tool bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
-                    tabLayout = (TabLayout) findViewById(R.id.tabs);
                     tabLayout.setupWithViewPager(mViewPager);
                     // make interface better after loading image
                     tabLayout.getTabAt(0).setIcon(R.mipmap.icon_picture_white);
@@ -86,16 +86,13 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
                     loadGallery.setContentResolver(this.getContentResolver());
                     loadGallery.query_PathImage(Image_URI_EXTERNAL);
 
-
-                    // create an app folder
+                    // create a folder to store changed pictures in app
                     final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MiniAlbum");
-
                     if (!f.exists()) {
                         Toast.makeText(this, "Folder MiniAlbum doesn't exist, creating it for the fist using...", Toast.LENGTH_SHORT).show();
-                        // kiem tra file da tao hay chua
+                        // check whether this file have been created or not
                         boolean rv = f.mkdir();
                     }
-
                 } else
                     finish();
                 break;
@@ -139,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
     public void onMsgFromFragToMain(String message) {
         if (message.equals("load-images"))
             mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallery.getListImage());
-        else if (message.equals("re-load-images")) {
+        else if (message.equals("reload-images")) {
             loadGallery = new LoadGallery();
             loadGallery.setContentResolver(this.getContentResolver());
             loadGallery.query_PathImage(Image_URI_EXTERNAL);

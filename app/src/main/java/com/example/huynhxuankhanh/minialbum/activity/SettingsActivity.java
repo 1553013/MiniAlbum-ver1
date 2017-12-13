@@ -21,7 +21,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         //create back button on top-left of toolbar
@@ -79,7 +78,8 @@ public class SettingsActivity extends AppCompatActivity {
                     break;
                 }
                 case "pref_others": {
-                    Toast.makeText(getContext(), Utility.PASSWORD_KEY, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Developed by Dunarctic and KhanhHuynh", Toast
+                            .LENGTH_LONG).show();
                     break;
                 }
             }
