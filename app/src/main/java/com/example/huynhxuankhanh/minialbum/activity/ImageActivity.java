@@ -49,8 +49,7 @@ import java.util.Locale;
 
 import uk.co.senab.photoview.PhotoView;
 
-public class ImageActivity extends AppCompatActivity implements SetView{
-
+public class ImageActivity extends AppCompatActivity implements SetView {
     // private ImageView imageView ;
     private Context context;
     private PhotoView imageView;
@@ -67,24 +66,20 @@ public class ImageActivity extends AppCompatActivity implements SetView{
     private MediaScannerConnection msConn;
     private boolean isRotate = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-
         context = this;
+
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
         initInterface();
         // create tool bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_image);
-
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().
-
-                setTitle("");
+        getSupportActionBar().setTitle("");
         //create back button on top-left of toolbar
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -93,22 +88,14 @@ public class ImageActivity extends AppCompatActivity implements SetView{
                 onBackPressed();
             }
         });
-        toolbar_title = (TextView)
+        toolbar_title = (TextView) findViewById(R.id.toolbar_image_title);
 
-                findViewById(R.id.toolbar_image_title);
-
-        receive = getIntent().
-
-                getParcelableExtra("image-info");
-        if (receive == null)
-
-        {
+        receive = getIntent().getParcelableExtra("image-info");
+        if (receive == null) {
             receive = getIntent().getParcelableExtra("image-info-fav");
             isFav = true;
         }
-        if (receive != null)
-
-        {
+        if (receive != null) {
             toolbar_title.setText(receive.getNameFile());
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -116,10 +103,7 @@ public class ImageActivity extends AppCompatActivity implements SetView{
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
 
             if (bm != null) {
-
-                imageView.setImageBitmap(onSetView(bm,receive));
-                //Toast.makeText(this, getIntent().getStringExtra("image-view"), Toast.LENGTH_SHORT).show();
-
+                imageView.setImageBitmap(onSetView(bm, receive));
                 // show a alert dialog to request user delete or not
                 btnRemove.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -168,16 +152,16 @@ public class ImageActivity extends AppCompatActivity implements SetView{
                                                                     MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
 
                                                             Database database = new Database(ImageActivity.this);
-                                                           // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
-                                                            String sql = String.format(Locale.ENGLISH,"DELETE FROM Favorite WHERE Path = '%s'"
-                                                                    ,receive.getPathFile());
+                                                            // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                            String sql = String.format(Locale.ENGLISH, "DELETE FROM Favorite WHERE Path = '%s'"
+                                                                    , receive.getPathFile());
                                                             database.QuerySQL(sql);
 
                                                             finish();
                                                         } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
                                                             Database database = new Database(ImageActivity.this);
-                                                           // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
-                                                            String sql = String.format(Locale.ENGLISH,"DELETE FROM Favorite WHERE Path = '%s'",receive.getPathFile());
+                                                            // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                            String sql = String.format(Locale.ENGLISH, "DELETE FROM Favorite WHERE Path = '%s'", receive.getPathFile());
                                                             database.QuerySQL(sql);
                                                             finish();
                                                         }
@@ -203,15 +187,15 @@ public class ImageActivity extends AppCompatActivity implements SetView{
                                                 setResult(Activity.RESULT_OK);
 
                                                 Database database = new Database(ImageActivity.this);
-                                               // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
-                                                String sql = String.format(Locale.ENGLISH,"DELETE FROM Favorite WHERE Path = '%s'",receive.getPathFile());
+                                                // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
+                                                String sql = String.format(Locale.ENGLISH, "DELETE FROM Favorite WHERE Path = '%s'", receive.getPathFile());
                                                 database.QuerySQL(sql);
 
                                                 finish();
                                             } else { // nếu intent đc gửi từ fragment fav thì sẽ xóa trong database của fav
                                                 Database database = new Database(ImageActivity.this);
                                                 //String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
-                                                String sql = String.format(Locale.ENGLISH,"DELETE FROM Favorite WHERE Path = '%s'",receive.getPathFile());
+                                                String sql = String.format(Locale.ENGLISH, "DELETE FROM Favorite WHERE Path = '%s'", receive.getPathFile());
                                                 database.QuerySQL(sql);
                                                 finish();
                                             }
@@ -225,17 +209,14 @@ public class ImageActivity extends AppCompatActivity implements SetView{
                 });
                 // call set wallpaper to set bitmap to wallpaper.
                 btnSetWall.setOnClickListener(new View.OnClickListener() {
-
                     @Override
                     public void onClick(View view) {
-
                         Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
                         intent.addCategory(Intent.CATEGORY_DEFAULT);
                         //lấy đường dẫn file ảnh gắn vào Uri
                         intent.setDataAndType(Uri.fromFile(new File(receive.getPathFile())), "image/*");
                         intent.putExtra("mimeType", "image/*");
                         startActivity(Intent.createChooser(intent, "Set as:"));
-
                     }
                 });
                 // add 1 column to the original database to show that it is my favorite image.
@@ -250,11 +231,11 @@ public class ImageActivity extends AppCompatActivity implements SetView{
                         if (cursor != null) {
                             if (checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 1) == false) {
                                 String orientation = "0";
-                                if(receive.getOrientaion()!=null)
+                                if (receive.getOrientaion() != null)
                                     orientation = receive.getOrientaion();
-                                String sql = String.format(Locale.ENGLISH,"INSERT INTO Favorite VALUES(%d,'%s','%s','%s',%d,'%s','%s')"
-                                        ,receive.getiD(),receive.getPathFile(),receive.getNameFile(),receive.getNameBucket()
-                                        ,receive.getSize(),receive.getDateTaken(),orientation);
+                                String sql = String.format(Locale.ENGLISH, "INSERT INTO Favorite VALUES(%d,'%s','%s','%s',%d,'%s','%s')"
+                                        , receive.getiD(), receive.getPathFile(), receive.getNameFile(), receive.getNameBucket()
+                                        , receive.getSize(), receive.getDateTaken(), orientation);
                                 database.QuerySQL(sql);
                                 Toast.makeText(ImageActivity.this, "Added this image to Favorite album", Toast.LENGTH_SHORT).show();
                             } else {
@@ -304,18 +285,14 @@ public class ImageActivity extends AppCompatActivity implements SetView{
                 Toast.makeText(this, "Not enough memory to load image", Toast.LENGTH_SHORT).show();
                 finish();
             }
-        } else
-
-        {
+        } else {
             Toast.makeText(this, "Error: Wrong path of image", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     public void initInterface() {
@@ -326,7 +303,6 @@ public class ImageActivity extends AppCompatActivity implements SetView{
         btnEdit = (Button) findViewById(R.id.btn_edit);
         btnRemove = (Button) findViewById(R.id.btn_delete);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -340,7 +316,7 @@ public class ImageActivity extends AppCompatActivity implements SetView{
             case R.id.btn_detail:
                 AlertDialog.Builder builder = new AlertDialog.Builder(ImageActivity.this);
 
-                String details = String.format(Locale.ENGLISH,"Title: %s \n\nTime: %s \n\nSize: %.2f MB \n\nWidth: %d \n\nHeight: %d\n\nPath: %s",
+                String details = String.format(Locale.ENGLISH, "Title: %s \n\nTime: %s \n\nSize: %.2f MB \n\nWidth: %d \n\nHeight: %d\n\nPath: %s",
                         receive.getNameFile(), receive.getDateTaken(), (float) receive.getSize() / 1048576,
                         bm.getWidth(), bm.getHeight(), receive.getPathFile());
                 builder.setTitle("Details")
@@ -369,7 +345,7 @@ public class ImageActivity extends AppCompatActivity implements SetView{
                 if (currentOrientation == 360)
                     currentOrientation = 0;
                 contentValues.put(MediaStore.Images.Media.ORIENTATION, currentOrientation);
-                String where = String.format(Locale.ENGLISH,"%d=?",MediaStore.Images.ImageColumns._ID);
+                String where = String.format(Locale.ENGLISH, "%d=?", MediaStore.Images.ImageColumns._ID);
                 String[] whereParam = {Integer.toString(receive.getiD())};
                 context.getContentResolver().update(MediaStore.Images.Media.EXTERNAL_CONTENT_URI
                         , contentValues
@@ -377,18 +353,16 @@ public class ImageActivity extends AppCompatActivity implements SetView{
                         , whereParam);
                 receive.setOrientaion(Integer.toString(currentOrientation));
 
-                if(isFav){ // neu dang truy cap trong fragment fav
+                if (isFav) { // neu dang truy cap trong fragment fav
                     String sql =
-                            String.format(Locale.ENGLISH,"UPDATE Favorite SET Orientation = %s WHERE Id = %d"
-                                    ,Integer.toString(currentOrientation),receive.getiD());
+                            String.format(Locale.ENGLISH, "UPDATE Favorite SET Orientation = %s WHERE Id = %d"
+                                    , Integer.toString(currentOrientation), receive.getiD());
                     Database database = new Database(ImageActivity.this);
                     database.QuerySQL(sql);
                 }
 
                 isRotate = true;
-
                 break;
-
         }
 
         return (super.onOptionsItemSelected(item));
@@ -415,15 +389,14 @@ public class ImageActivity extends AppCompatActivity implements SetView{
         if (requestCode == 111) {
             if (resultCode == 123) {
                 receive = (InfoImage) data.getParcelableExtra("crop-image");
-                int numFace =0;
-                numFace = data.getIntExtra("num-face",numFace);
+                int numFace = 0;
+                numFace = data.getIntExtra("num-face", numFace);
                 setBackgroundInfo();
-                imageView.setImageBitmap(onSetView(bm,receive));
-                if(numFace!=0)
-                    numberEdit+=numFace;
+                imageView.setImageBitmap(onSetView(bm, receive));
+                if (numFace != 0)
+                    numberEdit += numFace;
                 else
                     numberEdit++;
-
             }
         }
         callbackManager.onActivityResult(requestCode, resultCode, data);
@@ -442,11 +415,8 @@ public class ImageActivity extends AppCompatActivity implements SetView{
     public void onBackPressed() {
         if (numberEdit != 0) {
             Intent resultNumCrop = new Intent(ImageActivity.this, FragmentPicture.class);
-
             resultNumCrop.putExtra("crop-image", numberEdit);
-
             setResult(222, resultNumCrop);
-
         }
         if (isRotate) {
             Intent resultRotate = new Intent(ImageActivity.this, FragmentPicture.class);
@@ -456,7 +426,6 @@ public class ImageActivity extends AppCompatActivity implements SetView{
         }
         super.onBackPressed();
     }
-
 
     public void scanPhoto(final String imageFileName) {
         msConn = new MediaScannerConnection(ImageActivity.this, new MediaScannerConnection.MediaScannerConnectionClient() {
@@ -483,7 +452,6 @@ public class ImageActivity extends AppCompatActivity implements SetView{
 
         matrix.postRotate(currentOrientation);
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
         return bitmap;
     }
 }

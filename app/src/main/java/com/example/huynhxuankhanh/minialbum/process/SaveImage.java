@@ -3,7 +3,6 @@ package com.example.huynhxuankhanh.minialbum.process;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
@@ -12,14 +11,12 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.graphics.BitmapCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
-import com.example.huynhxuankhanh.minialbum.activity.EditActivity;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 
 import java.io.File;
@@ -35,18 +32,18 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  * Created by HUYNHXUANKHANH on 12/10/2017.
  */
 
-public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
+public class SaveImage extends AsyncTask<InfoImage, InfoImage, InfoImage> {
+    public OnTaskReceiveComplete listener = null;
     private InfoImage receive;
     private Context context;
     private Bitmap bm;
     private ArrayList<Bitmap> arrayBitmap;
     private MediaScannerConnection msConn;
     private Dialog dialog;
-    public OnTaskReceiveComplete listener = null;
     private int type;
     private ArrayList<String> listFile;
 
-    public SaveImage(InfoImage receive, Context context, Bitmap bm,ArrayList<Bitmap> arrayBitmap, int type) {
+    public SaveImage(InfoImage receive, Context context, Bitmap bm, ArrayList<Bitmap> arrayBitmap, int type) {
         this.receive = receive;
         this.context = context;
         this.bm = bm;
@@ -64,14 +61,13 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
         dialog.setContentView(layout);
         dialog.setCancelable(false);
         dialog.show();
-        if(type==1)
+        if (type == 1)
             listFile = new ArrayList<>();
     }
 
     @Override
     protected InfoImage doInBackground(InfoImage... infoImages) {
-
-        if(type==0) // save 1 tam hinh
+        if (type == 0) // save 1 tam hinh
         {
             // xử lí lưu ảnh vào gallery store của phone
             String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/MiniAlbum";
@@ -80,7 +76,7 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
             int distinct = 1;
             // kiểm tra tên trùng: nếu trùng thì đặt tên khác
             while (file.exists()) {
-                fileName = "crop_" + Integer.toString(distinct)  + receive.getNameFile();
+                fileName = "crop_" + Integer.toString(distinct) + receive.getNameFile();
                 file = new File(path, fileName);
                 distinct++;
             }
@@ -119,7 +115,7 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
             receive.setSize(sizeBm);
 
             String orientation = "0";
-            values.put(MediaStore.Images.Media.ORIENTATION,orientation);
+            values.put(MediaStore.Images.Media.ORIENTATION, orientation);
             receive.setOrientaion(orientation);
 
             // insert 1 tuple vào bảng Gallery Image, chỉ có thông tin tuple ko có hình ảnh
@@ -140,9 +136,9 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
 
             scanPhoto(file.toString());
         }
-        if(type==1){
+        if (type == 1) {
             InfoImage temp = receive;
-            for(int i=0;i<arrayBitmap.size()-1;++i){
+            for (int i = 0; i < arrayBitmap.size() - 1; ++i) {
                 // xử lí lưu ảnh vào gallery store của phone
                 String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/MiniAlbum";
                 String fileName = "crop-" + temp.getNameFile();
@@ -168,25 +164,17 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media._ID, newId + 1);
 
-
                 values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
                 Date tempdate = new Date();
                 tempdate.setTime(System.currentTimeMillis());
 
-
                 values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
                 values.put(MediaStore.Images.Media.DATA, file.toString());
-
-
                 values.put(MediaStore.Images.Media.BUCKET_DISPLAY_NAME, "MiniAlbum");
-
-
                 values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName);
-
 
                 long sizeBm = BitmapCompat.getAllocationByteCount(bm);
                 values.put(MediaStore.Images.Media.SIZE, sizeBm);
-
 
                 // insert 1 tuple vào bảng Gallery Image, chỉ có thông tin tuple ko có hình ảnh
                 context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -205,8 +193,6 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
                 }
 
                 listFile.add(file.toString());
-
-
             }
         }
         return null;
@@ -215,7 +201,7 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
     @Override
     protected void onPostExecute(InfoImage s) {
         super.onPostExecute(s);
-        listener.OnTaskReceiveComplete(receive,listFile);
+        listener.OnTaskReceiveComplete(receive, listFile);
         if (dialog.isShowing())
             dialog.dismiss();
     }
@@ -233,7 +219,5 @@ public class SaveImage extends AsyncTask<InfoImage,InfoImage,InfoImage> {
             }
         });
         msConn.connect();
-
     }
-
 }

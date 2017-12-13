@@ -2,7 +2,6 @@ package com.example.huynhxuankhanh.minialbum.process;
 
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**

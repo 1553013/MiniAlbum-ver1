@@ -31,8 +31,8 @@ public class SecurityConfigDialog extends Dialog {
     EditText confirm_password_et;
     @BindView(R.id.security_delete)
     Switch security_delete;
-//    @BindView(R.id.security_open)
-//    Switch security_open;
+    //@BindView(R.id.security_open)
+    //Switch security_open;
     @BindView(R.id.apply)
     Button apply;
     @BindView(R.id.cancel)
@@ -123,8 +123,7 @@ public class SecurityConfigDialog extends Dialog {
         if (password_et.getText().toString().isEmpty()) {
             editor.putBoolean("security_del", false);
 //            editor.putBoolean("security_open", false);
-        }
-        else {
+        } else {
             editor.putBoolean("security_del", security_delete.isChecked());
 //            editor.putBoolean("security_open", security_open.isChecked());
         }

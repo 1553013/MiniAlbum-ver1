@@ -9,5 +9,5 @@ import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
  */
 
 public interface SetView {
-    Bitmap onSetView(Bitmap bitmap,InfoImage infoImage);
+    Bitmap onSetView(Bitmap bitmap, InfoImage infoImage);
 }

@@ -66,7 +66,7 @@ public class LoadGallery {
                 //set item for list
 
                 String orientation = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.ORIENTATION));
-                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString(),orientation);
+                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString(), orientation);
                 if (infoImage != null)
                     listImage.add(infoImage);
                 cursor.moveToPrevious();
@@ -84,11 +84,10 @@ public class LoadGallery {
         ArrayList<InfoFolder> listFolder = new ArrayList<>();
         InfoFolder infoFolder = null;
         for (int i = 0; i < listImage.size(); ++i) {
-            if(tempNameFolder.contains(listImage.get(i).getNameBucket())){ // neu ma da chua
+            if (tempNameFolder.contains(listImage.get(i).getNameBucket())) { // neu ma da chua
                 int pos = tempNameFolder.indexOf(listImage.get(i).getNameBucket());
                 listFolder.get(pos).getListImage().add(listImage.get(i));
-            }
-            else{ // neu chua chua
+            } else { // neu chua chua
                 tempNameFolder.add(listImage.get(i).getNameBucket());
                 infoFolder = new InfoFolder();
                 infoFolder.setNameBucket(listImage.get(i).getNameBucket());
@@ -98,11 +97,12 @@ public class LoadGallery {
         }
         return listFolder;
     }
-    public void updateLastItem(Uri url,int numberImageUpdate){
+
+    public void updateLastItem(Uri url, int numberImageUpdate) {
         cursor = contentResolver.query(url, projection, null, null, null);
-        if(cursor!=null){
+        if (cursor != null) {
             cursor.moveToLast();
-            for(int i=0;i<numberImageUpdate;++i) {
+            for (int i = 0; i < numberImageUpdate; ++i) {
                 int iD = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID)));
                 String pathFile = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
                 String nameFile = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME));
@@ -120,9 +120,9 @@ public class LoadGallery {
                 // dateFormat.format(cal.getTime());
                 //set item for list
                 String orientation = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.ORIENTATION));
-                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString(),orientation);
+                InfoImage infoImage = new InfoImage(iD, sizeFile, pathFile, nameFile, nameBucket, tempdate.toString(), orientation);
                 if (infoImage != null)
-                    listImage.add(0,infoImage);
+                    listImage.add(0, infoImage);
 
                 cursor.moveToPrevious();
             }

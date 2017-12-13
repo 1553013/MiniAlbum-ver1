@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
-import com.example.huynhxuankhanh.minialbum.activity.EditActivity;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -31,16 +30,16 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  */
 
 public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
+    public OnTaskArrayCompleted listener = null;
     private Bitmap mainBm;
     private Bitmap tempBm;
     private ArrayList<Bitmap> retFaceBm;
     private Mat source, dest;
     private Dialog dialog;
     private Context context;
-    public OnTaskArrayCompleted listener = null;
     private Paint rect;
     private Canvas canvas;
-    private  FaceDetector faceDetector;
+    private FaceDetector faceDetector;
     private Frame frame;
     private SparseArray<Face> sparseArray;
     private ArrayList<RectF> rectFS;
@@ -64,7 +63,6 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
         dialog.setCancelable(false);
         dialog.show();
 
-
         rect = new Paint();
         rect.setStrokeWidth(5);
         rect.setColor(Color.RED);
@@ -80,11 +78,8 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
                 .build();
         if (!faceDetector.isOperational()) {
             Toast.makeText(context, "Face Detector can't recognize in your device", Toast.LENGTH_SHORT).show();
-            return ;
+            return;
         }
-
-
-
     }
 
     @Override
@@ -98,23 +93,21 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
             float x2 = x1 + face.getWidth();
             float y2 = y1 + face.getHeight();
 
-            if(x1<0)
+            if (x1 < 0)
                 x1 = 0;
-            if(y1<0)
-                y1=0;
+            if (y1 < 0)
+                y1 = 0;
 
             try {
                 Bitmap croppedBmp = Bitmap.createBitmap(tempBm, (int) x1, (int) y1, (int) face.getWidth(), (int) face.getHeight());
                 retFaceBm.add(croppedBmp);
                 RectF rectF = new RectF(x1, y1, x2, y2);
                 rectFS.add(rectF);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
 
             }
-
         }
-        for(int i=0;i<rectFS.size();++i)
+        for (int i = 0; i < rectFS.size(); ++i)
             canvas.drawRoundRect(rectFS.get(i), 2, 2, rect);
         return null;
     }

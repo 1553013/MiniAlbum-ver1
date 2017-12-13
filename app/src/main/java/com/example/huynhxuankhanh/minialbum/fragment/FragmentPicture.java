@@ -26,7 +26,6 @@ import com.example.huynhxuankhanh.minialbum.database.Database;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoFolder;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +43,7 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
     private int lastSelected = 0;
     private SwipeRefreshLayout swipeRefreshLayout;
     private boolean scrollEnabled;
+
     public static FragmentPicture newInstance(String StrArg) {
         FragmentPicture fragment = new FragmentPicture();
         Bundle args = new Bundle();
@@ -61,7 +61,7 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_picture, container, false);
         gridView = (GridView) view.findViewById(R.id.grd_Image);
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -71,7 +71,7 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                 fragPictureIntent.putExtra("image-info", (Parcelable) temp);
                 // check putExtra is it ok or position is ok ?
                 currentPos = gridView.getFirstVisiblePosition();
-                startActivityForResult(fragPictureIntent,0);
+                startActivityForResult(fragPictureIntent, 0);
             }
         });
         swipeRefreshLayout.setColorSchemeColors(Color.RED);
@@ -90,7 +90,7 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                         swipeRefreshLayout.setRefreshing(false);
 
                     }
-                },1000);
+                }, 1000);
             }
         });
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -132,32 +132,31 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0) { // means reload data: An image is removed from image activity.
             // listImage = new ArrayList<>();
-            if(resultCode == Activity.RESULT_OK){
+            if (resultCode == Activity.RESULT_OK) {
                 Toast.makeText(activity, "Deleted...", Toast.LENGTH_SHORT).show();
                 // remove an image from list image loaded from database.
                 listImage.remove(lastSelected);
             }
-            if(resultCode==222){
+            if (resultCode == 222) {
                 Intent result = new Intent();
                 int num = 0;
-                num = data.getIntExtra("crop-image",num);
-                if(num!=0)
+                num = data.getIntExtra("crop-image", num);
+                if (num != 0)
                     ((MainActivity) getActivity()).onMsgFromFragToMain(Integer.toString(num));
             }
-            if(resultCode==223){
+            if (resultCode == 223) {
                 String[] pack = data.getStringArrayExtra("rotate-image");
                 // update lai info tam anh ma dc rotate tu view image activity
-                for(int i=0;i<listImage.size();++i){
-                    if(listImage.get(i).getiD() == Integer.parseInt(pack[0])){
+                for (int i = 0; i < listImage.size(); ++i) {
+                    if (listImage.get(i).getiD() == Integer.parseInt(pack[0])) {
                         listImage.get(i).setOrientaion(pack[1]);
                     }
                 }
                 // update lai database cua app
-                String sql = "UPDATE Favorite SET Orientation = '"+pack[1]+"' WHERE Id = "+Integer.parseInt(pack[0]);
+                String sql = "UPDATE Favorite SET Orientation = '" + pack[1] + "' WHERE Id = " + Integer.parseInt(pack[0]);
                 Database database = new Database(getActivity());
                 database.QuerySQL(sql);
 
-                
 
             }
         }

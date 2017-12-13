@@ -139,19 +139,17 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
     public void onMsgFromFragToMain(String message) {
         if (message.equals("load-images"))
             mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallery.getListImage());
-        else if(message.equals("re-load-images")) {
+        else if (message.equals("re-load-images")) {
             loadGallery = new LoadGallery();
             loadGallery.setContentResolver(this.getContentResolver());
             loadGallery.query_PathImage(Image_URI_EXTERNAL);
             mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallery.getListImage());
-        }
-        else if(message.length()<3 &&Integer.parseInt(message)!=0) {
+        } else if (message.length() < 3 && Integer.parseInt(message) != 0) {
             loadGallery.updateLastItem(Image_URI_EXTERNAL, Integer.parseInt(message));
             mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallery.getListImage());
             mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallery.getListBucketName());
 
-        }
-        else if (message.equals("load-folders"))
+        } else if (message.equals("load-folders"))
             mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallery.getListBucketName());
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

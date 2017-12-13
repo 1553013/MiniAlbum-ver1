@@ -24,7 +24,7 @@ public class InfoImage implements Parcelable {
     private String pathFile, nameFile, nameBucket, dateTaken;
     private String orientaion;
 
-    public InfoImage(int iD, long size, String pathFile, String nameFile, String nameBucket, String dateTaken,String orientaion) {
+    public InfoImage(int iD, long size, String pathFile, String nameFile, String nameBucket, String dateTaken, String orientaion) {
         this.iD = iD;
         Size = size;
         this.pathFile = pathFile;
@@ -44,52 +44,52 @@ public class InfoImage implements Parcelable {
         orientaion = in.readString();
     }
 
-    public void setiD(int iD) {
-        this.iD = iD;
+    public long getSize() {
+        return Size;
     }
 
     public void setSize(long size) {
         Size = size;
     }
 
-    public void setPathFile(String pathFile) {
-        this.pathFile = pathFile;
-    }
-
-    public void setNameFile(String nameFile) {
-        this.nameFile = nameFile;
-    }
-
-    public void setNameBucket(String nameBucket) {
-        this.nameBucket = nameBucket;
-    }
-
-    public void setDateTaken(String dateTaken) {
-        this.dateTaken = dateTaken;
-    }
-
-    public long getSize() {
-        return Size;
-    }
-
     public String getPathFile() {
         return pathFile;
+    }
+
+    public void setPathFile(String pathFile) {
+        this.pathFile = pathFile;
     }
 
     public String getNameFile() {
         return nameFile;
     }
 
+    public void setNameFile(String nameFile) {
+        this.nameFile = nameFile;
+    }
+
     public String getDateTaken() {
         return dateTaken;
+    }
+
+    public void setDateTaken(String dateTaken) {
+        this.dateTaken = dateTaken;
     }
 
     public String getNameBucket() {
         return nameBucket;
     }
 
+    public void setNameBucket(String nameBucket) {
+        this.nameBucket = nameBucket;
+    }
+
     public int getiD() {
         return iD;
+    }
+
+    public void setiD(int iD) {
+        this.iD = iD;
     }
 
     public String getOrientaion() {

@@ -1,34 +1,19 @@
 package com.example.huynhxuankhanh.minialbum.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.ContentValues;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
-
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-
-import android.support.v4.graphics.BitmapCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -43,7 +28,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.process.FaceRecognition;
@@ -53,35 +37,28 @@ import com.example.huynhxuankhanh.minialbum.process.OnTaskReceiveComplete;
 import com.example.huynhxuankhanh.minialbum.process.ProcessImage;
 import com.example.huynhxuankhanh.minialbum.process.SaveImage;
 import com.example.huynhxuankhanh.minialbum.process.SetView;
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.face.Face;
-import com.google.android.gms.vision.face.FaceDetector;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
-
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-
 import java.util.ArrayList;
-import java.util.Date;
-
 
 /**
  * Created by HUYNHXUANKHANH on 12/1/2017.
  */
 
-public class EditActivity extends AppCompatActivity implements OnTaskCompleted, OnTaskArrayCompleted, OnTaskReceiveComplete,SetView{
+public class EditActivity extends AppCompatActivity implements OnTaskCompleted, OnTaskArrayCompleted, OnTaskReceiveComplete, SetView {
+    Mat source, dest;
     private InfoImage receive;
     private Button btnCrop, btnEffect, btnFaceDetect, btnBright, btnContrast;
     private Boolean isFav;
     private Bitmap bm;
+    Bitmap currentBM = bm;
     private ImageView imageView;
     private Uri lastBmUri = null;
     private boolean isEdit = false;
@@ -89,9 +66,6 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     private int middle;
     private ArrayList<Bitmap> mainArrayBm;
     private boolean isFaceDetector = false;
-    Bitmap currentBM = bm;
-    Mat source, dest;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,18 +111,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
             options.inSampleSize = 2;
 
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
-/*
-            Matrix matrix = new Matrix();
-            int currentOrientation = 0;
-            if (receive.getOrientaion() == null)
-                currentOrientation = 0;
-            else
-                currentOrientation = Integer.parseInt(receive.getOrientaion());
-            matrix.postRotate(currentOrientation);
-            bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
-*/
-
-            imageView.setImageBitmap(onSetView(bm,receive));
+            imageView.setImageBitmap(onSetView(bm, receive));
 
 
             btnCrop.setOnClickListener(new View.OnClickListener() {
@@ -321,7 +284,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                         e.printStackTrace();
                     }
                     if (bm != null)
-                        imageView.setImageBitmap(onSetView(bm,receive));
+                        imageView.setImageBitmap(onSetView(bm, receive));
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                 }
@@ -349,16 +312,15 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                           if(isFaceDetector==false) {
-                               SaveImage pro = new SaveImage(receive, EditActivity.this, bm, null, 0);
-                               pro.listener = EditActivity.this;
-                               pro.execute();
-                           }
-                           else{
-                               SaveImage pro = new SaveImage(receive, EditActivity.this, bm, mainArrayBm, 1);
-                               pro.listener = EditActivity.this;
-                               pro.execute();
-                           }
+                            if (isFaceDetector == false) {
+                                SaveImage pro = new SaveImage(receive, EditActivity.this, bm, null, 0);
+                                pro.listener = EditActivity.this;
+                                pro.execute();
+                            } else {
+                                SaveImage pro = new SaveImage(receive, EditActivity.this, bm, mainArrayBm, 1);
+                                pro.listener = EditActivity.this;
+                                pro.execute();
+                            }
                         }
                     });
 
@@ -499,36 +461,34 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     @Override
     public void onTaskCompleted(Bitmap bm) {
         this.bm = bm;
-        imageView.setImageBitmap(onSetView(bm,receive));
+        imageView.setImageBitmap(onSetView(bm, receive));
     }
 
 
     @Override
     public void onTaskArrayCompleted(ArrayList<Bitmap> arrayListBm) {
-        if(arrayListBm.size()!=1)// khac tam anh ban dau
+        if (arrayListBm.size() != 1)// khac tam anh ban dau
         {
             imageView.setImageBitmap(onSetView(arrayListBm.get(arrayListBm.size() - 1), receive));
             mainArrayBm = arrayListBm;
             isEdit = true;
             isFaceDetector = true;
-        }
-        else
+        } else
             Toast.makeText(this, "No faces are found ...", Toast.LENGTH_SHORT).show();
         // store here
     }
 
     @Override
-    public void OnTaskReceiveComplete(InfoImage infoImage,ArrayList<String> PathFiles) {
+    public void OnTaskReceiveComplete(InfoImage infoImage, ArrayList<String> PathFiles) {
 
 
-
-        Intent resultCrop = new Intent(EditActivity.this,ImageActivity.class);
+        Intent resultCrop = new Intent(EditActivity.this, ImageActivity.class);
         receive = infoImage;
         resultCrop.putExtra("crop-image", infoImage);
-        if(isFaceDetector==true)
-            resultCrop.putExtra("num-face",mainArrayBm.size()-1);
+        if (isFaceDetector == true)
+            resultCrop.putExtra("num-face", mainArrayBm.size() - 1);
         setResult(123, resultCrop);
-        if(PathFiles!=null) {
+        if (PathFiles != null) {
             for (int i = 0; i < PathFiles.size(); ++i) {
                 //scanPhoto(PathFiles.get(i));
                 Intent intent =
@@ -541,7 +501,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     }
 
     @Override
-    public Bitmap onSetView(Bitmap bitmap,InfoImage infoImage) {
+    public Bitmap onSetView(Bitmap bitmap, InfoImage infoImage) {
         Matrix matrix = new Matrix();
         int currentOrientation = 0;
         if (infoImage.getOrientaion() == null)
