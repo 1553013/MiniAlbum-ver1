@@ -19,8 +19,6 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 
-import org.opencv.core.Mat;
-
 import java.util.ArrayList;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -34,7 +32,6 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
     private Bitmap mainBm;
     private Bitmap tempBm;
     private ArrayList<Bitmap> retFaceBm;
-    private Mat source, dest;
     private Dialog dialog;
     private Context context;
     private Paint rect;
@@ -47,8 +44,6 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
     public FaceRecognition(Bitmap mainBm, Context context) {
         this.mainBm = mainBm;
         this.context = context;
-        source = new Mat();
-        dest = new Mat();
         retFaceBm = new ArrayList<>();
         rectFS = new ArrayList<>();
     }
@@ -78,7 +73,6 @@ public class FaceRecognition extends AsyncTask<Bitmap[], Bitmap[], Bitmap[]> {
                 .build();
         if (!faceDetector.isOperational()) {
             Toast.makeText(context, "Face Detector can't recognize in your device", Toast.LENGTH_SHORT).show();
-            return;
         }
     }
 

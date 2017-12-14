@@ -32,7 +32,6 @@ public class AdapterImageGridView extends ArrayAdapter<InfoImage> {
     // main constructor for adapter grid view
     public AdapterImageGridView(@NonNull Context context, @LayoutRes int resource, @NonNull List<InfoImage> objects) {
         super(context, resource, objects);
-
         this.context = context;
         this.resource = resource;
         this.listImage = new ArrayList<InfoImage>(objects);
@@ -43,14 +42,13 @@ public class AdapterImageGridView extends ArrayAdapter<InfoImage> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         if (convertView == null) {
             convertView = view.inflate(context, R.layout.imageview_layout, null);
             convertView.setTag(viewHolder);
-
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         viewHolder.setImageView((ImageView) convertView.findViewById(R.id.view_img));
         String item = listImage.get(position).getPathFile();
 

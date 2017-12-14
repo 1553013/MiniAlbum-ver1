@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
-import com.example.huynhxuankhanh.minialbum.Utility;
 import com.example.huynhxuankhanh.minialbum.views.SecurityConfigDialog;
 
 /**

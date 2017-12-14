@@ -110,7 +110,6 @@ public class SecurityConfigDialog extends Dialog {
         });
     }
 
-
     @OnClick(R.id.cancel)
     public void close() {
         dismiss();

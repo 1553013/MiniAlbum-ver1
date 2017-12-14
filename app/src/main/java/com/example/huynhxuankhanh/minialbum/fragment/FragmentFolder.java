@@ -46,17 +46,16 @@ public class FragmentFolder extends Fragment implements com.example.huynhxuankha
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // value i stands for position of each item.
                 FragmentPicture f = new FragmentPicture();
-                f.setListImage(listInfoFolder.get(i).getListImage());
+                f.setListImage(listInfoFolder.get(position).getListImage());
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.frag_folder, f);
                 transaction.addToBackStack(null);
 
                 // Commit the transaction
                 transaction.commit();
-
             }
         });
         return view;

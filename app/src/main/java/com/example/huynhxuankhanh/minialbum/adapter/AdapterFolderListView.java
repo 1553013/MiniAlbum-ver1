@@ -30,29 +30,25 @@ public class AdapterFolderListView extends ArrayAdapter<InfoFolder> {
 
     public AdapterFolderListView(@NonNull Context context, int resource, @NonNull List<InfoFolder> objects) {
         super(context, resource, objects);
-
         this.context = context;
         this.resource = resource;
-        this.listFolder = new ArrayList<InfoFolder>(objects);
+        this.listFolder = new ArrayList<>(objects);
         viewHolder = new ViewHolder();
-
     }
 
     // return a view of grid | push data to grid view
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
         if (convertView == null) {
             convertView = view.inflate(context, R.layout.folderview_layout, null);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
         viewHolder.setText1((TextView) convertView.findViewById(R.id.text_nameFolder));
         viewHolder.setText2((TextView) convertView.findViewById(R.id.text_numImageInFolder));
-
-//        Glide.with(viewHolder.getImageView().getContext()).load(item).into(viewHolder.getImageView());
         viewHolder.getText1().setText(listFolder.get(position).getNameBucket());
         viewHolder.getText2().setText(String.format("%d images", listFolder.get(position).getListImage().size()));
         return convertView;

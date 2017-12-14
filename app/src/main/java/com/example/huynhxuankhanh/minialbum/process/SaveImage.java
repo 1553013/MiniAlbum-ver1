@@ -116,7 +116,7 @@ public class SaveImage extends AsyncTask<InfoImage, InfoImage, InfoImage> {
 
             String orientation = "0";
             values.put(MediaStore.Images.Media.ORIENTATION, orientation);
-            receive.setOrientaion(orientation);
+            receive.setOrientation(orientation);
 
             // insert 1 tuple vào bảng Gallery Image, chỉ có thông tin tuple ko có hình ảnh
             context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);

@@ -42,8 +42,6 @@ public class FragmentFavor extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_picture, container, false);
         gridView = (GridView) view.findViewById(R.id.grd_Image);
-
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -54,7 +52,6 @@ public class FragmentFavor extends Fragment {
                 startActivity(fragFavorIntent);
             }
         });
-
         return view;
     }
 
@@ -74,7 +71,6 @@ public class FragmentFavor extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -92,5 +88,4 @@ public class FragmentFavor extends Fragment {
 
         myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, loadFavorite.getListImage());
     }
-
 }

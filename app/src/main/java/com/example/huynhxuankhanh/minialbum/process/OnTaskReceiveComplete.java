@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 
 public interface OnTaskReceiveComplete {
-    public void OnTaskReceiveComplete(InfoImage infoImage, ArrayList<String> PathFiles);
+    void OnTaskReceiveComplete(InfoImage infoImage, ArrayList<String> PathFiles);
 }

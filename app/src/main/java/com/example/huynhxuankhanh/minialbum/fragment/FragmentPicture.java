@@ -74,25 +74,6 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                 startActivityForResult(fragPictureIntent, 0);
             }
         });
-        swipeRefreshLayout.setColorSchemeColors(Color.RED);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(scrollEnabled);
-                (new Handler()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        currentPos = 0;
-                        ((MainActivity) getActivity()).onMsgFromFragToMain("reload-images");
-                        myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
-                        gridView.setAdapter(myArrayAdapterGridView);
-                        gridView.setSelection(currentPos);
-                        swipeRefreshLayout.setRefreshing(false);
-
-                    }
-                }, 1000);
-            }
-        });
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
@@ -113,6 +94,24 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                     scrollEnabled = newScrollEnabled;
                 }
 
+            }
+        });
+        swipeRefreshLayout.setColorSchemeColors(Color.RED);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(scrollEnabled);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        currentPos = 0;
+                        ((MainActivity) getActivity()).onMsgFromFragToMain("load-images");
+                        myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
+                        gridView.setAdapter(myArrayAdapterGridView);
+                        gridView.setSelection(currentPos);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
             }
         });
         return view;
@@ -136,7 +135,6 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                 listImage.remove(lastSelected);
             }
             if (resultCode == 222) {
-                Intent result = new Intent();
                 int num = 0;
                 num = data.getIntExtra("crop-image", num);
                 if (num != 0)
@@ -147,15 +145,13 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                 // update lai info tam anh ma dc rotate tu view image activity
                 for (int i = 0; i < listImage.size(); ++i) {
                     if (listImage.get(i).getiD() == Integer.parseInt(pack[0])) {
-                        listImage.get(i).setOrientaion(pack[1]);
+                        listImage.get(i).setOrientation(pack[1]);
                     }
                 }
                 // update lai database cua app
                 String sql = "UPDATE Favorite SET Orientation = '" + pack[1] + "' WHERE Id = " + Integer.parseInt(pack[0]);
                 Database database = new Database(getActivity());
                 database.QuerySQL(sql);
-
-
             }
         }
     }
@@ -169,7 +165,6 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
         myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
         gridView.setAdapter(myArrayAdapterGridView);
         gridView.setSelection(currentPos);
-
     }
 
     @Override

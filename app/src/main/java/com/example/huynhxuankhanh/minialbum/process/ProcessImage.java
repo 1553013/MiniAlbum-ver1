@@ -47,7 +47,7 @@ public class ProcessImage extends AsyncTask<Bitmap, Bitmap, Bitmap> {
         dialog.setContentView(layout);
         dialog.setCancelable(false);
         dialog.show();
-        // may have some inits before processing
+        // may have some initializes before processing
         Utils.bitmapToMat(this.bm, source);
     }
 
@@ -85,7 +85,6 @@ public class ProcessImage extends AsyncTask<Bitmap, Bitmap, Bitmap> {
                 Imgproc.GaussianBlur(source, detected_Edge, new org.opencv.core.Size(3, 3), 0);
                 Imgproc.adaptiveThreshold(detected_Edge, detected_Edge, 255, Imgproc.ADAPTIVE_THRESH_MEAN_C, Imgproc.THRESH_BINARY, 5, 4);
                 Utils.matToBitmap(detected_Edge, bm);
-
                 break;
             }
             case 0: {
@@ -96,7 +95,6 @@ public class ProcessImage extends AsyncTask<Bitmap, Bitmap, Bitmap> {
                 break;
             }
         }
-
         return bm;
     }
 
@@ -104,7 +102,6 @@ public class ProcessImage extends AsyncTask<Bitmap, Bitmap, Bitmap> {
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
         this.bm = bitmap;
-
         listener.onTaskCompleted(bitmap);
         if (dialog.isShowing())
             dialog.dismiss();

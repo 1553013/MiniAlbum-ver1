@@ -7,5 +7,5 @@ import android.graphics.Bitmap;
  */
 
 public interface OnTaskCompleted {
-    public void onTaskCompleted(Bitmap bm);
+    void onTaskCompleted(Bitmap bm);
 }

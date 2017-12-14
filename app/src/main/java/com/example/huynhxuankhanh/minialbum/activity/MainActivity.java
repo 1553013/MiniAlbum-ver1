@@ -54,17 +54,10 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        // mSectionsPagerAdapter-> quan ly fragment
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_REQUEST_ACCESS_EXTERNAL_STORAGE);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -81,17 +74,19 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
                     tabLayout.getTabAt(1).setIcon(R.mipmap.icon_folder_white);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.icon_favorite_white);
 
-                    // after recieving the accepting permission from phone, load data
+                    // after receiving the accepting permission from phone, load data
                     loadGallery = new LoadGallery();
                     loadGallery.setContentResolver(this.getContentResolver());
-                    loadGallery.query_PathImage(Image_URI_EXTERNAL);
+                    loadGallery.queryPathImage(Image_URI_EXTERNAL);
 
                     // create a folder to store changed pictures in app
                     final File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MiniAlbum");
                     if (!f.exists()) {
                         Toast.makeText(this, "Folder MiniAlbum doesn't exist, creating it for the fist using...", Toast.LENGTH_SHORT).show();
                         // check whether this file have been created or not
-                        boolean rv = f.mkdir();
+                        if (!f.exists()) {
+                            f.mkdir();
+                        }
                     }
                 } else
                     finish();
@@ -100,6 +95,11 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
         return (super.onOptionsItemSelected(item));
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -134,42 +133,16 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
 
     @Override
     public void onMsgFromFragToMain(String message) {
-        if (message.equals("load-images"))
-            mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallery.getListImage());
-        else if (message.equals("reload-images")) {
+        if (message.equals("load-images")) {
             loadGallery = new LoadGallery();
             loadGallery.setContentResolver(this.getContentResolver());
-            loadGallery.query_PathImage(Image_URI_EXTERNAL);
+            loadGallery.queryPathImage(Image_URI_EXTERNAL);
             mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallery.getListImage());
         } else if (message.length() < 3 && Integer.parseInt(message) != 0) {
             loadGallery.updateLastItem(Image_URI_EXTERNAL, Integer.parseInt(message));
             mSectionsPagerAdapter.getFragmentPicture().onMsgFromMainToFragmentImage(loadGallery.getListImage());
             mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallery.getListBucketName());
-
         } else if (message.equals("load-folders"))
             mSectionsPagerAdapter.getFragmentFolder().onMsgFromMainToFragmentFolder(loadGallery.getListBucketName());
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 }

@@ -58,13 +58,16 @@ public class MyAdapter extends FragmentPagerAdapter {
         return null;
     }
 
-
     public FragmentFolder getFragmentFolder() {
         return fragmentFolder;
     }
 
     public FragmentPicture getFragmentPicture() {
         return fragmentPicture;
+    }
+
+    public FragmentFavor getFragmentFavor() {
+        return fragmentFavor;
     }
 
 }

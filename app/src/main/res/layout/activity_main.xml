@@ -30,7 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             app:tabIndicatorColor="@color/textColor"
-            app:tabSelectedTextColor="@color/textColor" />
+            app:tabSelectedTextColor="@color/textColor"
+            app:tabTextColor="#9E9E9E"/>
 
     </android.support.design.widget.AppBarLayout>
 

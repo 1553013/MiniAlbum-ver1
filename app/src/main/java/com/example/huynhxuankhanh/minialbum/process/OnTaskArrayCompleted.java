@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 
 public interface OnTaskArrayCompleted {
-    public void onTaskArrayCompleted(ArrayList<Bitmap> arrayListBm);
+    void onTaskArrayCompleted(ArrayList<Bitmap> arrayListBm);
 }

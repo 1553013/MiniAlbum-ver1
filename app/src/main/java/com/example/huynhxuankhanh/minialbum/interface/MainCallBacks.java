@@ -5,5 +5,5 @@ package com.example.huynhxuankhanh.minialbum.fragment;
  */
 
 public interface MainCallBacks {
-    public void onMsgFromFragToMain(String message);
+    void onMsgFromFragToMain(String message);
 }

@@ -56,7 +56,6 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     Mat source, dest;
     private InfoImage receive;
     private Button btnCrop, btnEffect, btnFaceDetect, btnBright, btnContrast;
-    private Boolean isFav;
     private Bitmap bm;
     Bitmap currentBM = bm;
     private ImageView imageView;
@@ -78,18 +77,13 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
             Log.d("OpenCV", "OpenCV library found inside package. Using it!");
             //mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
-
         source = new Mat();
         dest = new Mat();
         mainArrayBm = new ArrayList<>();
         initInterface();
 
-        receive = getIntent().getParcelableExtra("image-info-edit");
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_image);
-
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setTitle("");
         //create back button on top-left of toolbar
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
@@ -100,50 +94,45 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
             }
         });
 
+        receive = getIntent().getParcelableExtra("image-info-edit");
         if (receive == null) {
             receive = getIntent().getParcelableExtra("image-info-fav-edit");
-            isFav = true;
         }
         if (receive != null) {
-
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             options.inSampleSize = 2;
 
             bm = BitmapFactory.decodeFile(receive.getPathFile(), options);
-            imageView.setImageBitmap(onSetView(bm, receive));
+            bm = onSetView(bm, receive);
+            imageView.setImageBitmap(bm);
 
-
-            btnCrop.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    PopupMenu popupMenu = new PopupMenu(EditActivity.this, btnCrop);
-                    popupMenu.getMenuInflater().inflate(R.menu.menupop_crop, popupMenu.getMenu());
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            if (lastBmUri == null)
-                                lastBmUri = Uri.fromFile(new File(receive.getPathFile()));
-                            switch (menuItem.getItemId()) {
-                                case R.id.mncrop_23: {
-                                    startActivityCropper(2, 3);
-                                    break;
-                                }
-                                case R.id.mncrop_34: {
-                                    startActivityCropper(3, 4);
-                                    break;
-                                }
-                                case R.id.mncrop_56: {
-                                    startActivityCropper(5, 6);
-                                    break;
-                                }
+            btnCrop.setOnClickListener((View v) -> {
+                PopupMenu popupMenu = new PopupMenu(EditActivity.this, btnCrop);
+                popupMenu.getMenuInflater().inflate(R.menu.menupop_crop, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        if (lastBmUri == null)
+                            lastBmUri = Uri.fromFile(new File(receive.getPathFile()));
+                        switch (menuItem.getItemId()) {
+                            case R.id.mncrop_23: {
+                                startActivityCropper(2, 3);
+                                break;
                             }
-                            return false;
+                            case R.id.mncrop_34: {
+                                startActivityCropper(3, 4);
+                                break;
+                            }
+                            case R.id.mncrop_56: {
+                                startActivityCropper(5, 6);
+                                break;
+                            }
                         }
-                    });
-                    popupMenu.show();
-                }
+                        return false;
+                    }
+                });
+                popupMenu.show();
             });
             btnEffect.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -480,8 +469,6 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
 
     @Override
     public void OnTaskReceiveComplete(InfoImage infoImage, ArrayList<String> PathFiles) {
-
-
         Intent resultCrop = new Intent(EditActivity.this, ImageActivity.class);
         receive = infoImage;
         resultCrop.putExtra("crop-image", infoImage);
@@ -504,10 +491,10 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     public Bitmap onSetView(Bitmap bitmap, InfoImage infoImage) {
         Matrix matrix = new Matrix();
         int currentOrientation = 0;
-        if (infoImage.getOrientaion() == null)
+        if (infoImage.getOrientation() == null)
             currentOrientation = 0;
         else
-            currentOrientation = Integer.parseInt(infoImage.getOrientaion());
+            currentOrientation = Integer.parseInt(infoImage.getOrientation());
         matrix.postRotate(currentOrientation);
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 

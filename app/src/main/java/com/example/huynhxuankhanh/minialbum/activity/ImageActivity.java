@@ -232,8 +232,8 @@ public class ImageActivity extends AppCompatActivity implements SetView {
                         if (cursor != null) {
                             if (checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 1) == false) {
                                 String orientation = "0";
-                                if (receive.getOrientaion() != null)
-                                    orientation = receive.getOrientaion();
+                                if (receive.getOrientation() != null)
+                                    orientation = receive.getOrientation();
                                 String sql = String.format(Locale.ENGLISH, "INSERT INTO Favorite VALUES(%d,'%s','%s','%s',%d,'%s','%s')"
                                         , receive.getiD(), receive.getPathFile(), receive.getNameFile(), receive.getNameBucket()
                                         , receive.getSize(), receive.getDateTaken(), orientation);
@@ -352,7 +352,7 @@ public class ImageActivity extends AppCompatActivity implements SetView {
                         , contentValues
                         , where
                         , whereParam);
-                receive.setOrientaion(Integer.toString(currentOrientation));
+                receive.setOrientation(Integer.toString(currentOrientation));
 
                 if (isFav) { // neu dang truy cap trong fragment fav
                     String sql =
@@ -421,7 +421,7 @@ public class ImageActivity extends AppCompatActivity implements SetView {
         }
         if (isRotate) {
             Intent resultRotate = new Intent(ImageActivity.this, FragmentPicture.class);
-            String[] pack = {Integer.toString(receive.getiD()), receive.getOrientaion()};
+            String[] pack = {Integer.toString(receive.getiD()), receive.getOrientation()};
             resultRotate.putExtra("rotate-image", pack);
             setResult(223, resultRotate);
         }
@@ -446,10 +446,10 @@ public class ImageActivity extends AppCompatActivity implements SetView {
     public Bitmap onSetView(Bitmap bitmap, InfoImage infoImage) {
         Matrix matrix = new Matrix();
         int currentOrientation = 0;
-        if (infoImage.getOrientaion() == null)
+        if (infoImage.getOrientation() == null)
             currentOrientation = 0;
         else
-            currentOrientation = Integer.parseInt(infoImage.getOrientaion());
+            currentOrientation = Integer.parseInt(infoImage.getOrientation());
 
         matrix.postRotate(currentOrientation);
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);

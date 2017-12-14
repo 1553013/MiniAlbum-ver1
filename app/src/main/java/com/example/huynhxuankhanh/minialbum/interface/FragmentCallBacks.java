@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public interface FragmentCallBacks {
-    public void onMsgFromMainToFragmentImage(List<InfoImage> listImage);
+    void onMsgFromMainToFragmentImage(List<InfoImage> listImage);
 
-    public void onMsgFromMainToFragmentFolder(List<InfoFolder> listFolder);
+    void onMsgFromMainToFragmentFolder(List<InfoFolder> listFolder);
 }
