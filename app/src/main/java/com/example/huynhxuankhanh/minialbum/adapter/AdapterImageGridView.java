@@ -10,12 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.huynhxuankhanh.minialbum.R;
+import com.example.huynhxuankhanh.minialbum.activity.EditActivity;
+import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallery.ViewHolder;
+import com.example.huynhxuankhanh.minialbum.process.ProcessImage;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
@@ -52,7 +58,7 @@ public class AdapterImageGridView extends ArrayAdapter<InfoImage> {
         viewHolder.setImageView((ImageView) convertView.findViewById(R.id.view_img));
         String item = listImage.get(position).getPathFile();
 
-        Glide.with(viewHolder.getImageView().getContext()).load(item).into(viewHolder.getImageView());
+        Glide.with(viewHolder.getImageView().getContext()).load(item).transition(withCrossFade()).into(viewHolder.getImageView());
         return convertView;
     }
 }

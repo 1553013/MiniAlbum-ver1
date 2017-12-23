@@ -445,7 +445,6 @@ public class ImageActivity extends AppCompatActivity implements SetView {
     @Override
     public Bitmap onSetView(Bitmap bitmap, InfoImage infoImage) {
         Matrix matrix = new Matrix();
-        int currentOrientation = 0;
         if (infoImage.getOrientation() == null)
             currentOrientation = 0;
         else

@@ -22,17 +22,19 @@ import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.activity.ImageActivity;
 import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.adapter.AdapterImageGridView;
+import com.example.huynhxuankhanh.minialbum.adapter.ImageWorkerTask;
 import com.example.huynhxuankhanh.minialbum.database.Database;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoFolder;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class FragmentPicture extends Fragment implements com.example.huynhxuankhanh.minialbum.fragment.FragmentCallBacks {
+public class FragmentPicture extends Fragment implements com.example.huynhxuankhanh.minialbum.fragment.FragmentCallBacks{
     private View view;
     private AdapterImageGridView myArrayAdapterGridView;
     private GridView gridView;
@@ -106,7 +108,21 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                     public void run() {
                         currentPos = 0;
                         ((MainActivity) getActivity()).onMsgFromFragToMain("load-images");
-                        myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
+                       // myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ImageWorkerTask imageWorkerTask = new ImageWorkerTask(getActivity(),R.layout.imageview_layout,listImage);
+                                imageWorkerTask.execute();
+                                try {
+                                    myArrayAdapterGridView = imageWorkerTask.get();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                         gridView.setAdapter(myArrayAdapterGridView);
                         gridView.setSelection(currentPos);
                         swipeRefreshLayout.setRefreshing(false);
@@ -162,7 +178,24 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
         // reload data
         if (listImage == null)
             ((MainActivity) getActivity()).onMsgFromFragToMain("load-images");
-        myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
+
+       // myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
+               activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ImageWorkerTask imageWorkerTask = new ImageWorkerTask(getActivity(),R.layout.imageview_layout,listImage);
+                imageWorkerTask.execute();
+                try {
+                    myArrayAdapterGridView = imageWorkerTask.get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         gridView.setAdapter(myArrayAdapterGridView);
         gridView.setSelection(currentPos);
     }
@@ -182,4 +215,6 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
     @Override
     public void onMsgFromMainToFragmentFolder(List<InfoFolder> listFolder) {
     }
+
+
 }
