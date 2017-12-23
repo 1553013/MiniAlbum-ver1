@@ -65,6 +65,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     private int middle;
     private ArrayList<Bitmap> mainArrayBm;
     private boolean isFaceDetector = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -487,7 +488,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     @Override
     public Bitmap onSetView(Bitmap bitmap, InfoImage infoImage) {
         Matrix matrix = new Matrix();
-        int currentOrientation =0;
+        int currentOrientation = 0;
         if (infoImage.getOrientation() == null)
             currentOrientation = 0;
         else

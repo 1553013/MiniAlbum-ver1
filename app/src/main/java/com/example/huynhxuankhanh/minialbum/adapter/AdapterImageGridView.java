@@ -10,13 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.huynhxuankhanh.minialbum.R;
-import com.example.huynhxuankhanh.minialbum.activity.EditActivity;
-import com.example.huynhxuankhanh.minialbum.activity.MainActivity;
 import com.example.huynhxuankhanh.minialbum.gallery.InfoImage;
 import com.example.huynhxuankhanh.minialbum.gallery.ViewHolder;
-import com.example.huynhxuankhanh.minialbum.process.ProcessImage;
 
 import java.util.ArrayList;
 import java.util.List;

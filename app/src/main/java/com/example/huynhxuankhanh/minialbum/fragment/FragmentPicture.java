@@ -34,7 +34,7 @@ import java.util.concurrent.ExecutionException;
  * Created by HUYNHXUANKHANH on 11/2/2017.
  */
 
-public class FragmentPicture extends Fragment implements com.example.huynhxuankhanh.minialbum.fragment.FragmentCallBacks{
+public class FragmentPicture extends Fragment implements com.example.huynhxuankhanh.minialbum.fragment.FragmentCallBacks {
     private View view;
     private AdapterImageGridView myArrayAdapterGridView;
     private GridView gridView;
@@ -108,11 +108,11 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                     public void run() {
                         currentPos = 0;
                         ((MainActivity) getActivity()).onMsgFromFragToMain("load-images");
-                       // myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
+                        // myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ImageWorkerTask imageWorkerTask = new ImageWorkerTask(getActivity(),R.layout.imageview_layout,listImage);
+                                ImageWorkerTask imageWorkerTask = new ImageWorkerTask(getActivity(), R.layout.imageview_layout, listImage);
                                 imageWorkerTask.execute();
                                 try {
                                     myArrayAdapterGridView = imageWorkerTask.get();
@@ -179,11 +179,11 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
         if (listImage == null)
             ((MainActivity) getActivity()).onMsgFromFragToMain("load-images");
 
-       // myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
-               activity.runOnUiThread(new Runnable() {
+        // myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ImageWorkerTask imageWorkerTask = new ImageWorkerTask(getActivity(),R.layout.imageview_layout,listImage);
+                ImageWorkerTask imageWorkerTask = new ImageWorkerTask(getActivity(), R.layout.imageview_layout, listImage);
                 imageWorkerTask.execute();
                 try {
                     myArrayAdapterGridView = imageWorkerTask.get();

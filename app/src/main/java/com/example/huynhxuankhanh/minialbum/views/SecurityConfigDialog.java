@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.Utility;
@@ -122,7 +121,6 @@ public class SecurityConfigDialog extends Dialog {
         SharedPreferences.Editor editor =
                 PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
         String pass = Base64.encodeToString(password_et.getText().toString().getBytes(), Base64.DEFAULT);
-        Toast.makeText(getContext(), pass, Toast.LENGTH_SHORT).show();
         editor.putString(Utility.PASSWORD_KEY, pass);
         if (pass.isEmpty()) {
             editor.putBoolean("security_del", false);
