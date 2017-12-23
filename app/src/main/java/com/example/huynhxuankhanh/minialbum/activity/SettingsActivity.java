@@ -65,7 +65,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
-
             return true;
         }
 

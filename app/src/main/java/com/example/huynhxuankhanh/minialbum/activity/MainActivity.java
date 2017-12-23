@@ -1,6 +1,9 @@
 package com.example.huynhxuankhanh.minialbum.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -12,13 +15,20 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
+import com.example.huynhxuankhanh.minialbum.Utility;
 import com.example.huynhxuankhanh.minialbum.adapter.MyAdapter;
 import com.example.huynhxuankhanh.minialbum.fragment.MainCallBacks;
 import com.example.huynhxuankhanh.minialbum.gallery.LoadGallery;
@@ -35,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
     private ViewPager mViewPager;
     private TabLayout tabLayout;
     private LoadGallery loadGallery;
+    private String curPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,8 +124,45 @@ public class MainActivity extends AppCompatActivity implements MainCallBacks {
         try {
             switch (item.getItemId()) {
                 case R.id.action_settings:
-                    Intent i = new Intent(this, SettingsActivity.class);
-                    startActivity(i);
+                    Context context = this;
+                    // get user input and check it
+                    curPass = PreferenceManager
+                            .getDefaultSharedPreferences
+                                    (getApplicationContext())
+                            .getString(Utility.PASSWORD_KEY, "");
+                    curPass = new String(Base64.decode(curPass, Base64.DEFAULT));
+                    //if has password protection
+                    if (!curPass.isEmpty()) {
+                        LayoutInflater li = LayoutInflater.from(context);
+                        final View promptsView = li.inflate(R.layout.dialog_input_password, null);
+                        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                        // set prompts.xml to alert dialog builder
+                        alertDialogBuilder.setView(promptsView);
+                        final EditText userInput = (EditText) promptsView
+                                .findViewById(R.id.password_et);
+                        // set dialog message
+                        alertDialogBuilder.setCancelable(false).setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (userInput.getText().toString().equals(curPass)) {
+                                    ((ViewGroup) promptsView.getParent()).removeView(promptsView);
+                                    Intent i = new Intent(context, SettingsActivity.class);
+                                    startActivity(i);
+                                } else {
+                                    Toast.makeText(context, "Wrong " +
+                                            "password", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }).setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        alertDialogBuilder.show();
+                    } else {
+                        Intent i = new Intent(context, SettingsActivity.class);
+                        startActivity(i);
+                    }
                     return (true);
             }
         } catch (Exception e) {
