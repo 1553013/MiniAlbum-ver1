@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -122,10 +123,10 @@ public class ImageActivity extends AppCompatActivity implements SetView {
                                 })
                                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        //if apply password protection
+                                        //if has password protection
                                         if (PreferenceManager
                                                 .getDefaultSharedPreferences(getApplicationContext())
-                                                .getBoolean("security_del", false)) { //has password protection
+                                                .getBoolean("security_del", false)) {
                                             LayoutInflater li = LayoutInflater.from(context);
                                             final View promptsView = li.inflate(R.layout.dialog_input_password, null);
                                             final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
@@ -139,18 +140,19 @@ public class ImageActivity extends AppCompatActivity implements SetView {
                                             alertDialogBuilder.setCancelable(false).setPositiveButton("CONFIRM", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int id) {
                                                     // get user input and check it
-                                                    if (userInput.getText().toString().equals(PreferenceManager
+                                                    String curPass = PreferenceManager
                                                             .getDefaultSharedPreferences
                                                                     (getApplicationContext())
-                                                            .getString(Utility.PASSWORD_KEY, ""))) {
+                                                            .getString(Utility.PASSWORD_KEY, "");
+                                                    curPass = new String(Base64.decode(curPass, Base64.DEFAULT));
+                                                    if (userInput.getText().toString().equals(curPass)) {
                                                         ((ViewGroup) promptsView.getParent()).removeView(promptsView);
-                                                        Toast.makeText(ImageActivity.this, "Correct" +
-                                                                " password", Toast.LENGTH_LONG).show();
                                                         if (!isFav) {
                                                             //if user click ok => delete image
                                                             ContentResolver contentResolver = getContentResolver();
                                                             contentResolver.delete(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                                                                     MediaStore.Images.ImageColumns.DATA + "=?", new String[]{receive.getPathFile()});
+                                                            setResult(Activity.RESULT_OK);
 
                                                             Database database = new Database(ImageActivity.this);
                                                             // String sql = "DELETE FROM Favorite" + " WHERE Path = '" + receive.getPathFile() + "'";
@@ -230,7 +232,7 @@ public class ImageActivity extends AppCompatActivity implements SetView {
                         // no exist
                         Cursor cursor = database.getData("SELECT * FROM Favorite");
                         if (cursor != null) {
-                            if (checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 1) == false) {
+                            if (!checkImageAlreadyInDatabase(cursor, receive.getPathFile(), 1)) {
                                 String orientation = "0";
                                 if (receive.getOrientation() != null)
                                     orientation = receive.getOrientation();

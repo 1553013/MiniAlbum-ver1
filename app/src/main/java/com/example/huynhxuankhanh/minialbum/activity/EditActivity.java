@@ -391,10 +391,8 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                 switch (type) {
                     case 0: {
                         if (value < middle) {
-                            //Core.subtract(src, new Scalar(newValue, newValue, newValue), src);
                             src.convertTo(src, -1, 1, -newValue * 2);
                         } else {
-                            //Core.add(src, new Scalar(newValue, newValue, newValue), src);
                             src.convertTo(src, -1, 1, newValue * 2);
                         }
                         break;

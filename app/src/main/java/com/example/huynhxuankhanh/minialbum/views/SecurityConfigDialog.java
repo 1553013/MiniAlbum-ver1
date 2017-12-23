@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.huynhxuankhanh.minialbum.R;
 import com.example.huynhxuankhanh.minialbum.Utility;
@@ -58,10 +60,10 @@ public class SecurityConfigDialog extends Dialog {
 
         security_delete.setChecked(PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getBoolean("security_del", false));
-//        security_open.setChecked(PreferenceManager.getDefaultSharedPreferences(getContext())
-//                .getBoolean("security_open", false));
-        password_et.setText(PreferenceManager.getDefaultSharedPreferences(getContext()).getString(Utility.PASSWORD_KEY, ""));
-        confirm_password_et.setText(PreferenceManager.getDefaultSharedPreferences(getContext()).getString(Utility.PASSWORD_KEY, ""));
+        String curPass = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(Utility.PASSWORD_KEY, "");
+        curPass = new String(Base64.decode(curPass, Base64.DEFAULT));
+        password_et.setText(curPass);
+        confirm_password_et.setText("");
 
         password_et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -117,14 +119,15 @@ public class SecurityConfigDialog extends Dialog {
 
     @OnClick(R.id.apply)
     public void apply() {
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-        editor.putString(Utility.PASSWORD_KEY, password_et.getText().toString());
-        if (password_et.getText().toString().isEmpty()) {
+        SharedPreferences.Editor editor =
+                PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+        String pass = Base64.encodeToString(password_et.getText().toString().getBytes(), Base64.DEFAULT);
+        Toast.makeText(getContext(), pass, Toast.LENGTH_SHORT).show();
+        editor.putString(Utility.PASSWORD_KEY, pass);
+        if (pass.isEmpty()) {
             editor.putBoolean("security_del", false);
-//            editor.putBoolean("security_open", false);
         } else {
             editor.putBoolean("security_del", security_delete.isChecked());
-//            editor.putBoolean("security_open", security_open.isChecked());
         }
         editor.apply();
         dismiss();
