@@ -54,7 +54,7 @@ public class AdapterImageGridView extends ArrayAdapter<InfoImage> {
         viewHolder.setImageView((ImageView) convertView.findViewById(R.id.view_img));
         String item = listImage.get(position).getPathFile();
 
-        Glide.with(viewHolder.getImageView().getContext()).load(item).transition(withCrossFade()).into(viewHolder.getImageView());
+        Glide.with(viewHolder.getImageView().getContext()).load(item).into(viewHolder.getImageView());
         return convertView;
     }
 }

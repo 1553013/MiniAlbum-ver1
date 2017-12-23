@@ -144,7 +144,6 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()) {
                                 case R.id.mneffect_bw: {
-
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -153,12 +152,10 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                                             pro.execute();
                                         }
                                     });
-
                                     isEdit = true;
                                 }
                                 break;
                                 case R.id.mneffect_doc: {
-
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -215,7 +212,6 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                                             pro.execute();
                                         }
                                     });
-
                                     isEdit = true;
                                 }
                                 break;
@@ -255,10 +251,8 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
         }
     }
 
-
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             final CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (result != null) { // tức là đã có crop ảnh mới có ảnh trả về
@@ -272,8 +266,10 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    if (bm != null)
-                        imageView.setImageBitmap(onSetView(bm, receive));
+                    if (bm != null) {
+                        bm = onSetView(bm, receive);
+                        imageView.setImageBitmap(bm);
+                    }
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                     Exception error = result.getError();
                 }
@@ -448,9 +444,8 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     @Override
     public void onTaskCompleted(Bitmap bm) {
         this.bm = bm;
-        imageView.setImageBitmap(onSetView(bm, receive));
+        imageView.setImageBitmap(bm);
     }
-
 
     @Override
     public void onTaskArrayCompleted(ArrayList<Bitmap> arrayListBm) {
@@ -470,7 +465,7 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
         Intent resultCrop = new Intent(EditActivity.this, ImageActivity.class);
         receive = infoImage;
         resultCrop.putExtra("crop-image", infoImage);
-        if (isFaceDetector == true)
+        if (isFaceDetector)
             resultCrop.putExtra("num-face", mainArrayBm.size() - 1);
         setResult(123, resultCrop);
         if (PathFiles != null) {
@@ -488,14 +483,13 @@ public class EditActivity extends AppCompatActivity implements OnTaskCompleted, 
     @Override
     public Bitmap onSetView(Bitmap bitmap, InfoImage infoImage) {
         Matrix matrix = new Matrix();
-        int currentOrientation = 0;
+        int currentOrientation;
         if (infoImage.getOrientation() == null)
             currentOrientation = 0;
         else
             currentOrientation = Integer.parseInt(infoImage.getOrientation());
         matrix.postRotate(currentOrientation);
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
         return bitmap;
     }
 }
