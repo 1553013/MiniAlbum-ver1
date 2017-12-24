@@ -71,12 +71,12 @@ public class SaveImage extends AsyncTask<InfoImage, InfoImage, InfoImage> {
         {
             // xử lí lưu ảnh vào gallery store của phone
             String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/MiniAlbum";
-            String fileName = "crop_" + receive.getNameFile();
+            String fileName = "edit_" + receive.getNameFile();
             File file = new File(path, fileName);
             int distinct = 1;
             // kiểm tra tên trùng: nếu trùng thì đặt tên khác
             while (file.exists()) {
-                fileName = "crop_" + Integer.toString(distinct) + receive.getNameFile();
+                fileName = "edit_" + Integer.toString(distinct) + receive.getNameFile();
                 file = new File(path, fileName);
                 distinct++;
             }
@@ -141,12 +141,12 @@ public class SaveImage extends AsyncTask<InfoImage, InfoImage, InfoImage> {
             for (int i = 0; i < arrayBitmap.size() - 1; ++i) {
                 // xử lí lưu ảnh vào gallery store của phone
                 String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/MiniAlbum";
-                String fileName = "crop-" + temp.getNameFile();
+                String fileName = "edit_" + temp.getNameFile();
                 File file = new File(path, fileName);
                 int distinct = 1;
                 // kiểm tra tên trùng: nếu trùng thì đặt tên khác
                 while (file.exists()) {
-                    fileName = "crop_" + Integer.toString(distinct) + "-" + temp.getNameFile();
+                    fileName = "edit_" + Integer.toString(distinct) + "-" + temp.getNameFile();
                     file = new File(path, fileName);
                     distinct++;
                 }

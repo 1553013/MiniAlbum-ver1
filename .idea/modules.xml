@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MiniAlbum.iml" filepath="$PROJECT_DIR$/MiniAlbum.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/minialbum-seminar.iml" filepath="$PROJECT_DIR$/minialbum-seminar.iml" />
       <module fileurl="file://$PROJECT_DIR$/openCVLibrary331/openCVLibrary331.iml" filepath="$PROJECT_DIR$/openCVLibrary331/openCVLibrary331.iml" />
     </modules>
   </component>

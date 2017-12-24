@@ -108,7 +108,7 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
                     public void run() {
                         currentPos = 0;
                         ((MainActivity) getActivity()).onMsgFromFragToMain("load-images");
-                        // myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
+                         //myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -179,7 +179,7 @@ public class FragmentPicture extends Fragment implements com.example.huynhxuankh
         if (listImage == null)
             ((MainActivity) getActivity()).onMsgFromFragToMain("load-images");
 
-        // myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
+        //myArrayAdapterGridView = new AdapterImageGridView(getActivity(), R.layout.imageview_layout, listImage);
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
