@@ -33,10 +33,80 @@ An album application manages images in Android device ver 5.0 or upper. It allow
 </p>
 
 ## Install
+
 <ul>
   <li>Method 1: Clone the project and build it by Android studio.</li>
   <li>Method 2: Download <a href="https://mega.nz/#F!Vqx1TDaC" >here</a> and install it through "Unknown sources".</li>
 </ul>
 <p><b>Note: </b>Just only support android device version is 5.0.0 or above.</p>
 
+## Features:
+
+<ul>
+  <li>Grid view of images for general wacthing.</li>
+  <li>Manage our images by each tab: Picture, Folder and Favorite.</li>
+  <li>View each image in full screen mode.</li>
+  <li>Set an image as wallpaper or sreen lock.</li>
+  <li>Zoom in/out and roate an image.</li>
+  <li>View details of each image(size, date taken, date modified, path, title,..).</li>
+  <li>Share images to social networks as Facebook,...</li>
+  <li>Album security.</li>
+  <li>Some basic editor image tools as crop, brightness, contrast, effects</li>
+  <li>Face recognition allows us to identify faces and save them. In addition, we can use them for changing avatar on social networks as Facebook.<li>
+</ul>
+
 ## Development Environment
+<ul>
+  <li>Compatible with Android 5.0 and above</li>
+  <li>App written in Java.</li>
+  <li>Tools in use:
+    <ul>
+      <li>Android Studio 3.0.1</li>
+      <li>Adobe Photoshop CS6: Design interface and icon.</li>
+    </ul>
+  </li>
+</ul>
+
+## Some Techniques
+
+<ul>
+  <li>Store information of each image by SqLite.</li>
+  <li>Use ViewPager to manage fragments of each tab.</li>
+  <li>Content Provider and Content Resolver are used for querying data from Database of android device.</li>
+  <li>Handle CursorLoader flexibly.</li>
+  <li>Apply ViewHolder design pattern for better caching and increase performance while loading images.</li>
+  <li>Apply AsyncTask for breaking into small threads run parallel with Main Thread to prevent ANR( App Not Responding).</li>
+  <li>Handle editing images with OpenCv Lib.</li>
+  <li>Use Google Vision Api for regconize faces from images.</li>
+</ul>
+
+## External Libraries and Frameworks
+
+<ul>
+  <li><a href="https://github.com/bumptech/glide">Glide</a></li>
+  <li><a href="https://github.com/chrisbanes/PhotoView">PhotoView</a></li>
+  <li><a href="https://github.com/ArthurHub/Android-Image-Cropper">Image Cropper</a></li>
+  <li><a href="https://blog.openshift.com/day-12-opencv-face-detection-for-java-developers/">OpenCv</a></li>
+  <li><a href="https://developers.google.com/vision/">Google Vision</a></li>
+</ul>
+
+## Authors
+<ul>
+  <li>Khanh Huynh - Analyst, Design Architect, Developer- <b>Junior at Software Engineering, University of Science, HCM, Vietnam</b>
+  </li>
+  <li>Du Nguyen - Security, Design Architect, Developer- <b>Junior at Software Engineering, University of Science, HCM, Vietnam</b>
+  </li>
+</ul>
+
+## Acknowledgements:
+
+<ul>
+  <li>Thanks <b>Mr. Ho Tuan Thanh</b> for guiding us through this project.</li>
+  <li>Thanks <b>Google Vision</b> for wonderful tools to recognize people's faces.</li>
+  <li>Thanks <b>Facebook for Developer </b> for sharing images and inspiring our app on it.</li>
+</ul>
+
+## Contributing
+
+Your pull request for learning is welcome. If you get some issues, please contact me: <a href="mailto:khanh28197@gmail.com"><i>khanh28197@gmail.com</i> </a>
+
