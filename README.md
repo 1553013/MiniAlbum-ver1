@@ -1,6 +1,6 @@
 # Mini Album ver 1.0
 
-An album application manages images in Android device ver 5.0 or upper. It allows us to interact with each image as viewing image in full screen mode, editing image with some basic tools, protecting your album through album's security and face recognition.
+An album application manages images in Android device ver 5.0 or above. It allows us to interact with each image as viewing image in full screen mode, editing image with some basic tools, protecting your album through album's security and face recognition.
 
 ## Screenshots
 <p align="center">
@@ -27,7 +27,7 @@ An album application manages images in Android device ver 5.0 or upper. It allow
 <p align="center">
 <img  width="150px" src="https://user-images.githubusercontent.com/26139791/38722436-19cafad4-3f28-11e8-934d-d48ccd5236cc.png">
 <img  width="150px" src="https://user-images.githubusercontent.com/26139791/38722438-1a287a88-3f28-11e8-9d02-6e9efd7d6823.png">
-<img  width="150px" src="https://user-images.githubusercontent.com/26139791/38722438-1a287a88-3f28-11e8-9d02-6e9efd7d6823.png">
+<img  width="150px" src="https://user-images.githubusercontent.com/26139791/38727860-61aed2b6-3f38-11e8-95cd-f4f4e24dd78c.png">
 <img  width="150px" src="https://user-images.githubusercontent.com/26139791/38722440-1a8fa528-3f28-11e8-86d9-40137a913364.png">
 <img  width="150px" src="https://user-images.githubusercontent.com/26139791/38722441-1ac010be-3f28-11e8-8180-8101406189bd.png">
 </p>
